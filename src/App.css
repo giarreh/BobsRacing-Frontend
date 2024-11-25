@@ -24,6 +24,6 @@
 .checkpoint {
   display: inline-block;
   height: 100%;
-  width: 33.3%;
+  width: 33%;
   border-right: 1px dashed #999;
 }
