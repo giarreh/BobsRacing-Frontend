@@ -12,7 +12,7 @@ interface Horse {
 }
 
 const NUM_HORSES = 5; // 5 lanes, 5 horses
-const CHECKPOINTS = [0.33, 0.66, 0.99]; // Progress positions for checkpoints
+const CHECKPOINTS = [0, 0.33, 0.66]; // Progress positions for checkpoints
 const FINISH_LINE = 95; // Finish line at 100% progress
 const INITIAL_SPEED = 0.5; // Starting speed for each horse
 
