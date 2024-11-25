@@ -1,6 +1,8 @@
 // App.tsx
 import React, { useState, useEffect } from 'react';
-import RaceTrack from './RaceTrack';
+import RaceTrack from "./Racetrack"
+import './App.css';
+
 
 interface Horse {
   id: number;

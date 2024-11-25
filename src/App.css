@@ -1,6 +1,29 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* App.css */
+.race-track {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.lane {
+  position: relative;
+  height: 50px;
+  width: 100%;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+}
+
+.horse {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+}
+
+.checkpoint {
+  display: inline-block;
+  height: 100%;
+  width: 33.3%;
+  border-right: 1px dashed #999;
 }
