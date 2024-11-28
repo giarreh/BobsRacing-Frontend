@@ -27,3 +27,72 @@
   width: 33%;
   border-right: 1px dashed #999;
 }
+
+/* App.css */
+
+/* Content wrapper */
+.content {
+  display: flex;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px; /* Adjust the width as needed */
+  height: 100%; /* Ensures the sidebar takes the full height of the viewport */
+  color: #dd7230;
+  padding: 20px;
+  margin-top: 84px;
+  border-right: 1px solid black;
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+.sidebarButton {
+  background-color: #dd7230;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.header {
+  position: fixed;
+  margin-bottom: 20px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #854d27;
+  color: #fff;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.headerLoggedIn {
+  display: flex;
+  align-items: center;
+}
+.headerLoggedIn p {
+  color: black;
+  text-decoration: underline;
+  margin-right: 10px; /* Adjust the spacing as needed */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Main body styles */
+.main {
+  flex: 1;
+  padding: 20px;
+  min-height: 500px;
+}
+.race {
+  padding-top: 20px;
+}

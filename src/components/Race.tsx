@@ -109,7 +109,7 @@ const displayResults = () => {
   return null;
 };
   return (
-    <div>
+    <div className='race'>
       <RaceTrack horses={horses} />
       <div className="controls">
         {!started && (
