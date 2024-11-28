@@ -12,6 +12,7 @@ export default function Header() {
     <header className="header">
       <div>
         <div style={{ cursor: 'pointer' }} onClick={() => navigate("/")}>
+          Home
         </div>
       </div>
       <div>
