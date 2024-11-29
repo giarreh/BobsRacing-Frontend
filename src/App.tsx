@@ -1,18 +1,24 @@
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Race from './components/Race';
 import Header from './components/Header';
 import AppContextProvider from './contexts/AppContext';
-import Bet from './components/Bet';
+import Home from './pages/Home';
+
 const App: React.FC = () => {
 
   return (
-    <AppContextProvider>
-      <div className="App">
-        <Header />
-        <Race />
-        <Bet />
-      </div>
-    </AppContextProvider>
+    <Router>
+      <AppContextProvider>
+        <div className="App">
+          <Header />
+            <Routes>
+              <Route path='/' element={<Home/>} ></Route>
+              <Route path='/race' element={<Race/>} ></Route>
+            </Routes>
+        </div>
+      </AppContextProvider>
+    </Router>
   );
 };
 

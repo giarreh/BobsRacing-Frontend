@@ -1,12 +1,12 @@
 //import React, { useContext } from 'react';
 //import { UserContext } from '../context/UserContext';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 //import logo from '../assets/Bobs_Bakery.svg';
 //import ProfilePicture from './profiles/ProfilePicture';
 
 export default function Header() {
   //const { user, setUser, clearAuthToken } = useContext(UserContext);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <header className="header">

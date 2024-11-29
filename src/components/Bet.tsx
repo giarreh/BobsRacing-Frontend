@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+/* import { useContext, useEffect } from "react";
 import { AppContext } from "../contexts/AppContext";
 
 export default function Bet() {
@@ -13,3 +13,4 @@ export default function Bet() {
     </div>
   );
 }
+ */
