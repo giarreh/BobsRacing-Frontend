@@ -6,6 +6,7 @@ import AppContextProvider from './contexts/AppContext';
 import Home from './pages/Home';
 import Error from './pages/Error';
 import Animals from './pages/Animals';
+import AnimalsDetails from './pages/AnimalsDetails';
 
 const App: React.FC = () => {
 
@@ -19,6 +20,7 @@ const App: React.FC = () => {
               <Route path='/' element={<Home/>} ></Route>
               <Route path='/race' element={<Race/>} ></Route>
               <Route path='/animals' element={<Animals/>} ></Route>
+              <Route path='/animals/:id' element={<AnimalsDetails/>} ></Route>
             </Routes>
         </div>
       </AppContextProvider>
