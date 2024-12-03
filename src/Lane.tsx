@@ -16,9 +16,9 @@ interface LaneProps {
 const Lane: React.FC<LaneProps> = ({ horse }) => {
   return (
     <div className="lane">
-      <div className="checkpoint">Checkpoint 1</div>
-      <div className="checkpoint">Checkpoint 2</div>
-      <div className="checkpoint">Checkpoint 3</div>
+      <div className="checkpoint cp1"></div>
+      <div className="checkpoint cp2"></div>
+      <div className="checkpoint cp3"></div>
       <Horse progress={horse.progress} />
     </div>
   );

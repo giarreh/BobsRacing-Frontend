@@ -9,16 +9,27 @@
 .lane {
   position: relative;
   height: 50px;
-  width: 100%;
+  width: 98%;
   background: #f0f0f0;
   border: 1px solid #ccc;
+  display: flex; /* Ensure the child sections are aligned in a row */
+  overflow: hidden; /* Prevent child sections from exceeding the lane */
+}
+.checkpoint {
+  flex: 1; /* Each section takes up an equal part of the lane */
+  height: 100%; /* Match the height of the lane */
 }
 
-.horse {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.5rem;
+.cp1 {
+  background: #11bf65; /* Example color for the first section */
+}
+
+.cp2 {
+  background: #885519a8; /* Example color for the second section */
+}
+
+.cp3 {
+  background: #ffed26; /* Example color for the third section */
 }
 
 .checkpoint {
@@ -26,6 +37,13 @@
   height: 100%;
   width: 33%;
   border-right: 1px dashed #999;
+}
+
+.horse {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
 }
 
 /* Content wrapper */
@@ -91,4 +109,7 @@
 .main {
   flex: 1;
   padding: 20px;
+}
+.controls {
+  padding: 50px;
 }

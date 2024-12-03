@@ -12,7 +12,7 @@ export default function Race() {
 const NUM_HORSES = 5; // 5 lanes, 5 horses
 const CHECKPOINTS = [0, 0.33, 0.66]; // Progress positions for checkpoints
 const FINISH_LINE = 100; // Finish line at 100% progress
-const INITIAL_SPEED = 0.5; // Starting speed for each horse
+const INITIAL_SPEED = 0.2; // Starting speed for each horse
 
 const [started, setStarted] = useState(false);
 const [horses, setHorses] = useState<Horse[]>(
@@ -51,7 +51,7 @@ const updateHorsePositions = () => {
       CHECKPOINTS.forEach((checkpoint, index) => {
         if (!horse.checkpointReached[index] && newProgress >= checkpoint * FINISH_LINE) {
           // Randomize speed at checkpoint
-          const newSpeed = Math.random() * 2 + 1; // Random speed between 1 and 3
+          const newSpeed = Math.random() + 0.5; // Random speed between 1 and 3
           horse.speed = newSpeed;
           horse.checkpointReached[index] = true;
         }
