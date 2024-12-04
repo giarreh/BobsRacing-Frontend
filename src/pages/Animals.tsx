@@ -69,8 +69,6 @@ export default function Animals() {
       alert('Error creating animal');
     }
   }
-
-
   return (
     <div>
       <h1>Create an animal!</h1>
