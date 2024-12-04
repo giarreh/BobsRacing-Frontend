@@ -20,7 +20,9 @@ export default function Animals() {
 
   useEffect(() => {
     console.log('Fetching animals')
-    fetch('http://localhost:5238/api/Animal')
+    //fetch('http://localhost:5238/api/Animal')
+    fetch('animalracing.azurewebsites.net/api/animal')
+    .then(response => {console.log(response); return response})
     .then(response => response.json())
     .then(data => {
       console.log(data)
