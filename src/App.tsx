@@ -5,8 +5,8 @@ import Header from './components/Header';
 import AppContextProvider from './contexts/AppContext';
 import Home from './pages/Home';
 import Error from './pages/Error';
-import Animals from './pages/Animals';
-import AnimalsDetails from './pages/AnimalsDetails';
+import Animals from './pages/Animals/Animals';
+import AnimalsDetails from './pages/Animals/AnimalsDetails';
 
 const App: React.FC = () => {
 

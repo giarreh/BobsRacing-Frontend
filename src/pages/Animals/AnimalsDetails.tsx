@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import { Animal } from '../interfaces/IAnimal'
+import { Animal } from '../../interfaces/IAnimal'
 
 export default function AnimalsDetails() {
 
@@ -25,7 +25,7 @@ export default function AnimalsDetails() {
   }, [id])
 
   return (
-    <div>
+    <div className='animal-details'>
       <h1>Animal Details</h1>
       <p>Animal ID: {id}</p>
       <p>Animal Name: {animal.name} </p>

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router'
-import { Animal } from '../interfaces/IAnimal';
+import { Animal } from '../../interfaces/IAnimal';
 export default function AnimalItem({ animal, index }: { animal: Animal, index: number }) {
 
   const navigate = useNavigate();
@@ -8,7 +8,7 @@ export default function AnimalItem({ animal, index }: { animal: Animal, index: n
     navigate(`/animals/${index+1}`);
   }
   return (
-    <div key={index} onClick={handleNavigate}>
+    <div className='animal-item' key={index} onClick={handleNavigate}>
       <h2>{animal.name}</h2>
       <p>Min Speed: {animal.minSpeed}</p>
       <p>Max Speed: {animal.maxSpeed}</p>
