@@ -82,6 +82,7 @@
 
 .animal-item:hover {
   background-color: #f1f1f1;
+  cursor: pointer;
 }
 
 /* Styles for the update-animal-section */
