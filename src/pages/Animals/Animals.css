@@ -83,3 +83,68 @@
 .animal-item:hover {
   background-color: #f1f1f1;
 }
+
+/* Styles for the update-animal-section */
+.update-animal-section {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.update-animal-section h2 {
+  font-size: 1.8rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.edit-animal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.edit-animal-form input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.edit-animal-form input:focus {
+  border-color: #4CAF50;
+}
+
+.edit-animal-form button {
+  padding: 10px;
+  font-size: 1.2rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-animal-form button:hover {
+  background-color: #45a049;
+}
+
+.delete-button {
+  padding: 5px 10px;
+  margin-top: 10px;
+  font-size: 1.2rem;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
