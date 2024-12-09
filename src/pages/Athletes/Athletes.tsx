@@ -22,15 +22,16 @@ export default function Athletes() {
 
 
   return (
-    <div className="animal-page-container">
+    <div className="athlete-page-container">
       {/* Create Athlete Section */}
-      <div className="create-animal-section">
+      <div className="create-athlete-section">
+        <h1>Create Athlete</h1>
         <CreateAthlete athletes={athletes} setAthletes={setAthletes} />
       </div>
       {/* Athlete List Section */}
-      <div className="animal-list-section">
+      <div className="athlete-list-section">
         <h1>Athlete List</h1>
-        <div className="animal-list">
+        <div className="athlete-list">
           {athletes.map((athlete, index) => (
             <AtheleteItem key={index} athlete={athlete} index={index} />
           ))}
