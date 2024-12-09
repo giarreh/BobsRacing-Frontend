@@ -51,7 +51,7 @@ const updateHorsePositions = () => {
       CHECKPOINTS.forEach((checkpoint, index) => {
         if (!horse.checkpointReached[index] && newProgress >= checkpoint * FINISH_LINE) {
           // Randomize speed at checkpoint
-          const newSpeed = Math.random() + 0.5; // Random speed between 1 and 3
+          const newSpeed = Math.random() + 0.5; // Random speed between 0.5 - 1.5
           horse.speed = newSpeed;
           horse.checkpointReached[index] = true;
         }
