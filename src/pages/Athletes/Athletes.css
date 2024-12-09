@@ -1,5 +1,5 @@
 /* Overall container */
-.animal-page-container {
+.athlete-page-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,8 +11,9 @@
 }
 
 /* Section styling */
-.create-animal-section,
-.animal-list-section {
+.create-athlete-section,
+.athlete-list-section {
+  display: grid;
   width: 100%;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
@@ -22,8 +23,8 @@
 }
 
 /* Section titles */
-.create-animal-section h1,
-.animal-list-section h1 {
+.create-athlete-section h1,
+.athlete-list-section h1 {
   margin-bottom: 20px;
   font-size: 20px;
   color: #333;
@@ -31,26 +32,28 @@
 }
 
 /* Form styling */
-.animal-form {
+.athlete-form {
   display: flex;
   gap: 10px;
   align-items: center;
 }
 
-.animal-form input {
+.athlete-form input {
   padding: 10px;
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-.animal-form input:focus {
+.athlete-form input:focus {
   border-color: #007bff;
   box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
 }
 
-.animal-form button {
+.submit-button {
+  justify-self:center;
   padding: 10px;
+  margin: 10px;
   font-size: 14px;
   border: none;
   border-radius: 4px;
@@ -61,18 +64,18 @@
   max-width: 100px;
 }
 
-.animal-form button:hover {
+.submit-button:hover {
   background-color: #0056b3;
 }
 
-/* Animal list */
-.animal-list {
+/* athlete list */
+.athlete-list {
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* 5 items per row */
   gap: 10px; /* Space between grid items */
 }
 
-.animal-item {
+.athlete-item {
   padding: 10px;
   background-color: white;
   border: 1px solid #ccc;
@@ -80,13 +83,13 @@
   text-align: center;
 }
 
-.animal-item:hover {
+.athlete-item:hover {
   background-color: #f1f1f1;
   cursor: pointer;
 }
 
-/* Styles for the update-animal-section */
-.update-animal-section {
+/* Styles for the update-athlete-section */
+.update-athlete-section {
   background-color: #f9f9f9;
   padding: 20px;
   border-radius: 8px;
@@ -97,20 +100,21 @@
   margin-right: auto;
 }
 
-.update-animal-section h2 {
+.update-athlete-section h2 {
   font-size: 1.8rem;
   color: #333;
   text-align: center;
   margin-bottom: 15px;
 }
 
-.edit-animal-form {
+.edit-athlete-form {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  max-width: fit-content;
 }
 
-.edit-animal-form input {
+.edit-athlete-form input {
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #ccc;
@@ -119,11 +123,11 @@
   transition: border-color 0.3s ease;
 }
 
-.edit-animal-form input:focus {
+.edit-athlete-form input:focus {
   border-color: #4CAF50;
 }
 
-.edit-animal-form button {
+.edit-athlete-form button {
   padding: 10px;
   font-size: 1.2rem;
   background-color: #4CAF50;
@@ -134,7 +138,7 @@
   transition: background-color 0.3s ease;
 }
 
-.edit-animal-form button:hover {
+.edit-athlete-form button:hover {
   background-color: #45a049;
 }
 
@@ -148,4 +152,16 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  max-width: fit-content;
+}
+.athlete-details {
+  margin-top: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }

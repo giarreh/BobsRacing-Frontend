@@ -3,15 +3,20 @@ import { useNavigate } from 'react-router-dom'
 import './Athletes.css'
 import { Athlete } from '../../interfaces/IAthlete';
 
-export default function CreateAthlete({ athletes, setAthletes }: any) {
+interface CreateAthleteProps {
+  athletes: Athlete[];
+  setAthletes: React.Dispatch<React.SetStateAction<Athlete[]>>;
+}
+
+export default function CreateAthlete({ athletes, setAthletes }: CreateAthleteProps) {
 
 
   const navigate = useNavigate();
 
   const defaultAthlete = {
     athleteId: 0,
-    name: 'string',
-    image: 'string',
+    name: 'name',
+    image: 'image',
     lowestTime: 0,
     fastestTime: 0
   };
@@ -19,24 +24,24 @@ export default function CreateAthlete({ athletes, setAthletes }: any) {
   const [athlete, setAthlete] = useState<Athlete>({
     athleteId: 0,
     name: 'name',
-    image: 'string',
+    image: 'image',
     lowestTime: 0,
     fastestTime: 0
   })
   
-  const handleNameChange = (e: any) => {
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAthlete({...athlete, name: e.target.value})
   }
   
-  const handleMinSpeedChange = (e: any) => {
-    setAthlete({...athlete, fastestTime: e.target.value})
+  const handleMinSpeedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAthlete({...athlete, fastestTime: parseFloat(e.target.value)})
   }
   
-  const handleMaxSpeedChange = (e: any) => {
-    setAthlete({...athlete, lowestTime: e.target.value})
+  const handleMaxSpeedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAthlete({...athlete, lowestTime: parseFloat(e.target.value)})
   }
   
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     console.log("Athlete to submit: ", athlete)
   
@@ -44,7 +49,7 @@ export default function CreateAthlete({ athletes, setAthletes }: any) {
     if (athlete.name === '' || athlete.fastestTime === 0 || athlete.lowestTime === 0) {
       return alert('Please fill out all fields correctly');
     }
-    if (athlete.fastestTime > athlete.lowestTime) {
+    if (athlete.fastestTime < athlete.lowestTime) {
       return alert('Slowest time cannot be faster than the fastest time');
     }
 
@@ -74,29 +79,31 @@ export default function CreateAthlete({ athletes, setAthletes }: any) {
     }
   }
     return (
-      <div className="create-animal-section">
-      <h1>Create an Athlete!</h1>
-      <form className="animal-form" onSubmit={handleSubmit}>
+      <>      
+      <form className="athlete-form" onSubmit={handleSubmit}>
+        <label>Name: </label>
         <input
           type="text"
           placeholder="Name"
           value={athlete.name}
           onChange={handleNameChange}
         />
+        <label>Slowest time: </label>
         <input
           type="number"
           placeholder="Slowest time"
           value={athlete.fastestTime}
           onChange={handleMinSpeedChange}
         />
+        <label>Fastest time: </label>
         <input
           type="number"
           placeholder="Fastest time"
           value={athlete.lowestTime}
           onChange={handleMaxSpeedChange}
         />
-        <button type="submit">Submit</button>
       </form>
-    </div>
+      <button className='submit-button' onClick={handleSubmit} >Submit</button>
+      </>
     )
   }

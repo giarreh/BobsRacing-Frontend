@@ -62,7 +62,7 @@ export default function AthleteDetails() {
     if (athlete.name === '' || athlete.fastestTime === 0 || athlete.lowestTime === 0) {
       return alert('Please fill out all fields correctly');
     }
-    if (athlete.fastestTime > athlete.lowestTime) {
+    if (athlete.fastestTime < athlete.lowestTime) {
       return alert('Slowest time cannot be faster than the fastest time');
     }
 
@@ -91,7 +91,7 @@ export default function AthleteDetails() {
   };
 
   return (
-    <div className="animal-details">
+    <div className="athlete-details">
       <h1>Athlete Details</h1>
       <p>Athlete ID: {id}</p>
 
@@ -102,19 +102,22 @@ export default function AthleteDetails() {
 
       {/* Edit Athlete Form */}
       <h2>Edit Athlete</h2>
-      <form onSubmit={handleEdit} className="edit-animal-form">
+      <form onSubmit={handleEdit} className="edit-athlete-form">
+        <label>Name: </label>
         <input
           type="text"
           placeholder="Name"
           value={athlete.name}
           onChange={(e) => setAthlete({ ...athlete, name: e.target.value })}
         />
+        <label>Slowest time: </label>
         <input
           type="number"
           placeholder="Min Time"
           value={athlete.fastestTime}
           onChange={(e) => setAthlete({ ...athlete, fastestTime: Number(e.target.value) })}
         />
+        <label>Fastest time: </label>
         <input
           type="number"
           placeholder="Max Speed"
