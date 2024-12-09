@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext";
 import "./SignIn.css";
 
 export default function SignIn() {
@@ -7,6 +8,10 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  
+
+  // usecontext for user object
+  const { setUser } = useContext(UserContext);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -14,6 +19,11 @@ export default function SignIn() {
     // Here you would typically call an API to validate login credentials
     if (username === "admin" && password === "password123") {
       // On successful login, navigate to the home page (or any other page)
+
+      // Here we are setting the user object in context
+      setUser({ username, password });
+
+      // Navigate to the home page
       navigate("/");
     } else {
       setErrorMessage("Invalid credentials. Please try again.");
