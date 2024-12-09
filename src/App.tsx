@@ -5,8 +5,8 @@ import Header from './components/Header';
 import AppContextProvider from './contexts/AppContext';
 import Home from './pages/Home';
 import Error from './pages/Error';
-import Animals from './pages/Animals/Animals';
-import AnimalsDetails from './pages/Animals/AnimalsDetails';
+import Athletes from './pages/Athletes/Athletes';
+import AthleteDetails from './pages/Athletes/AthleteDetails';
 
 const App: React.FC = () => {
 
@@ -19,8 +19,8 @@ const App: React.FC = () => {
               <Route path='*' element={<Error/>} ></Route>
               <Route path='/' element={<Home/>} ></Route>
               <Route path='/race' element={<Race/>} ></Route>
-              <Route path='/animals' element={<Animals/>} ></Route>
-              <Route path='/animals/:id' element={<AnimalsDetails/>} ></Route>
+              <Route path='/athletes' element={<Athletes/>} ></Route>
+              <Route path='/athlete/:id' element={<AthleteDetails/>} ></Route>
             </Routes>
         </div>
       </AppContextProvider>
