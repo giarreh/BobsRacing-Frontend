@@ -1,0 +1,131 @@
+/* ProfilePage.css */
+.profile-page {
+  display: flex;
+  height: 100vh; /* Ensure the profile page takes full height */
+  position: relative;
+}
+
+.sidebar {
+  width: 250px; /* Width of the sidebar */
+  background-color: #f4f4f4;
+  padding: 20px;
+  height: 100vh; /* Full height */
+  position: fixed; /* Fix the sidebar on the left */
+  transition: transform 0.3s ease-in-out; /* Smooth slide effect */
+  transform: translateX(0); /* Default state (visible) */
+}
+
+.sidebar.open {
+  transform: translateX(0); /* Sidebar visible */
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.sidebar li:hover {
+  background-color: #ddd;
+}
+
+.sidebar li.active {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Back Button Styles */
+.back-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: left;
+  transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #0056b3;
+}
+
+.main-content {
+  margin-left: 250px; /* Offset the main content to the right of the sidebar */
+  padding: 20px;
+  background-color: #fff;
+  flex-grow: 1;
+  height: 100vh;
+  overflow-y: auto; /* Allow scrolling if content overflows */
+  transition: margin-left 0.3s ease; /* Smooth transition when the sidebar is toggled */
+}
+
+.general-content {
+  margin-top: 5em;
+}
+
+.settings-content {
+  margin-top: 5em;
+}
+
+/* For mobile devices (below 768px) */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%); /* Initially hidden on mobile */
+  }
+
+  .sidebar.open {
+    transform: translateX(0); /* Sidebar visible on toggle */
+  }
+
+  .main-content {
+    margin-left: 0; /* Remove offset for small screens */
+  }
+
+  .hamburger-icon {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 1000; /* Ensure it appears above content */
+    display: block; /* Show hamburger menu on mobile */
+  }
+
+  /* Hide hamburger menu on large screens */
+  @media (min-width: 769px) {
+    .hamburger-icon {
+      display: none; /* Hide hamburger icon on large screens */
+    }
+  }
+
+  /* Back Button Visibility on Mobile */
+  .back-button {
+    display: block;
+  }
+}
+
+/* For large screens (above 768px) */
+@media (min-width: 769px) {
+  .sidebar {
+    transform: translateX(0); /* Sidebar always visible */
+  }
+
+  .main-content {
+    margin-left: 290px; /* Sidebar offset */
+  }
+
+  .hamburger-icon {
+    display: none; /* Hide hamburger menu on desktop */
+  }
+}

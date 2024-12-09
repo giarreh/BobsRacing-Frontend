@@ -67,7 +67,7 @@ export default function AthleteDetails() {
     }
 
     try {
-      fetch(`https://localhost:7181/api/Athlete/${athlete.athleteId}`, {
+      fetch(`https://localhost:64968/api/Athlete/${athlete.athleteId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

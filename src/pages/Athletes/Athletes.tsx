@@ -11,7 +11,7 @@ export default function Athletes() {
 
   useEffect(() => {
     console.log('Fetching athletes')
-    fetch('https://localhost:7181/api/Athlete')
+    fetch('https://localhost:64968/api/Athlete')
     .then(response => {console.log(response); return response})
     .then(response => response.json())
     .then(data => {
