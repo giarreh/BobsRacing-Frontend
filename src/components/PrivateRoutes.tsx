@@ -10,6 +10,10 @@ export default function PrivateRoutes() {
 
   const token = localStorage.getItem('authToken');
 
+
+  // User token is used to authenticate the user and grant access to protected routes
+
+  // Check for user token, if not present, redirect to signin page
   useEffect(() => {
     if (token) {
       //const decodedToken = jwtDecode(token);

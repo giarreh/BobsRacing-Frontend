@@ -15,8 +15,17 @@ interface UserContextProviderProps {
 export const UserContext = createContext({} as UserContextType);
 
 
+
 export default function UserContextProvider({ children }: UserContextProviderProps) {
   const [user, setUser] = useState<User | null>(null); // You can replace 'any' with a more specific type if you have one
+
+
+  const getUserFromLocalStorage = () => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      setUser(JSON.parse(user));
+    }
+  }
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

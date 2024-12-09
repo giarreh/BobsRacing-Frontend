@@ -19,7 +19,7 @@ export default function Header() {
       </div>
       <div>
         {user ? (
-          <div className='headerLoggedIn'>
+          <div>
             <p style={{ cursor: 'pointer' }} onClick={() => { setUser(null);}}>LOGOUT</p>
           </div>
         ) : (
