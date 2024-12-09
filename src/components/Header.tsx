@@ -17,8 +17,7 @@ export default function Header() {
       </div>
       <div>
         <div>
-          <p>LOGIN</p>
-          <p>REGISTER</p>
+          <p style={{ cursor: 'pointer' }} onClick={() => navigate ("/SignIn")}>Sign in</p>
         </div>
       </div>
     </header>
