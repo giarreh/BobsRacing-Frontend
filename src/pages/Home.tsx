@@ -5,6 +5,12 @@ import { UserContext } from '../contexts/UserContext';
 export default function Home() {
   const navigate = useNavigate();
   const user = useContext(UserContext);
+
+  if(user.user === undefined) {
+    navigate('/signin');
+  }
+
+
   return (
     <div>
       <h1 onClick={() => navigate('/race')}>Click here to go to racing</h1>
