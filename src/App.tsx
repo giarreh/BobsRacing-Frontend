@@ -14,6 +14,7 @@ import AthleteDetails from "./pages/Athletes/AthleteDetails";
 
 // Import the UserType interface
 import { UserType } from "./interfaces/IUser";
+import PrivateRoutes from "./components/PrivateRoutes";
 
 // Define the context type
 export interface myContextType {
@@ -45,14 +46,16 @@ const App: React.FC = () => {
           <div className="App">
             <Header />
             <Routes>
-              <Route path="*" element={<Error />}></Route>
-              <Route path="/" element={<Home />}></Route>
-              <Route path="/race" element={<Race />}></Route>
-              <Route path="/signin" element={<SignIn />}></Route>
-              <Route path="/signup" element={<SignUp />}></Route>
+              <Route element={<PrivateRoutes />}>
               <Route path="/profile" element={<ProfilePage />}></Route>
               <Route path="/athletes" element={<Athletes />}></Route>
               <Route path="/athlete/:id" element={<AthleteDetails />}></Route>
+              <Route path="/" element={<Home />}></Route>
+              <Route path="/race" element={<Race />}></Route>
+            </Route>
+              <Route path="*" element={<Error />}></Route>
+              <Route path="/signin" element={<SignIn />}></Route>
+              <Route path="/signup" element={<SignUp />}></Route>
             </Routes>
           </div>
         </AppContextProvider>

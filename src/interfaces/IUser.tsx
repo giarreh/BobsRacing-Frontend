@@ -3,4 +3,7 @@ export interface UserType {
     name: string;
     password: string;
     credits: number;
-  }
+  }export interface User {
+  username: string,
+  password: string,
+}
