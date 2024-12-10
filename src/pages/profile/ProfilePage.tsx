@@ -57,6 +57,13 @@ const ProfilePage: React.FC = () => {
           >
             Settings
           </li>
+
+          <li
+            className={selectedTab === "bet-history" ? "active" : ""}
+            onClick={() => handleTabSelect("bet-history")}
+          >
+            Bet History
+          </li>
         </ul>
       </div>
 
@@ -65,14 +72,29 @@ const ProfilePage: React.FC = () => {
         {selectedTab === "general" ? (
           <div className="general-content">
             <h2>General Information</h2>
-            <p>This is the general information section.</p>
-            {/* Add more content here */}
+            <label className="profile-label">
+              <strong>Display name: </strong>
+              <input type="text" name="firstName" value={"Steven Tong Phung"} />
+            </label>
+            <label className="profile-label">
+              <strong>Username: </strong>
+              <input type="text" name="username" value={"STP1234"} />
+            </label>
+            <label className="profile-label">
+              <strong>Credits: </strong>
+              <input type="text" name="credits" value={"500"} />
+            </label>
           </div>
-        ) : (
+        ) : selectedTab === "settings" ? (
           <div className="settings-content">
             <h2>Settings</h2>
             <p>This is the settings section.</p>
             {/* Add more content here */}
+          </div>
+        ) : (
+          <div className="bet-history-content">
+            <h2>Bet History</h2>
+            <p>This is the Bet History</p>
           </div>
         )}
       </div>
