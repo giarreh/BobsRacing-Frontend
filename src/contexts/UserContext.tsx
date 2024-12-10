@@ -6,7 +6,7 @@ import { jwtDecode, JwtPayload } from "jwt-decode";
 // Define the shape of your context
 interface UserContextType {
   user: User | null ; 
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  setUser: (React.Dispatch<React.SetStateAction<User | null>>)
   setAuthToken: (token: string) => void;
   getAuthToken: () => string | null;
   clearAuthToken: () => void;

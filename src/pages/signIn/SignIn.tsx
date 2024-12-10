@@ -38,7 +38,7 @@ export default function SignIn() {
 
       //everything is good
       const data = await response.json();
-      console.log(data);
+      console.log("SETTING USER WITH DATA: ",data);
       setUser(data);
       setAuthToken(data.token);
       navigate('/athletes');

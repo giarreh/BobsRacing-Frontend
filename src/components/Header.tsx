@@ -5,10 +5,8 @@ import { useNavigate } from 'react-router-dom';
 //import ProfilePicture from './profiles/ProfilePicture';
 
 export default function Header() {
-  //const { user, setUser, clearAuthToken } = useContext(UserContext);
+  const { user, setUser, clearAuthToken } = useContext(UserContext);
   const navigate = useNavigate();
-
-  const {user, setUser} = useContext(UserContext);
 
   return (
     <header className="header">
@@ -20,7 +18,7 @@ export default function Header() {
       <div>
         {user ? (
           <div>
-            <p style={{ cursor: 'pointer' }} onClick={() => { setUser(null);}}>LOGOUT</p>
+            <p style={{ cursor: 'pointer' }} onClick={() => {clearAuthToken(); setUser(null);}}>LOGOUT</p>
           </div>
         ) : (
           <div>
