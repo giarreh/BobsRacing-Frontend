@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Athletes.css";
 import { Athlete } from "../../interfaces/IAthlete";
+import { UserContext } from "../../contexts/UserContext";
 
 interface CreateAthleteProps {
   athletes: Athlete[];
@@ -13,7 +14,7 @@ export default function CreateAthlete({
   setAthletes,
 }: CreateAthleteProps) {
   const navigate = useNavigate();
-
+  const {getAuthToken} = useContext(UserContext);
   const defaultAthlete = {
     athleteId: 0,
     name: 'name',
@@ -50,16 +51,17 @@ export default function CreateAthlete({
     if (athlete.name === '' || athlete.fastestTime === 0 || athlete.slowestTime === 0) {
       return alert('Please fill out all fields correctly');
     }
-    if (athlete.fastestTime < athlete.slowestTime) {
+    if (athlete.fastestTime > athlete.slowestTime) {
       return alert('Slowest time cannot be faster than the fastest time');
     }
 
     try {
       console.log("Submitting athlete:", athlete);
-      fetch("https://localhost:64968/api/Athlete", {
+      fetch("https://localhost:7181/api/Athlete", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          'Authorization': `Bearer ${getAuthToken()}`,
         },
         body: JSON.stringify(athlete),
       })

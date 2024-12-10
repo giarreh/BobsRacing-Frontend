@@ -11,6 +11,7 @@ import Athletes from './pages/Athletes/Athletes';
 import AthleteDetails from './pages/Athletes/AthleteDetails';
 import UserContextProvider from './contexts/UserContext';
 import PrivateRoutes from './components/PrivateRoutes';
+import ProfilePage from './pages/profile/ProfilePage';
 
 const App: React.FC = () => {
   return (
@@ -26,6 +27,7 @@ const App: React.FC = () => {
                   <Route path='/race' element={<Race/>} ></Route>
                   <Route path='/athletes' element={<Athletes/>} ></Route>
                   <Route path='/athlete/:id' element={<AthleteDetails/>} ></Route>
+                  <Route path='/profile' element={<ProfilePage/>} ></Route>
                 </Route>
                 <Route path='/signin' element={<SignIn/>}></Route>
                 <Route path='/signup' element={<SignUp/>}></Route>
