@@ -1,17 +1,46 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useContext} from 'react'
 import './Athletes.css'
 import { Athlete } from '../../interfaces/IAthlete';
 import CreateAthlete from './CreateAthlete';
 import AtheleteItem from './AthleteItem';
+import { UserContext } from '../../contexts/UserContext';
 
 
 export default function Athletes() {
   const [athletes, setAthletes] = useState<Athlete[]>([
   ]);
+  const { getAuthToken } = useContext(UserContext); 
+
 
   useEffect(() => {
+    const fetchAthletes = async () => {
+      console.log('Fetching athletes');
+      try {
+        const response = await fetch('https://localhost:7181/api/Athlete', {
+          headers: {
+            'Authorization': `Bearer ${getAuthToken()}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data);
+        setAthletes(data);
+      } catch (error) {
+        console.error('Error fetching athletes:', error);
+      }
+    };
+
+    fetchAthletes();
+  }, []);
+/* 
+  useEffect(() => {
     console.log('Fetching athletes')
-    fetch('https://localhost:64968/api/Athlete')
+    fetch('https://localhost:7181/api/Athlete')
     .then(response => {console.log(response); return response})
     .then(response => response.json())
     .then(data => {
@@ -19,7 +48,7 @@ export default function Athletes() {
       setAthletes(data);
     })
   }, [])
-
+ */
 
   return (
     <div className="athlete-page-container">
