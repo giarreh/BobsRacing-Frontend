@@ -1,10 +1,16 @@
 import{ createContext, useState, ReactNode } from "react";
 import { User } from "../interfaces/IUser";
+import { jwtDecode, JwtPayload } from "jwt-decode";
+
 
 // Define the shape of your context
 interface UserContextType {
   user: User | null ; 
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  setAuthToken: (token: string) => void;
+  getAuthToken: () => string | null;
+  clearAuthToken: () => void;
+  getUserFromToken: () => JwtPayload; // maybe error?
 }
 
 interface UserContextProviderProps {
@@ -25,9 +31,16 @@ export default function UserContextProvider({ children }: UserContextProviderPro
 const getAuthToken = () => {
   return localStorage.getItem('authToken');
 };
+const setAuthToken = (token: string) => {
+  return localStorage.setItem('authToken', token);
+};
 
 const getUserFromToken = () => {
-  const decodedToken = jwtDecode(getAuthToken());
+  const authToken = getAuthToken();
+  if (!authToken) {
+    throw new Error("No auth token found");
+  }
+  const decodedToken = jwtDecode(authToken);
   console.log("DECODED TOKEN: ", decodedToken);
   return decodedToken;
 };
@@ -40,7 +53,7 @@ const clearAuthToken = () => {
 
 
   return (
-    <UserContext.Provider value={{ user, setUser, setAuthToken, getAuthToken, clearAuthToken,getUserFromToken }}>
+    <UserContext.Provider value={{ user, setUser, setAuthToken, getAuthToken, clearAuthToken, getUserFromToken }}>
       {loading ? <p>Loading...</p> : children}
     </UserContext.Provider>
   );
