@@ -6,7 +6,7 @@ import "./SignIn.css";
 export default function SignIn() {
 
   const navigate = useNavigate();
-  const { user, setUser, getAuthToken, setAuthToken, getUserFromToken } = useContext(UserContext);
+  const { setUser, setAuthToken } = useContext(UserContext);
 
   const [form, setForm] = useState({
     username: "",

@@ -10,7 +10,7 @@ export default function AthleteDetails() {
     athleteId: 0,
     name: '',
     image: 'image',
-    lowestTime: 0,
+    slowestTime: 0,
     fastestTime: 0,
   });
 
@@ -59,10 +59,10 @@ export default function AthleteDetails() {
     e.preventDefault();
 
     // Check if all fields are valid
-    if (athlete.name === '' || athlete.fastestTime === 0 || athlete.lowestTime === 0) {
+    if (athlete.name === '' || athlete.fastestTime === 0 || athlete.slowestTime === 0) {
       return alert('Please fill out all fields correctly');
     }
-    if (athlete.fastestTime < athlete.lowestTime) {
+    if (athlete.fastestTime < athlete.slowestTime) {
       return alert('Slowest time cannot be faster than the fastest time');
     }
 
@@ -97,8 +97,8 @@ export default function AthleteDetails() {
 
       {/* Display athlete details */}
       <p>{athlete.name}</p>
-      <p>Slowest time: {athlete.fastestTime}</p>
-      <p>Fastest time: {athlete.lowestTime}</p>
+      <p>Fastest time: {athlete.fastestTime}</p>
+      <p>Slowest time: {athlete.slowestTime}</p>
 
       {/* Edit Athlete Form */}
       <h2>Edit Athlete</h2>
@@ -110,19 +110,19 @@ export default function AthleteDetails() {
           value={athlete.name}
           onChange={(e) => setAthlete({ ...athlete, name: e.target.value })}
         />
-        <label>Slowest time: </label>
-        <input
-          type="number"
-          placeholder="Min Time"
-          value={athlete.fastestTime}
-          onChange={(e) => setAthlete({ ...athlete, fastestTime: Number(e.target.value) })}
-        />
         <label>Fastest time: </label>
         <input
           type="number"
-          placeholder="Max Speed"
-          value={athlete.lowestTime}
-          onChange={(e) => setAthlete({ ...athlete, lowestTime: Number(e.target.value) })}
+          placeholder="fastest Time"
+          value={athlete.fastestTime}
+          onChange={(e) => setAthlete({ ...athlete, fastestTime: Number(e.target.value) })}
+        />
+        <label>Slowest time: </label>
+        <input
+          type="number"
+          placeholder="Slowest Speed"
+          value={athlete.slowestTime}
+          onChange={(e) => setAthlete({ ...athlete, slowestTime: Number(e.target.value) })}
         />
         <button type="submit">Update Athlete</button>
       </form>

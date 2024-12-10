@@ -18,6 +18,15 @@ export default function Home() {
       <h1 onClick={() => console.log(user)}>Console log user</h1>
       <h1 onClick={() => console.log(getUserFromToken())}>Get user from token</h1>
 
+      <div>
+        <h1>User information</h1>
+        <p>Username: {user?.username}</p>
+        <p>Profile name: {user?.profilename}</p>
+        <p>Id: {user?.id}</p>
+        <p>Role: {user?.role}</p>
+        <p>Credits: {user?.credits}</p>
+      </div>
+
     </div>
   )
 }
