@@ -2,6 +2,6 @@ export interface Athlete {
   athleteId: number;
   name: string;
   image: string;
-  lowestTime: number;
+  slowestTime: number;
   fastestTime: number;
 }
