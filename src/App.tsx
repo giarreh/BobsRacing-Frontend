@@ -13,7 +13,6 @@ import UserContextProvider from './contexts/UserContext';
 import PrivateRoutes from './components/PrivateRoutes';
 
 const App: React.FC = () => {
-
   return (
     <Router>
       <AppContextProvider>
