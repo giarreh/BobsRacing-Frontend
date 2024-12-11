@@ -1,4 +1,8 @@
 body {
 font-family: 'Roboto', sans-serif;
 font-size: 22px;
+background-image: url('assets/ol2.jpg');
+background-repeat: no-repeat;
+background-size: contain;
+background-position: center;
 }

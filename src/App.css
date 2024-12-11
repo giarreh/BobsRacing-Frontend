@@ -3,8 +3,8 @@
 .App {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Ensure full height layout */
-  overflow: hidden; /* Prevent unnecessary scroll issues */
+  /*height: 100vh; /* Ensure full height layout */
+  /*overflow: hidden; /* Prevent unnecessary scroll issues */
 }
 
 .header {
@@ -26,6 +26,7 @@
   margin-top: 10vh; /* Matches the height of the fixed header */
   flex: 1; /* Allow content to fill remaining space */
   padding: 0 20px; /* Add some padding to the edges */
+  overflow-y: scroll;
 }
 
 .header-left {

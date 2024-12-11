@@ -18,9 +18,7 @@ export default function Header() {
             <div onClick={() => navigate("/profile")}>Profile</div>
             <div onClick={() => navigate("/race")}>Races</div>
             <div /*onClick={() => navigate("/")} */>Betting</div>
-            {user?.role === "admin" && (
               <div onClick={() => navigate("/athletes")}>Athletes</div>
-            )}
           </div>
           {/* Right side: Logout */}
           <div className="header-right header-logout-div">
