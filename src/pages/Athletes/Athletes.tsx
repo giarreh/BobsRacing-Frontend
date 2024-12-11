@@ -9,7 +9,7 @@ import { UserContext } from '../../contexts/UserContext';
 export default function Athletes() {
   const [athletes, setAthletes] = useState<Athlete[]>([
   ]);
-  const { getAuthToken } = useContext(UserContext); 
+  const { user, getAuthToken } = useContext(UserContext); 
 
 
   useEffect(() => {
@@ -52,12 +52,15 @@ export default function Athletes() {
 
   return (
     <div className="athlete-page-container">
-      {/* Create Athlete Section */}
-      <div className="create-athlete-section">
-        <h1>Create Athlete</h1>
-        <CreateAthlete athletes={athletes} setAthletes={setAthletes} />
-      </div>
-      {/* Athlete List Section */}
+      {/* Create Athlete Section (Admin Only) */}
+      {user?.role === "Admin" && (
+        <div className="create-athlete-section">
+          <h1>Create Athlete</h1>
+          <CreateAthlete athletes={athletes} setAthletes={setAthletes} />
+        </div>
+      )}
+
+      {/* Athlete List Section (Visible to All) */}
       <div className="athlete-list-section">
         <h1>Athlete List</h1>
         <div className="athlete-list">

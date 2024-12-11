@@ -6,7 +6,7 @@ import { UserContext } from '../../contexts/UserContext';
 export default function AthleteDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const {getAuthToken} = useContext(UserContext);
+  const {user, getAuthToken} = useContext(UserContext);
   const [athlete, setAthlete] = useState<Athlete>({
     athleteId: 0,
     name: '',
@@ -103,42 +103,54 @@ export default function AthleteDetails() {
       <h1>Athlete Details</h1>
       <p>Athlete ID: {id}</p>
 
-      {/* Display athlete details */}
-      <p>{athlete.name}</p>
+      {/* Display athlete details (Visible to everyone) */}
+      <p>Name: {athlete.name}</p>
       <p>Fastest time: {athlete.fastestTime}</p>
       <p>Slowest time: {athlete.slowestTime}</p>
 
-      {/* Edit Athlete Form */}
-      <h2>Edit Athlete</h2>
-      <form onSubmit={handleEdit} className="edit-athlete-form">
-        <label>Name: </label>
-        <input
-          type="text"
-          placeholder="Name"
-          value={athlete.name}
-          onChange={(e) => setAthlete({ ...athlete, name: e.target.value })}
-        />
-        <label>Fastest time: </label>
-        <input
-          type="number"
-          placeholder="fastest Time"
-          value={athlete.fastestTime}
-          onChange={(e) => setAthlete({ ...athlete, fastestTime: Number(e.target.value) })}
-        />
-        <label>Slowest time: </label>
-        <input
-          type="number"
-          placeholder="Slowest Speed"
-          value={athlete.slowestTime}
-          onChange={(e) => setAthlete({ ...athlete, slowestTime: Number(e.target.value) })}
-        />
-        <button type="submit">Update Athlete</button>
-      </form>
+      {/* Edit Athlete Section (Visible to Admin Only) */}
+      {user?.role === "Admin" && (
+        <div>
+          <h2>Edit Athlete</h2>
 
-      {/* Delete button */}
-      <button className="delete-button" onClick={() => handleDelete(athlete)}>
-        Delete
-      </button>
+          <form onSubmit={handleEdit} className="edit-athlete-form">
+            <label>Name: </label>
+            <input
+              type="text"
+              placeholder="Name"
+              value={athlete.name}
+              onChange={(e) => setAthlete({ ...athlete, name: e.target.value })}
+            />
+            <label>Fastest time: </label>
+            <input
+              type="number"
+              placeholder="Fastest Time"
+              value={athlete.fastestTime}
+              onChange={(e) =>
+                setAthlete({ ...athlete, fastestTime: Number(e.target.value) })
+              }
+            />
+            <label>Slowest time: </label>
+            <input
+              type="number"
+              placeholder="Slowest Speed"
+              value={athlete.slowestTime}
+              onChange={(e) =>
+                setAthlete({ ...athlete, slowestTime: Number(e.target.value) })
+              }
+            />
+            <button type="submit">Update Athlete</button>
+          </form>
+
+          {/* Delete button */}
+          <button
+            className="delete-button"
+            onClick={() => handleDelete(athlete)}
+          >
+            Delete
+          </button>
+        </div>
+      )}
     </div>
   );
 }
