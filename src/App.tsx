@@ -12,6 +12,7 @@ import AthleteDetails from './pages/Athletes/AthleteDetails';
 import UserContextProvider from './contexts/UserContext';
 import PrivateRoutes from './components/PrivateRoutes';
 import ProfilePage from './pages/profile/ProfilePage';
+import Races from './pages/races/Races';
 
 const App: React.FC = () => {
   return (
@@ -20,11 +21,13 @@ const App: React.FC = () => {
         <UserContextProvider>
           <div className="App">
             <Header />
+            <div className='content-wrapper'>
               <Routes>
                 <Route element={<PrivateRoutes/>}>
                   <Route path='*' element={<Error/>} ></Route>
                   <Route path='/' element={<Home/>} ></Route>
                   <Route path='/race' element={<Race/>} ></Route>
+                  <Route path='/races' element={<Races/>} ></Route>
                   <Route path='/athletes' element={<Athletes/>} ></Route>
                   <Route path='/athlete/:id' element={<AthleteDetails/>} ></Route>
                   <Route path='/profile' element={<ProfilePage/>} ></Route>
@@ -32,6 +35,7 @@ const App: React.FC = () => {
                 <Route path='/signin' element={<SignIn/>}></Route>
                 <Route path='/signup' element={<SignUp/>}></Route>
               </Routes>
+            </div>
           </div>
         </UserContextProvider>
       </AppContextProvider>
