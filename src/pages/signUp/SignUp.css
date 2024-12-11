@@ -1,11 +1,19 @@
+.signup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .signup-page {
   max-width: 400px;
-  max-height: 400px;
-  margin: 0 auto;
+  max-height: 550px;
   padding: 20px;
+  margin-top: 100px;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #f9f9f9;
+  opacity: 0.95;
 }
 
 .signup-page h2 {
@@ -21,8 +29,8 @@
   margin-bottom: 15px;
 }
 
-input {
-  width: 85%;
+.signup-form input {
+  width: 94%;
   padding: 10px;
   margin-top: 5px;
   border: 1px solid #ccc;

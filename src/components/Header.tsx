@@ -11,19 +11,33 @@ export default function Header() {
   return (
     <header className="header">
       <div>
-        <div style={{ cursor: 'pointer' }} onClick={() => navigate("/")}>
+        <div
+          className="header-home-div"
+          style={{ cursor: "pointer" }}
+          onClick={() => navigate("/")}
+        >
           Home
         </div>
       </div>
       <div>
         {user ? (
-          <div>
-            <p style={{ cursor: 'pointer' }} onClick={() => {clearAuthToken(); setUser(null);}}>LOGOUT</p>
+          <div className="header-logout-div">
+            <p
+              className="header-home-div"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                clearAuthToken();
+                setUser(null);
+                navigate("/signin");
+              }}
+            >
+              LOGOUT
+            </p>
           </div>
         ) : (
-          <div>
-            <p>LOGIN</p>
-            <p>REGISTER</p>
+          <div className="header-login-div">
+            <p onClick={() => navigate("/signin")}>LOGIN</p>
+            <p onClick={() => navigate("/signup")}>REGISTER</p>
           </div>
         )}
       </div>
