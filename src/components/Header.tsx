@@ -1,16 +1,25 @@
-import { useContext } from 'react';
-import { UserContext } from '../contexts/UserContext';
-import { useNavigate } from 'react-router-dom';
-//import logo from '../assets/Bobs_Bakery.svg';
-//import ProfilePicture from './profiles/ProfilePicture';
+import { useContext, useState } from "react";
+import { UserContext } from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const { user, setUser, clearAuthToken } = useContext(UserContext);
   const navigate = useNavigate();
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownVisible((prev) => !prev);
+  };
+
+  const handleLogout = () => {
+    clearAuthToken();
+    setUser(null);
+    setDropdownVisible(false); // Close the dropdown on logout
+  };
 
   return (
     <header className="header">
-      {user ? (
+{user ? (
         <>
           {/* Left side: Home, Profile, Race, Betting, Athletes (if admin) */}
           <div className="header-left">
@@ -21,16 +30,31 @@ export default function Header() {
               <div onClick={() => navigate("/athletes")}>Athletes</div>
           </div>
           {/* Right side: Logout */}
-          <div className="header-right header-logout-div">
-            <p
-              onClick={() => {
-                clearAuthToken();
-                setUser(null);
-                navigate("/signin");
-              }}
-            >
-              LOGOUT
-            </p>
+          <div className="profile-container">
+            <div onClick={toggleDropdown}>
+              <p>🐟</p>
+            </div>
+
+            {/* Dropdown Menu to icon */}
+            {dropdownVisible && (
+              <div className="dropdown-menu">
+                <div
+                  onClick={() => {
+                    navigate("/profile");
+                    setDropdownVisible(false);
+                  }}
+                >
+                  <p>Profile</p>
+                </div>
+                <div>
+                  <p>Credits: </p>
+                </div>
+                <div style={{ cursor: "pointer" }} onClick={handleLogout}>
+                  <p>Logout</p>
+                </div>
+              </div>
+               )}
+            
           </div>
         </>
       ) : (
