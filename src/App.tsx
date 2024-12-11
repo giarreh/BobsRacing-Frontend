@@ -1,6 +1,5 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Race from './components/Race';
 import Header from './components/Header';
 import AppContextProvider from './contexts/AppContext';
 import Home from './pages/Home';
@@ -13,6 +12,7 @@ import UserContextProvider from './contexts/UserContext';
 import PrivateRoutes from './components/PrivateRoutes';
 import ProfilePage from './pages/profile/ProfilePage';
 import Races from './pages/races/Races';
+import CreateRace from './pages/races/create/CreateRace';
 
 const App: React.FC = () => {
   return (
@@ -26,8 +26,8 @@ const App: React.FC = () => {
                 <Route element={<PrivateRoutes/>}>
                   <Route path='*' element={<Error/>} ></Route>
                   <Route path='/' element={<Home/>} ></Route>
-                  <Route path='/race' element={<Race/>} ></Route>
                   <Route path='/races' element={<Races/>} ></Route>
+                  <Route path='/createrace' element={<CreateRace/>} ></Route>
                   <Route path='/athletes' element={<Athletes/>} ></Route>
                   <Route path='/athlete/:id' element={<AthleteDetails/>} ></Route>
                   <Route path='/profile' element={<ProfilePage/>} ></Route>

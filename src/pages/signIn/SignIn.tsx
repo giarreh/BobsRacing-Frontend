@@ -41,7 +41,7 @@ export default function SignIn() {
       console.log("SETTING USER WITH DATA: ",data);
       setUser(data);
       setAuthToken(data.token);
-      navigate('/athletes');
+      navigate('/');
     } catch (error) {
       console.error('Unable to login:', error);
 
