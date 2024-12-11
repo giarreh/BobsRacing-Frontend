@@ -25,7 +25,6 @@
 .content-wrapper {
   margin-top: 10vh; /* Matches the height of the fixed header */
   flex: 1; /* Allow content to fill remaining space */
-  overflow-y: auto; /* Ensure content scrolls if necessary */
 }
 
 .header-home-div {
