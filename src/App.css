@@ -91,37 +91,59 @@
   height: 80px;
   background-color: #426334;
   color: #fff;
-  text-align: center;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
   z-index: 1000;
+  padding: 0 20px; /* Add some padding to the edges */
 }
 
-.header-home-div {
-  padding-left: 25%;
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Space between menu items */
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between login/register or logout */
+}
+
+.header-left div, .header-right p {
+  cursor: pointer;
 }
 
 .header-logout-div {
-  padding-right: 30px;
+  margin-right: 30px;
 }
 
 .header-login-div {
-  padding-right: 15px;
+  margin-right: 40px;
 }
 
-.headerLoggedIn {
-  display: flex;
-  align-items: center;
+.header-login-div p {
+  color: white;
+  text-decoration: none;
+  /*font-weight: bold;*/
+  cursor: pointer;
 }
-.headerLoggedIn p {
-  color: black;
+
+.header-login-div p:hover {
   text-decoration: underline;
-  margin-right: 10px; /* Adjust the spacing as needed */
-  justify-content: center;
-  align-items: center;
 }
+
+.header-logout-div p {
+  color: white;
+  /*font-weight: bold;*/
+  cursor: pointer;
+}
+
+.header-logout-div p:hover {
+  text-decoration: underline;
+}
+
 
 /* Main body styles */
 .main {
