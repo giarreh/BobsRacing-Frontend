@@ -1,6 +1,7 @@
-export interface UserType {
+export interface User {
     id: number;
-    name: string;
-    password: string;
+    profilename: string;
+    username: string;
     credits: number;
+    role: string;
   }

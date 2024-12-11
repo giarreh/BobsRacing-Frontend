@@ -1,23 +1,53 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext";
 import "./SignIn.css";
 
 export default function SignIn() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+
   const navigate = useNavigate();
+  const { setUser, setAuthToken } = useContext(UserContext);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const [form, setForm] = useState({
+    username: "",
+    password: "",
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleLogin = async(e: React.FormEvent) => {
     e.preventDefault();
-
-    // Here you would typically call an API to validate login credentials
-    if (username === "admin" && password === "password123") {
-      // On successful login, navigate to the home page (or any other page)
-      navigate("/");
-    } else {
-      setErrorMessage("Invalid credentials. Please try again.");
+    // check for empty fields
+    if (form.username === '' || form.password === '') {
+      setErrorMessage('Please fill in all fields');
+      return;
     }
+
+    try {
+      const response = await fetch('https://localhost:7181/api/User/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      });
+
+      if (!response.ok) {
+        setErrorMessage('Unable to login');
+        throw new Error('Unable to login');
+      }
+
+      //everything is good
+      const data = await response.json();
+      console.log("SETTING USER WITH DATA: ",data);
+      setUser(data);
+      setAuthToken(data.token);
+      navigate('/athletes');
+    } catch (error) {
+      console.error('Unable to login:', error);
+
+    }
+
+
   };
 
   return (
@@ -29,8 +59,8 @@ export default function SignIn() {
           <input
             type="text"
             id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={form.username}
+            onChange={(e) => setForm({...form, username: e.target.value})}
             placeholder="Enter your username"
             required
           />
@@ -40,8 +70,8 @@ export default function SignIn() {
           <input
             type="password"
             id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={form.password}
+            onChange={(e) => setForm({...form, password: e.target.value})}
             placeholder="Enter your password"
             required
           />

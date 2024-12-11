@@ -1,11 +1,11 @@
-//import React, { useContext } from 'react';
-//import { UserContext } from '../context/UserContext';
+import { useContext } from 'react';
+import { UserContext } from '../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 //import logo from '../assets/Bobs_Bakery.svg';
 //import ProfilePicture from './profiles/ProfilePicture';
 
 export default function Header() {
-  //const { user, setUser, clearAuthToken } = useContext(UserContext);
+  const { user, setUser, clearAuthToken } = useContext(UserContext);
   const navigate = useNavigate();
 
   return (
@@ -16,9 +16,16 @@ export default function Header() {
         </div>
       </div>
       <div>
-        <div>
-          <p style={{ cursor: 'pointer' }} onClick={() => navigate ("/SignIn")}>Sign in</p>
-        </div>
+        {user ? (
+          <div>
+            <p style={{ cursor: 'pointer' }} onClick={() => {clearAuthToken(); setUser(null);}}>LOGOUT</p>
+          </div>
+        ) : (
+          <div>
+            <p>LOGIN</p>
+            <p>REGISTER</p>
+          </div>
+        )}
       </div>
     </header>
   );

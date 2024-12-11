@@ -15,8 +15,8 @@ export default function AtheleteItem({ athlete, index }: { athlete: Athlete, ind
   return (
     <div className='athlete-item' key={index} onClick={handleNavigate}>
       <h2>{athlete.name}</h2>
-      <p>Slowest time: {athlete.fastestTime}</p>
-      <p>Fastest time: {athlete.lowestTime}</p>
+      <p>Fastest time: {athlete.fastestTime}</p>
+      <p>Slowest time: {athlete.slowestTime}</p>
     </div>
   )
 }
