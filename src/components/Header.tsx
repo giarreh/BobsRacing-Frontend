@@ -10,23 +10,40 @@ export default function Header() {
 
   return (
     <header className="header">
-      <div>
-        <div style={{ cursor: 'pointer' }} onClick={() => navigate("/")}>
-          Home
-        </div>
-      </div>
-      <div>
-        {user ? (
-          <div>
-            <p style={{ cursor: 'pointer' }} onClick={() => {clearAuthToken(); setUser(null);}}>LOGOUT</p>
+      {user ? (
+        <>
+          {/* Left side: Home, Profile, Race, Betting, Athletes (if admin) */}
+          <div className="header-left">
+            <div onClick={() => navigate("/")}>Home</div>
+            <div onClick={() => navigate("/profile")}>Profile</div>
+            <div onClick={() => navigate("/race")}>Races</div>
+            <div /*onClick={() => navigate("/")} */>Betting</div>
+              <div onClick={() => navigate("/athletes")}>Athletes</div>
           </div>
-        ) : (
-          <div>
-            <p>LOGIN</p>
-            <p>REGISTER</p>
+          {/* Right side: Logout */}
+          <div className="header-right header-logout-div">
+            <p
+              onClick={() => {
+                clearAuthToken();
+                setUser(null);
+                navigate("/signin");
+              }}
+            >
+              LOGOUT
+            </p>
           </div>
-        )}
-      </div>
+        </>
+      ) : (
+        <>
+          {/* Left side: Empty */}
+          <div className="header-left"></div>
+          {/* Right side: Login/Register */}
+          <div className="header-right header-login-div">
+            <p onClick={() => navigate("/signin")}>LOGIN</p>
+            <p onClick={() => navigate("/signup")}>REGISTER</p>
+          </div>
+        </>
+      )}
     </header>
   );
 }

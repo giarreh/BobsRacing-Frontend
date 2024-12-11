@@ -1,109 +1,80 @@
 /* App.css */
-.race-track {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.lane {
-  position: relative;
-  height: 50px;
-  width: 98%;
-  background: #f0f0f0;
-  border: 1px solid #ccc;
-  display: flex; /* Ensure the child sections are aligned in a row */
-  overflow: hidden; /* Prevent child sections from exceeding the lane */
-}
-.checkpoint {
-  flex: 1; /* Each section takes up an equal part of the lane */
-  height: 100%; /* Match the height of the lane */
-}
-
-.cp1 {
-  background: #11bf65; /* Example color for the first section */
-}
-
-.cp2 {
-  background: #885519a8; /* Example color for the second section */
-}
-
-.cp3 {
-  background: #ffed26; /* Example color for the third section */
-}
-
-.checkpoint {
-  display: inline-block;
-  height: 100%;
-  width: 33%;
-  border-right: 1px dashed #999;
-}
-
-.horse {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.5rem;
-}
-
 /* Content wrapper */
 .App {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  padding-top: 50px;
-}
-
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 200px; /* Adjust the width as needed */
-  height: 100%; /* Ensures the sidebar takes the full height of the viewport */
-  color: #dd7230;
-  padding: 20px;
-  margin-top: 84px;
-  border-right: 1px solid black;
-  z-index: 1000; /* Ensure it's above other content */
-}
-
-.sidebarButton {
-  background-color: #dd7230;
-  color: #fff;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-bottom: 10px;
-  text-align: center;
+  /*height: 100vh; /* Ensure full height layout */
+  /*overflow: hidden; /* Prevent unnecessary scroll issues */
 }
 
 .header {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  background-color: #854d27;
+  width: 100%; /* Full width header */
+  height: 10vh; /* Adjust this height as needed */
+  background-color: #426334;
   color: #fff;
-  text-align: center;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  z-index: 1000; /* Ensure it's above other content */
 }
 
-.headerLoggedIn {
+.content-wrapper {
+  margin-top: 10vh; /* Matches the height of the fixed header */
+  flex: 1; /* Allow content to fill remaining space */
+  padding: 0 20px; /* Add some padding to the edges */
+  overflow-y: scroll;
+}
+
+.header-left {
   display: flex;
   align-items: center;
+  margin-left: 30px;
+  gap: 20px; /* Space between menu items */
 }
-.headerLoggedIn p {
-  color: black;
-  text-decoration: underline;
-  margin-right: 10px; /* Adjust the spacing as needed */
-  justify-content: center;
+
+.header-right {
+  display: flex;
   align-items: center;
+  gap: 10px; /* Space between login/register or logout */
 }
+
+.header-left div, .header-right p {
+  cursor: pointer;
+}
+
+.header-logout-div {
+  margin-right: 30px;
+}
+
+.header-login-div {
+  margin-right: 40px;
+}
+
+.header-login-div p {
+  color: white;
+  text-decoration: none;
+  /*font-weight: bold;*/
+  cursor: pointer;
+}
+
+.header-login-div p:hover {
+  text-decoration: underline;
+}
+
+.header-logout-div p {
+  color: white;
+  /*font-weight: bold;*/
+  cursor: pointer;
+}
+
+.header-logout-div p:hover {
+  text-decoration: underline;
+}
+
 
 /* Main body styles */
 .main {

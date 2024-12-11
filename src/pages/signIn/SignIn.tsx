@@ -41,7 +41,7 @@ export default function SignIn() {
       console.log("SETTING USER WITH DATA: ",data);
       setUser(data);
       setAuthToken(data.token);
-      navigate('/athletes');
+      navigate('/');
     } catch (error) {
       console.error('Unable to login:', error);
 
@@ -51,40 +51,42 @@ export default function SignIn() {
   };
 
   return (
-    <div className="login-page">
-      <h2>Login</h2>
-      <form onSubmit={handleLogin} className="login-form">
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            value={form.username}
-            onChange={(e) => setForm({...form, username: e.target.value})}
-            placeholder="Enter your username"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={form.password}
-            onChange={(e) => setForm({...form, password: e.target.value})}
-            placeholder="Enter your password"
-            required
-          />
-        </div>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <button type="submit">Login</button>
-      </form>
-      <p>
-        Don't have an account?{" "}
-        <a href="/signup" style={{ cursor: "pointer" }}>
-          Sign up
-        </a>
-      </p>
+    <div className="login">
+      <div className="login-page">
+        <h2>Login</h2>
+        <form onSubmit={handleLogin} className="login-form">
+          <div>
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              value={form.username}
+              onChange={(e) => setForm({ ...form, username: e.target.value })}
+              placeholder="Enter your username"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <button type="submit">Login</button>
+        </form>
+        <p>
+          Don't have an account?{" "}
+          <a href="/signup" style={{ cursor: "pointer" }}>
+            Sign up
+          </a>
+        </p>
+      </div>
     </div>
   );
 }
