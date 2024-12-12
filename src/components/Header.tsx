@@ -25,7 +25,7 @@ export default function Header() {
           <div className="header-left">
             <div onClick={() => navigate("/")}>Home</div>
             <div onClick={() => navigate("/profile")}>Profile</div>
-            <div onClick={() => navigate("/race")}>Races</div>
+            <div onClick={() => navigate("/races")}>Races</div>
             <div /*onClick={() => navigate("/")} */>Betting</div>
               <div onClick={() => navigate("/athletes")}>Athletes</div>
           </div>
