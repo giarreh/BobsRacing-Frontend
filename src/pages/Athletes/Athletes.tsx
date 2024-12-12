@@ -37,18 +37,6 @@ export default function Athletes() {
 
     fetchAthletes();
   }, []);
-/* 
-  useEffect(() => {
-    console.log('Fetching athletes')
-    fetch('https://localhost:7181/api/Athlete')
-    .then(response => {console.log(response); return response})
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
-      setAthletes(data);
-    })
-  }, [])
- */
 
   return (
     <div className="athlete-page-container">
