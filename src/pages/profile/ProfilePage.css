@@ -78,6 +78,15 @@
   margin-top: 5em;
 }
 
+.bet-history-content {
+  margin-top: 5em;
+}
+
+.profile-label {
+  display: block;
+  margin-bottom: 10px;
+}
+
 /* For mobile devices (below 768px) */
 @media (max-width: 768px) {
   .sidebar {
@@ -89,12 +98,12 @@
   }
 
   .main-content {
-    margin-left: 0; /* Remove offset for small screens */
+    margin-left: 5em; /* Remove offset for small screens */
   }
 
   .hamburger-icon {
-    position: absolute;
-    top: 20px;
+    position: fixed;
+    top: 90px;
     left: 20px;
     font-size: 30px;
     cursor: pointer;
