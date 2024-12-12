@@ -27,6 +27,7 @@ export default function ProfilePage() {
       setSidebarOpen(false); // Close the sidebar when an item is selected on mobile
       setBackButtonVisible(false); // Hide back button when item is selected
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // Toggle sidebar visibility (for mobile)
@@ -80,14 +81,12 @@ export default function ProfilePage() {
   return (
     <>
       <div className="profile-page">
-        {/* Hamburger Icon on small screen */}
-        <div className="hamburger-icon" onClick={toggleSidebar}>
-          ☰
-        </div>
-
         {/* Sidebar */}
         <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
           {/* Back Button on small screen */}
+          <div className="hamburger-icon" onClick={toggleSidebar}>
+            ☰
+          </div>
           {backButtonVisible && (
             <button className="back-button" onClick={handleBackButtonClick}>
               &#8592; Back
@@ -123,19 +122,20 @@ export default function ProfilePage() {
               <h2>General Information</h2>
               <label className="profile-label">
                 <strong>Display name: </strong>
-                <input type="text" name="firstName" value={user?.profilename} />
+                <div>{user?.profilename}</div>
               </label>
               <label className="profile-label">
                 <strong>Username: </strong>
-                <input type="text" name="username" value={user?.username} />
+                <div>{user?.username}</div>
               </label>
               <label className="profile-label">
                 <strong>Credits: </strong>
-                <input type="text" name="credits" value={user?.credits} />
+                <div>{user?.credits}</div>
               </label>
             </div>
           ) : selectedTab === "settings" ? (
             <form className="settings-content" onSubmit={handleEdit}>
+              <h2>Settings</h2>
               <label>Display Name: </label>
               <input
                 type="text"
