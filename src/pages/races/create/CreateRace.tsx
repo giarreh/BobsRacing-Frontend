@@ -1,17 +1,29 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Race } from '../../../interfaces/IRace';
+import { Athlete } from '../../../interfaces/IAthlete';
 import { UserContext } from '../../../contexts/UserContext';
+import AtheleteItemRace from '../utils/AthleteItemRace';
 
 export default function CreateRace() {
   const { getAuthToken } = useContext(UserContext);
-  
+
   const [raceCreated, setRaceCreated] = useState(false);
+
+  // Athletes that have been fetched
+  const [fetchedAthletes, setFetchedAthletes] = useState<Athlete[]>([]);
+
+  // Athletes that have been selected to be in the race
+  const [selectedAthletes, setSelectedAthletes] = useState<Athlete[]>([]);
+
   const [race, setRace] = useState<Race>({
     raceId: 0,
     date: new Date().toISOString(),
   });
 
-  // Step 1:
+  // Control visibility of athlete list
+  const [isAthleteListVisible, setIsAthleteListVisible] = useState(false);
+
+  // Step 1: Create race for database
   const handleDateTime = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRace({ ...race, date: e.target.value });
   };
@@ -39,7 +51,41 @@ export default function CreateRace() {
     }
   };
 
-  // Step 2:
+  // Step 2: Fetch athletes when race is created
+  useEffect(() => {
+    if (raceCreated) {
+      const fetchAthletes = async () => {
+        console.log('Fetching athletes in create race');
+        try {
+          const response = await fetch('https://localhost:7181/api/Athlete', {
+            headers: {
+              Authorization: `Bearer ${getAuthToken()}`,
+              'Content-Type': 'application/json',
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          console.log(data);
+          setFetchedAthletes(data);
+        } catch (error) {
+          console.error('Error fetching athletes:', error);
+        }
+      };
+
+      fetchAthletes();
+    }
+  }, [raceCreated]);
+
+  // Step 3: Create raceAthlete for each selected athlete, assign them to the race
+  const handleCreateRaceAthletes = async (e: React.FormEvent) => {
+    e.preventDefault();
+  };
+
+
 
   return (
     <div className="race-list">
@@ -57,6 +103,27 @@ export default function CreateRace() {
           <h2>Race Created Successfully!</h2>
           <p>Race ID: {race.raceId}</p>
           <p>Race Date: {new Date(race.date).toLocaleString()}</p>
+          <button onClick={() => console.log(selectedAthletes)}>Log selected athletes</button>
+          <button onClick={() => setIsAthleteListVisible(!isAthleteListVisible)}>
+            {isAthleteListVisible ? 'Hide' : 'Show'} Athletes
+          </button>
+          {/* List of Athletes */}
+          {isAthleteListVisible && (
+            <div className="athlete-list-section">
+              <h1>Select up to 5 athletes to add</h1>
+              <div className="athlete-list">
+                {fetchedAthletes.map((athlete, index) => (
+                  <AtheleteItemRace
+                    key={index}
+                    athlete={athlete}
+                    index={index}
+                    selectedAthletes={selectedAthletes}
+                    setSelectedAthletes={setSelectedAthletes}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
