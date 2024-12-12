@@ -3,6 +3,7 @@ import { Race } from '../../../interfaces/IRace';
 import { Athlete } from '../../../interfaces/IAthlete';
 import { UserContext } from '../../../contexts/UserContext';
 import AtheleteItemRace from '../utils/AthleteItemRace';
+import { RaceAthlete } from '../../../interfaces/IRaceAthlete';
 
 export default function CreateRace() {
   const { getAuthToken } = useContext(UserContext);
@@ -15,13 +16,16 @@ export default function CreateRace() {
   // Athletes that have been selected to be in the race
   const [selectedAthletes, setSelectedAthletes] = useState<Athlete[]>([]);
 
+  const [raceAthletes, setRaceAthletes] = useState<RaceAthlete[]>([]);
+
+    // Control visibility of athlete list
+    const [isAthleteListVisible, setIsAthleteListVisible] = useState(true);
+
   const [race, setRace] = useState<Race>({
     raceId: 0,
     date: new Date().toISOString(),
   });
 
-  // Control visibility of athlete list
-  const [isAthleteListVisible, setIsAthleteListVisible] = useState(false);
 
   // Step 1: Create race for database
   const handleDateTime = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,6 +87,37 @@ export default function CreateRace() {
   // Step 3: Create raceAthlete for each selected athlete, assign them to the race
   const handleCreateRaceAthletes = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    try {
+      for (const athlete of selectedAthletes) {
+      console.log("Creating raceAthlete athlete for:", athlete);
+      fetch("https://localhost:7181/api/RaceAthlete", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${getAuthToken()}`,
+        },
+        body: JSON.stringify({
+          raceAthleteid: 0,
+          raceId: race.raceId,
+          athleteId: athlete.athleteId,
+          finalPosition: 0,
+        }),
+      }).then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data);
+          // Use the server response (data) to update the list
+          setRaceAthletes([...raceAthletes, data]);
+          console.log("athlete debug: ", data);
+        });
+      }
+      console.log("RACE ATHLETED SUBMITTED: ", raceAthletes);
+    } catch (error) {
+      console.error('Error:', error);
+      
+    }
+
+
   };
 
 
@@ -93,7 +128,7 @@ export default function CreateRace() {
       <form onSubmit={handleSubmit}>
         <label htmlFor="date">Date</label>
         <input type="datetime-local" onChange={handleDateTime} id="date" />
-        <button type="submit">Create</button>
+        {!raceCreated && <button type="submit">Create</button>}
       </form>
       <button onClick={() => console.log(race)}>Log</button>
 
@@ -107,6 +142,8 @@ export default function CreateRace() {
           <button onClick={() => setIsAthleteListVisible(!isAthleteListVisible)}>
             {isAthleteListVisible ? 'Hide' : 'Show'} Athletes
           </button>
+          {selectedAthletes.length === 5 && (
+            <button onClick={handleCreateRaceAthletes}>Create athletes</button>)}
           {/* List of Athletes */}
           {isAthleteListVisible && (
             <div className="athlete-list-section">
