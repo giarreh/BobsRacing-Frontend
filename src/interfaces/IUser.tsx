@@ -4,5 +4,6 @@ export interface User {
     password: string,
     username: string;
     credits: number;
-    role: string;
+    //role
+    "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
   }

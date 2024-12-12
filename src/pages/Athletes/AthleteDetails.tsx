@@ -109,7 +109,7 @@ export default function AthleteDetails() {
       <p>Slowest time: {athlete.slowestTime}</p>
 
       {/* Edit Athlete Section (Visible to Admin Only) */}
-      {user?.role === "Admin" && (
+      {user?.['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] === "Admin" && (
         <div>
           <h2>Edit Athlete</h2>
 

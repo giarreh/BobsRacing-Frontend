@@ -23,7 +23,8 @@ export default function Home() {
         <p>Username: {user?.username}</p>
         <p>Profile name: {user?.profilename}</p>
         <p>Id: {user?.id}</p>
-        <p>Role: {user?.role}</p>
+        {/*This works, but looks strange... */}
+        <p>Role: {user?.['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']}</p>
         <p>Credits: {user?.credits}</p>
       </div>
 

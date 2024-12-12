@@ -12,16 +12,15 @@ export default function ProfilePage() {
   const [backButtonVisible, setBackButtonVisible] = useState(false); // To track if the back button should be visible
 
   // Fetch the current loggedin user
-  const { getAuthToken } = useContext(UserContext);
-
-  const { user, getUserFromToken } = useContext(UserContext);
+  const { user, getAuthToken } = useContext(UserContext);
 
   const [userEdit, setUser] = useState<User>({
     id: 0,
     profilename: "",
-    username: user?.username,
+    username: '',
+    password: '',
     credits: 0,
-    role: "User",
+    "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "User",
   });
 
   // Function to handle tab selection

@@ -13,7 +13,7 @@ export default function Header() {
 
   const handleLogout = () => {
     clearAuthToken();
-    setUser(null);
+    setUser(null); // or provide a default JwtPayload object
     setDropdownVisible(false); // Close the dropdown on logout
   };
 

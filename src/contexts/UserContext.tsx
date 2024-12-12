@@ -27,10 +27,12 @@ interface MyToken {
     iss: string; // Issuer, e.g., "OLRacing"
     jti: string; // Unique identifier for the token, e.g., "b91026c3-afad-4cfe-9766-bfacc615ed54"
     profilename: string; // Profile name, e.g., "Toyo Baker1"
-    role: string; // User role, e.g., "User"
+    "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"?: string;
     sub: string; // Subject identifier, e.g., "tuyut"
     username: string; // Username, e.g., "tuyut"
 }
+
+
 
 // Create the context with a default value
 export const UserContext = createContext({} as UserContextType);
@@ -40,14 +42,18 @@ export const UserContext = createContext({} as UserContextType);
 export default function UserContextProvider({ children }: UserContextProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   // Get the authentication token from localStorage
+
+
 const getAuthToken = () => {
   return localStorage.getItem('authToken');
 };
+
 const setAuthToken = (token: string) => {
   return localStorage.setItem('authToken', token);
 };
 
-const getUserFromToken = () => {
+
+ const getUserFromToken = () => {
   const authToken = getAuthToken();
   if (!authToken) {
     throw new Error("No auth token found");
