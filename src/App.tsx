@@ -13,6 +13,7 @@ import PrivateRoutes from './components/PrivateRoutes';
 import ProfilePage from './pages/profile/ProfilePage';
 import Races from './pages/races/Races';
 import CreateRace from './pages/races/create/CreateRace';
+import RaceDetails from './pages/races/details/RaceDetails';
 
 const App: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ const App: React.FC = () => {
                   <Route path="*" element={<Error />}></Route>
                   <Route path="/" element={<Home />}></Route>
                   <Route path="/races" element={<Races />}></Route>
+                  <Route path='/races/:id' element={<RaceDetails/>} ></Route>  
                   <Route path="/createrace" element={<CreateRace />}></Route>
                   <Route path="/athletes" element={<Athletes />}></Route>
                   <Route

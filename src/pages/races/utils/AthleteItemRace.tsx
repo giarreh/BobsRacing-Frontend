@@ -1,8 +1,10 @@
 import { Athlete } from '../../../interfaces/IAthlete'; 
 
+
+// Called when selecting an athlete in the creation of a race.
 export default function AtheleteItemRace(
-  { athlete, index, setSelectedAthletes, selectedAthletes } : 
-  { athlete: Athlete, index: number, setSelectedAthletes: (athletes: Athlete[]) => void, selectedAthletes: Athlete[] }) {
+  { athlete, index, setSelectedAthletes, selectedAthletes,  } : 
+  { athlete: Athlete, index: number, setSelectedAthletes: (athletes: Athlete[]) => void, selectedAthletes: Athlete[]}) {
 
   const isSelected = selectedAthletes.some(a => a.athleteId === athlete.athleteId);
 

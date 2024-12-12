@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { UserContext } from '../../contexts/UserContext';
+import RaceItem from './Item/RaceItem';
 
 export default function Races() {
   const navigate = useNavigate();
@@ -37,6 +38,13 @@ export default function Races() {
     <div>
       <h1 onClick={() => navigate("/createrace")}>Create a race!</h1>
       <h1 onClick={() => console.log("Races: ", races)}>Log races</h1>
+      {/*List races*/}
+      <div>
+        {races.map((race, index) => (
+          <RaceItem key={index} race={race} index={index} />
+        ))}
+      </div>
+
     </div>
   )
 }

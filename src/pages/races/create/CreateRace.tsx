@@ -25,6 +25,7 @@ export default function CreateRace() {
   const [race, setRace] = useState<Race>({
     raceId: 0,
     date: new Date().toISOString(),
+    raceAthletes: [],
   });
 
 
@@ -50,7 +51,6 @@ export default function CreateRace() {
       console.log('Successfully created data: ', data);
       setRaceCreated(true);
       setRace(data);
-      alert('Successfully created a race, continue to the next step');
     } catch (error) {
       console.error('Error:', error);
     }
@@ -122,11 +122,14 @@ export default function CreateRace() {
   return (
     <div className="race-list">
       <h1>Create</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="date">Date</label>
-        <input type="datetime-local" onChange={handleDateTime} id="date" />
-        {!raceCreated && <button type="submit">Create</button>}
-      </form>
+      {!raceCreated && 
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="date">Date</label>
+          <input type="datetime-local" onChange={handleDateTime} id="date" />
+          <button type="submit">Create</button>
+        </form>
+      }
+
       <button onClick={() => console.log(race)}>Log</button>
 
       {/* Conditionally render this div if raceId is not empty */}
@@ -160,6 +163,7 @@ export default function CreateRace() {
           )}
         </div>
       )}
+
     </div>
   );
 }
