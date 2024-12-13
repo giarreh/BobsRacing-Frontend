@@ -16,7 +16,7 @@ export default function RaceItem({
   return (
     <div className='race-item' key={index} onClick={handleNavigate}>
       <p>Race ID: {race.raceId} </p>
-      <p>Date of race: {race.date.toLocaleString()}</p>
+      <p>Date of race: {race.date?.toString()}</p>
       <h1>Participants</h1>
       <div className='race-participants'>
       </div>

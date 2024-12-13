@@ -5,6 +5,7 @@ import { Race } from '../../../interfaces/IRace';
 import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
 import { Runner } from '../utils/IRunner';
 import { Results } from '../utils/IResults';
+import axios from 'axios';
 export default function RaceDetails() {
   const { id } = useParams();
   const { getAuthToken } = useContext(UserContext);
@@ -16,6 +17,8 @@ export default function RaceDetails() {
   });
   const [runners, setRunners] = useState<Runner[]>([]);
   const [results, setResults] = useState<Results | null>(null); // Initialize results as null
+  const [raceStarted, setRaceStarted] = useState(false);
+
 
   // Fetch race data by ID
   const fetchRace = async () => {
@@ -68,31 +71,37 @@ export default function RaceDetails() {
     };
   }, []);
 
-  // Start race function:
   const startRace = useCallback(async () => {
     try {
-      const response = await fetch(
+      const response = await axios.post(
         `https://localhost:7181/api/RaceSimulation/start?raceId=${id}`,
+        {},
         {
-          method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${getAuthToken()}`,
           },
         }
       );
-      const data: Results = await response.json();
+      setRaceStarted(true);
+      const data: Results = response.data;
       console.log("Race results:", data);
       setResults(data);
     } catch (err) {
       console.error("Error starting race: ", err);
     }
   }, []);
+  
+
+
+
 
   return (
     <div>
       <h1 onClick={() => console.log(results)} >Race with ID: {id}</h1>
-      <button onClick={startRace}>Start race!!</button>
+      <button onClick={startRace} disabled={raceStarted}>
+        {raceStarted ? "Race in Progress" : "Start Race!!"}
+      </button>
       <div className="track">
         {runners.map((runner, index) => (
           <div key={`${runner.name}-${index}`} className="runner">
