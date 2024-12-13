@@ -4,4 +4,5 @@ export interface Race {
   raceId: number;
   date: Date | string;
   raceAthletes: RaceAthlete[];
+  isFinished: boolean;
 }

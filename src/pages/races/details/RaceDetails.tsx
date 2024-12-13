@@ -14,10 +14,12 @@ export default function RaceDetails() {
     raceId: 0,
     date: new Date(),
     raceAthletes: [],
+    isFinished: false,
   });
   const [runners, setRunners] = useState<Runner[]>([]);
   const [results, setResults] = useState<Results | null>(null); // Initialize results as null
   const [raceStarted, setRaceStarted] = useState(false);
+  const [showResult, setShowResult] = useState(false);
 
 
   // Fetch race data by ID
@@ -35,6 +37,8 @@ export default function RaceDetails() {
           console.log("Successfully fetched race: ", data);
           setRace(data);
         });
+
+
     } catch (error) {
       console.error("Error fetching race", error);
     }
@@ -60,6 +64,13 @@ export default function RaceDetails() {
     newConnection.on("ReceiveRaceUpdate", (updatedRunners: Runner[]) => {
       console.log("Updated runners:", updatedRunners);
       setRunners(updatedRunners);
+      if(!raceStarted){
+        setRaceStarted(true);
+      }
+      if (updatedRunners && updatedRunners.some(runner => runner.finalPosition !== null)) {
+        setShowResult(true);
+      }
+
     });
 
     setConnection(newConnection);
@@ -73,7 +84,8 @@ export default function RaceDetails() {
 
   const startRace = useCallback(async () => {
     try {
-      const response = await axios.post(
+      setRaceStarted(true);
+      await axios.post(
         `https://localhost:7181/api/RaceSimulation/start?raceId=${id}`,
         {},
         {
@@ -82,19 +94,13 @@ export default function RaceDetails() {
             Authorization: `Bearer ${getAuthToken()}`,
           },
         }
-      );
-      setRaceStarted(true);
-      const data: Results = response.data;
-      console.log("Race results:", data);
-      setResults(data);
+      ).then((response) => response.data).then((data) => {
+        setResults(data);
+      })
     } catch (err) {
       console.error("Error starting race: ", err);
     }
   }, []);
-  
-
-
-
 
   return (
     <div>
@@ -109,17 +115,17 @@ export default function RaceDetails() {
           </div>
         ))}
       </div>
-      {results && (
+      {(results && showResult) && (
         <div>
           <h2>Race Results</h2>
           <p>WINNER: {results?.positions["1"]?.name}</p>
-
           <table>
             <thead>
               <tr>
                 <th>Final Position</th>
                 <th>Athlete</th>
                 <th>Race Athlete ID</th>
+                <th>Finish time</th>
               </tr>
             </thead>
             <tbody>
@@ -128,6 +134,7 @@ export default function RaceDetails() {
                   <td>{athlete.finalPosition}</td>
                   <td>{athlete.name}</td>
                   <td>{athlete.raceAthleteID}</td>
+                  <td>{athlete.finishTime}</td>
                 </tr>
               ))}
             </tbody>
