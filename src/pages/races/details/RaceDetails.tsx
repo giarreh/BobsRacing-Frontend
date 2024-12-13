@@ -6,6 +6,7 @@ import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
 import { Runner } from '../utils/IRunner';
 import { Results } from '../utils/IResults';
 import axios from 'axios';
+
 export default function RaceDetails() {
   const { id } = useParams();
   const { getAuthToken } = useContext(UserContext);
@@ -64,21 +65,24 @@ export default function RaceDetails() {
     newConnection.on("ReceiveRaceUpdate", (updatedRunners: Runner[]) => {
       console.log("Updated runners:", updatedRunners);
       setRunners(updatedRunners);
-      if(!raceStarted){
+      if (!raceStarted) {
         setRaceStarted(true);
       }
-      if (updatedRunners && updatedRunners.some(runner => runner.finalPosition !== null)) {
-        setShowResult(true);
-      }
+    });
 
+    // Listen for race results broadcast
+    newConnection.on("ReceiveRaceResults", (data) => {
+      console.log("Race results received:", data);
+      setResults(data);
+      setShowResult(true);
     });
 
     setConnection(newConnection);
 
     return () => {
-      newConnection.stop().catch((err) =>
-        console.error("Error stopping connection", err)
-      );
+      newConnection
+        .stop()
+        .catch((err) => console.error("Error stopping connection", err));
     };
   }, []);
 
