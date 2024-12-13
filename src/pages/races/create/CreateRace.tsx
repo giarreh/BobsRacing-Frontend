@@ -4,10 +4,11 @@ import { Athlete } from '../../../interfaces/IAthlete';
 import { UserContext } from '../../../contexts/UserContext';
 import AtheleteItemRace from '../utils/AthleteItemRace';
 import { RaceAthlete } from '../../../interfaces/IRaceAthlete';
+import { useNavigate } from 'react-router';
 
 export default function CreateRace() {
   const { getAuthToken } = useContext(UserContext);
-
+  const navigate = useNavigate();
   const [raceCreated, setRaceCreated] = useState(false);
 
   // Athletes that have been fetched
@@ -24,6 +25,7 @@ export default function CreateRace() {
   const [race, setRace] = useState<Race>({
     raceId: 0,
     date: new Date().toISOString(),
+    raceAthletes: [],
   });
 
 
@@ -49,7 +51,6 @@ export default function CreateRace() {
       console.log('Successfully created data: ', data);
       setRaceCreated(true);
       setRace(data);
-      alert('Successfully created a race, continue to the next step');
     } catch (error) {
       console.error('Error:', error);
     }
@@ -85,7 +86,7 @@ export default function CreateRace() {
   }, [raceCreated]);
 
   // Step 3: Create raceAthlete for each selected athlete, assign them to the race
-  const handleCreateRaceAthletes = async (e: React.FormEvent) => {
+  const handleCreateRace = (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
@@ -112,24 +113,23 @@ export default function CreateRace() {
         });
       }
       console.log("RACE ATHLETED SUBMITTED: ", raceAthletes);
+      navigate("/races");
     } catch (error) {
       console.error('Error:', error);
       
     }
-
-
   };
-
-
-
   return (
     <div className="race-list">
       <h1>Create</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="date">Date</label>
-        <input type="datetime-local" onChange={handleDateTime} id="date" />
-        {!raceCreated && <button type="submit">Create</button>}
-      </form>
+      {!raceCreated && 
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="date">Date</label>
+          <input type="datetime-local" onChange={handleDateTime} id="date" />
+          <button type="submit">Create</button>
+        </form>
+      }
+
       <button onClick={() => console.log(race)}>Log</button>
 
       {/* Conditionally render this div if raceId is not empty */}
@@ -138,12 +138,12 @@ export default function CreateRace() {
           <h2>Race Created Successfully!</h2>
           <p>Race ID: {race.raceId}</p>
           <p>Race Date: {new Date(race.date).toLocaleString()}</p>
-          <button onClick={() => console.log(selectedAthletes)}>Log selected athletes</button>
+          {/*           <button onClick={() => console.log(selectedAthletes)}>Log selected athletes</button> */}
           <button onClick={() => setIsAthleteListVisible(!isAthleteListVisible)}>
             {isAthleteListVisible ? 'Hide' : 'Show'} Athletes
           </button>
           {selectedAthletes.length === 5 && (
-            <button onClick={handleCreateRaceAthletes}>Create athletes</button>)}
+            <button onClick={handleCreateRace}>Create Race!</button>)}
           {/* List of Athletes */}
           {isAthleteListVisible && (
             <div className="athlete-list-section">
@@ -163,6 +163,7 @@ export default function CreateRace() {
           )}
         </div>
       )}
+
     </div>
   );
 }

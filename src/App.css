@@ -1,10 +1,32 @@
 /* App.css */
 /* Content wrapper */
-.App {
+
+.home-page-stuff {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start; /* Align content at the start */
+  gap: 20px; /* Add spacing between sections */
+  padding: 20px; /* Optional: Add padding for better appearance */
+  width: 100%;
+  height: 100vh;
+}
+
+.home-page-stuff > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Add spacing between elements inside each section */
+}
+
+.home-page-stuff h1, .home-page-stuff p {
+  margin: 0;
+  padding: 0;
+}
+
+.App {
   /*height: 100vh; /* Ensure full height layout */
   /*overflow: hidden; /* Prevent unnecessary scroll issues */
+    height: 100vh;
+    width: 100%;
 }
 
 .header {
@@ -25,9 +47,14 @@
 .content-wrapper {
   margin-top: 10vh; /* Matches the height of the fixed header */
   flex: 1; /* Allow content to fill remaining space */
-  padding: 0 20px; /* Add some padding to the edges */
+  padding: 0px 0px 0px 0px; /* Add some padding to the edges */
   overflow-y: scroll;
   min-height: 100vh;
+  scrollbar-width: none;
+}
+
+.content-wrapper::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Edge */
 }
 
 .header-left {

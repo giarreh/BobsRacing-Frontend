@@ -6,3 +6,27 @@ background-repeat: no-repeat;
 background-size: contain;
 background-position: center;
 }
+
+.App {
+  /*height: 100vh; /* Ensure full height layout */
+  /*overflow: hidden; /* Prevent unnecessary scroll issues */
+    height: 100%;
+    width: 100%;
+}
+
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Ensures padding does not affect element size */
+}
+
+html, body {
+    height: 100%; /* Ensures full height */
+    width: 100%; /* Ensures full width */
+}
+
+#root {
+    height: 100%; /* Ensures the root element fills the viewport */
+    width: 100%;
+}
