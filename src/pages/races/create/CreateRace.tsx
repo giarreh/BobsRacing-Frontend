@@ -26,6 +26,7 @@ export default function CreateRace() {
     raceId: 0,
     date: new Date().toISOString(),
     raceAthletes: [],
+    isFinished: false,
   });
 
 
