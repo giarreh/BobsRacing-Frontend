@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 
 export default function Header() {
-  const { user, setUser, clearAuthToken } = useContext(UserContext);
+  const { user, setUser, clearAuthToken, getAuthToken } = useContext(UserContext);
   const navigate = useNavigate();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [creditAmount, setCreditAmount] = useState<number | string>("");
 
   const toggleDropdown = () => {
     setDropdownVisible((prev) => !prev);
@@ -21,7 +22,55 @@ export default function Header() {
 
   // Modal for add credits
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setCreditAmount(""); 
+    setIsModalOpen(false);
+  };
+
+  const handleAddCredits = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!creditAmount || Number(creditAmount) <= 0) {
+      alert("Please enter a valid credit amount.");
+      return;
+    }
+
+    const updatedCredits = Number(user?.credits) + Number(creditAmount);
+
+    // payload for credits
+    const payload = {
+      profilename: user?.profilename,
+      username: user?.username,
+      password: "string", 
+      credits: updatedCredits,
+      role: user?.role, 
+    };
+
+    // update user credits
+    fetch(`https://localhost:7181/api/User/${user?.id}/credits`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        //return response.json();
+      })
+      .then((data) => {
+        setUser({ ...user, credits: updatedCredits }); // Update the user context
+        alert("Credits added successfully.");
+        closeModal();
+      })
+      .catch((error) => {
+        console.error("Error adding credits:", error);
+        alert("Error adding credits.");
+      });
+  };
 
   return (
     <header className="header">
@@ -32,7 +81,7 @@ export default function Header() {
             <div onClick={() => navigate("/")}>Home</div>
             <div onClick={() => navigate("/profile")}>Profile</div>
             <div onClick={() => navigate("/races")}>Races</div>
-            <div /*onClick={() => navigate("/")} */>Betting</div>
+            <div /*onClick={() => navigate("/")}*/>Betting</div>
             <div onClick={() => navigate("/athletes")}>Athletes</div>
           </div>
           {/* Right side: Logout */}
@@ -56,7 +105,6 @@ export default function Header() {
                   <div
                     onClick={() => {
                       openModal();
-                      // setDropdownVisible(false);
                     }}
                   >
                     <p>Add credits</p>
@@ -68,10 +116,15 @@ export default function Header() {
                     contentLabel="Add Credits Modal"
                   >
                     <h2>Add Credits</h2>
-                    <form>
+                    <form onSubmit={handleAddCredits}>
                       <label>
                         Amount:
-                        <input type="number" placeholder="Enter amount" />
+                        <input
+                          type="number"
+                          placeholder="Enter amount"
+                          value={creditAmount}
+                          onChange={(e) => setCreditAmount(e.target.value)}
+                        />
                       </label>
                       <button type="submit">Add Credits</button>
                     </form>
