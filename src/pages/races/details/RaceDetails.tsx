@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState, useCallback } from 'react';
-import { useParams } from 'react-router'
+import { useParams } from 'react-router';
 import { UserContext } from '../../../contexts/UserContext';
 import { Race } from '../../../interfaces/IRace';
-import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
+import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { Runner } from '../utils/IRunner';
 import { Results } from '../utils/IResults';
 import axios from 'axios';
+import { RaceAthlete } from '../../../interfaces/IRaceAthlete';
 
 export default function RaceDetails() {
   const { id } = useParams();
@@ -22,7 +23,6 @@ export default function RaceDetails() {
   const [raceStarted, setRaceStarted] = useState(false);
   const [showResult, setShowResult] = useState(false);
 
-
   // Fetch race data by ID
   const fetchRace = async () => {
     console.log("Fetching race with ID: ", id);
@@ -37,9 +37,12 @@ export default function RaceDetails() {
         .then((data) => {
           console.log("Successfully fetched race: ", data);
           setRace(data);
-        });
+        }).then( () => {
+          // If race.
+        })
 
 
+      
     } catch (error) {
       console.error("Error fetching race", error);
     }
@@ -50,7 +53,7 @@ export default function RaceDetails() {
     fetchRace();
   }, [id]);
 
-  // Set up SignalR connection
+  // Check if the race has finished (already has results)
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
       .withUrl("https://localhost:7181/raceSimulationHub")
@@ -84,7 +87,7 @@ export default function RaceDetails() {
         .stop()
         .catch((err) => console.error("Error stopping connection", err));
     };
-  }, []);
+  }, [raceStarted]);
 
   const startRace = useCallback(async () => {
     try {
@@ -100,17 +103,19 @@ export default function RaceDetails() {
         }
       ).then((response) => response.data).then((data) => {
         setResults(data);
-      })
+      });
     } catch (err) {
       console.error("Error starting race: ", err);
     }
-  }, []);
+  }, [id, getAuthToken]);
 
   return (
     <div>
-      <h1 onClick={() => console.log(results)} >Race with ID: {id}</h1>
+      <h1 onClick={() => console.log(results)}>Race with ID: {id}</h1>
       <button onClick={startRace} disabled={raceStarted}>
         {raceStarted ? "Race in Progress" : "Start Race!!"}
+      </button>
+      <button onClick={() => console.log("RACE: ", race)}>
       </button>
       <div className="track">
         {runners.map((runner, index) => (
@@ -119,7 +124,7 @@ export default function RaceDetails() {
           </div>
         ))}
       </div>
-      {(results && showResult) && (
+      {(showResult && results) && (
         <div>
           <h2>Race Results</h2>
           <p>WINNER: {results?.positions["1"]?.name}</p>
@@ -147,6 +152,4 @@ export default function RaceDetails() {
       )}
     </div>
   );
-  
 }
-
