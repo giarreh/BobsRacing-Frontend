@@ -16,6 +16,7 @@ export default function RaceDetails() {
   const [results, setResults] = useState<Results | null>(null); // Initialize results as null
   const [raceStarted, setRaceStarted] = useState(false);
   const [showResult, setShowResult] = useState(false);
+  const [loading, setLoading] = useState(true); // New loading state
   const [race, setRace] = useState<Race>({
     raceId: 0,
     date: new Date(),
@@ -37,30 +38,33 @@ export default function RaceDetails() {
         .then(async (data) => {
           console.log("Successfully fetched race: ", data);
           // sort by data.raceAthletes.position
-          data.raceAthletes.sort((a: RaceAthlete, b: RaceAthlete) => a.finalPosition - b.finalPosition);
+          data.raceAthletes.sort(
+            (a: RaceAthlete, b: RaceAthlete) =>
+              a.finalPosition - b.finalPosition
+          );
           setRace(data);
-      // Fetch results only if the race is finished
-      if (data.isFinished) {
-        const resultsResponse = await fetch(
-          `https://localhost:7181/api/RaceSimulation/results/${id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${getAuthToken()}`,
-            },
+          // Fetch results only if the race is finished
+          if (data.isFinished) {
+            const resultsResponse = await fetch(
+              `https://localhost:7181/api/RaceSimulation/results/${id}`,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${getAuthToken()}`,
+                },
+              }
+            );
+            const resultsData = await resultsResponse.json();
+            setResults(resultsData);
+            setShowResult(true);
           }
-        );
-        const resultsData = await resultsResponse.json();
-        setResults(resultsData);
-        setShowResult(true);
-        }});
+        });
     } catch (error) {
       console.error("Error fetching race", error);
+    } finally {
+      setLoading(false); // Mark loading as complete
     }
   };
-
-
-
 
   // Fetch race data by ID on mount
   useEffect(() => {
@@ -105,18 +109,21 @@ export default function RaceDetails() {
   const startRace = useCallback(async () => {
     try {
       setRaceStarted(true);
-      await axios.post(
-        `https://localhost:7181/api/RaceSimulation/start?raceId=${id}`,
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getAuthToken()}`,
-          },
-        }
-      ).then((response) => response.data).then((data) => {
-        setResults(data);
-      })
+      await axios
+        .post(
+          `https://localhost:7181/api/RaceSimulation/start?raceId=${id}`,
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${getAuthToken()}`,
+            },
+          }
+        )
+        .then((response) => response.data)
+        .then((data) => {
+          setResults(data);
+        });
     } catch (err) {
       console.error("Error starting race: ", err);
     }
@@ -124,13 +131,10 @@ export default function RaceDetails() {
 
   return (
     <div>
-      <h1 onClick={() => console.log(results)} >Race with ID: {id}</h1>
-      {!race.isFinished && (
-        <button onClick={startRace} disabled={raceStarted}>
-          {raceStarted ? "Race in Progress" : "Start Race!!"}
-        </button>
+      <h1 onClick={() => console.log(results)}>Race with ID: {id}</h1>
+    {!loading && !race.isFinished && (
+      <button onClick={startRace} disabled={raceStarted}>          {raceStarted ? "Race in Progress" : "Start Race!!"}        </button> 
       )}
-
       <div className="track">
         {runners.map((runner, index) => (
           <div key={`${runner.name}-${index}`} className="runner">
@@ -138,7 +142,7 @@ export default function RaceDetails() {
           </div>
         ))}
       </div>
-      {(results && showResult) && (
+      {results && showResult && (
         <div>
           <h2>Race Results</h2>
           <p>WINNER: {results?.positions[0]?.name}</p>
@@ -166,6 +170,5 @@ export default function RaceDetails() {
       )}
     </div>
   );
-  
 }
 
