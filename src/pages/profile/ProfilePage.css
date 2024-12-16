@@ -1,14 +1,11 @@
 /* ProfilePage.css */
 .profile-page {
   display: flex;
-  flex-direction: row;
-  height: 100% - 10vh;
-  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Ensure the profile page takes full height */
+  position: relative;
 }
 
 .sidebar {
-  display: flex;
-  flex-direction: column;
   width: 250px; /* Width of the sidebar */
   background-color: #f4f4f4;
   padding: 20px;
@@ -40,7 +37,7 @@
 }
 
 .sidebar li.active {
-  background-color: #426334;
+  background-color: #007bff;
   color: white;
 }
 
@@ -64,40 +61,30 @@
 }
 
 .main-content {
-  display: flex;
-  flex-direction: column;
-  position: relative; /* To ensure proper layout */
-  left: 250px; /* Offset the content by the width of the sidebar */
-  width: calc(100vw - 250px); /* Full width minus the sidebar width */
-  margin-left: 20px;
+  margin-left: 250px; /* Offset the main content to the right of the sidebar */
+  padding: 20px;
   background-color: #fff;
   flex-grow: 1;
   height: 100vh;
-  transition: left 0.3s ease; /* Smooth transition when the sidebar is toggled */
+  overflow-y: auto; /* Allow scrolling if content overflows */
+  transition: margin-left 0.3s ease; /* Smooth transition when the sidebar is toggled */
 }
 
 .general-content {
-  margin-top: 20px;
-  height: 100vh;
-  width: 100vw;
+  margin-top: 5em;
 }
 
 .settings-content {
-  margin-top: 20px;
-  height: 100vh;
-  width: 100vw;
+  margin-top: 5em;
 }
 
 .bet-history-content {
-  margin-top: 20px;
-  height: 100vh;
-  width: 100vw;
+  margin-top: 5em;
 }
 
 .profile-label {
   display: block;
   margin-bottom: 10px;
-  margin-top: 10px;
 }
 
 /* For mobile devices (below 768px) */
@@ -111,6 +98,7 @@
   }
 
   .main-content {
+    margin-left: 5em; /* Remove offset for small screens */
   }
 
   .hamburger-icon {
@@ -143,6 +131,7 @@
   }
 
   .main-content {
+    margin-left: 290px; /* Sidebar offset */
   }
 
   .hamburger-icon {

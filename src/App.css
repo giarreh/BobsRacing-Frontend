@@ -143,3 +143,76 @@
 .controls {
   padding: 50px;
 }
+
+
+/* Modal Styling */
+
+/* Style the modal overlay */
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.6); /* Darken background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999; /* Ensure the modal appears on top */
+}
+
+/* Style the modal content */
+.ReactModal__Content {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 90%; /* Set width */
+  max-width: 400px; /* Maximum width */
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* Title inside modal */
+.ReactModal__Content h2 {
+  margin-bottom: 20px;
+}
+
+/* Style input fields and buttons */
+.ReactModal__Content input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.ReactModal__Content button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ReactModal__Content button:hover {
+  background-color: #45a049;
+}
+
+.ReactModal__Content button:focus {
+  outline: none;
+}
+
+/* Close button styling */
+.ReactModal__Content button.close-btn {
+  background-color: #f44336; /* Red background for close button */
+  margin-top: 10px;
+}
+
+.ReactModal__Content button.close-btn:hover {
+  background-color: #d32f2f; /* Darker red on hover */
+}

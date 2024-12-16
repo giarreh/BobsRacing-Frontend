@@ -12,29 +12,30 @@ export default function Athletes() {
   const { user, getAuthToken } = useContext(UserContext); 
 
 
-  useEffect(() => {
-    const fetchAthletes = async () => {
-      console.log('Fetching athletes');
-      try {
-        const response = await fetch('https://localhost:7181/api/Athlete', {
-          headers: {
-            'Authorization': `Bearer ${getAuthToken()}`,
-            'Content-Type': 'application/json',
-          },
-        });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+   const fetchAthletes = async () => {
+    console.log('Fetching athletes');
+    try {
+      const response = await fetch('https://localhost:7181/api/Athlete', {
+        headers: {
+          'Authorization': `Bearer ${getAuthToken()}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
-        const data = await response.json();
-        console.log(data);
-        setAthletes(data);
-      } catch (error) {
-        console.error('Error fetching athletes:', error);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    };
 
+      const data = await response.json();
+      console.log(data);
+      setAthletes(data);
+    } catch (error) {
+      console.error('Error fetching athletes:', error);
+    }
+  };
+
+  useEffect(() => {
     fetchAthletes();
   }, []);
 

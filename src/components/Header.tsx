@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 
 export default function Header() {
-  const { user, setUser, clearAuthToken, getAuthToken } = useContext(UserContext);
+  const { user, setUser, clearAuthToken, getAuthToken } =
+    useContext(UserContext);
   const navigate = useNavigate();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,7 +24,7 @@ export default function Header() {
   // Modal for add credits
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
-    setCreditAmount(""); 
+    setCreditAmount("");
     setIsModalOpen(false);
   };
 
@@ -41,9 +42,9 @@ export default function Header() {
     const payload = {
       profilename: user?.profilename,
       username: user?.username,
-      password: "string", 
+      password: "string",
       credits: updatedCredits,
-      role: user?.role, 
+      role: user?.role,
     };
 
     // update user credits
@@ -114,6 +115,8 @@ export default function Header() {
                     isOpen={isModalOpen}
                     onRequestClose={closeModal}
                     contentLabel="Add Credits Modal"
+                    className="ReactModal__Content" // Apply custom content class
+                    overlayClassName="ReactModal__Overlay" // Apply custom overlay class
                   >
                     <h2>Add Credits</h2>
                     <form onSubmit={handleAddCredits}>
@@ -128,7 +131,9 @@ export default function Header() {
                       </label>
                       <button type="submit">Add Credits</button>
                     </form>
-                    <button onClick={closeModal}>Close</button>
+                    <button className="close-btn" onClick={closeModal}>
+                      Close
+                    </button>
                   </Modal>
                 </div>
                 <div>
