@@ -12,7 +12,8 @@
 
 /* Section styling */
 .create-athlete-section,
-.athlete-list-section {
+.athlete-list-section,
+.update-athlete-section {
   display: grid;
   width: 100%;
   background-color: #f9f9f9;
@@ -36,6 +37,7 @@
   display: flex;
   gap: 10px;
   align-items: center;
+  flex-wrap: wrap; /* Allow form items to wrap on smaller screens */
 }
 
 .athlete-form input {
@@ -43,6 +45,7 @@
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  width: 100%; /* Full width on small screens */
 }
 
 .athlete-form input:focus {
@@ -51,7 +54,7 @@
 }
 
 .submit-button {
-  justify-self:center;
+  justify-self: center;
   padding: 10px;
   margin: 10px;
   font-size: 14px;
@@ -62,6 +65,7 @@
   cursor: pointer;
   transition: background-color 0.3s;
   max-width: 100px;
+  width: 100%; /* Make button full width on small screens */
 }
 
 .submit-button:hover {
@@ -71,8 +75,8 @@
 /* athlete list */
 .athlete-list {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 items per row */
-  gap: 10px; /* Space between grid items */
+  grid-template-columns: repeat(5, 1fr); /* 5 items per row on large screens */
+  gap: 10px;
 }
 
 .athlete-item {
@@ -124,13 +128,13 @@
 }
 
 .edit-athlete-form input:focus {
-  border-color: #4CAF50;
+  border-color: #4caf50;
 }
 
 .edit-athlete-form button {
   padding: 10px;
   font-size: 1.2rem;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 5px;
@@ -154,6 +158,8 @@
   transition: background-color 0.3s ease;
   max-width: fit-content;
 }
+
+/* athlete details */
 .athlete-details {
   margin-top: 10px;
   padding: 10px;
@@ -164,4 +170,53 @@
   background-color: #f9f9f9;
   border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .create-athlete-section h1,
+  .athlete-list-section h1 {
+    font-size: 18px;
+  }
+
+  .athlete-form input,
+  .submit-button {
+    width: 100%; /* Ensure full-width form fields and button on mobile */
+  }
+
+  .athlete-list {
+    grid-template-columns: repeat(2, 1fr); /* 2 items per row on mobile */
+  }
+
+  .athlete-item {
+    font-size: 14px;
+  }
+
+  .athlete-details {
+    width: 100%; /* Ensure details section uses full width */
+  }
+}
+
+/* For extra small devices (up to 480px) */
+@media (max-width: 480px) {
+  .create-athlete-section h1,
+  .athlete-list-section h1 {
+    font-size: 16px; /* Slightly smaller font for very small screens */
+  }
+
+  .athlete-item {
+    font-size: 12px; /* Reduce text size for smaller screens */
+  }
+
+  .athlete-list {
+    grid-template-columns: 1fr; /* 1 item per row on very small screens */
+  }
+
+  .submit-button {
+    max-width: none;
+  }
+
+  .athlete-form input {
+    font-size: 12px; /* Smaller input fields on very small screens */
+  }
 }

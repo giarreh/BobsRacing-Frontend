@@ -10,6 +10,7 @@ export default function ProfilePage() {
   //const { id } = useParams();
   const [selectedTab, setSelectedTab] = useState("general");
   const [sidebarOpen, setSidebarOpen] = useState(false); // To track sidebar open/close state
+  const [hamburgerIcon, setHamburgerIcon] = useState(true);
   const [backButtonVisible, setBackButtonVisible] = useState(false); // To track if the back button should be visible
 
   // Fetch the current loggedin user
@@ -26,6 +27,7 @@ export default function ProfilePage() {
     if (window.innerWidth <= 768) {
       setSidebarOpen(false); // Close the sidebar when an item is selected on mobile
       setBackButtonVisible(false); // Hide back button when item is selected
+      setHamburgerIcon(true);
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -34,12 +36,14 @@ export default function ProfilePage() {
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
     setBackButtonVisible(true); // Show back button when hamburger menu is clicked
+    setHamburgerIcon(false);
   };
 
   // Function to handle back button click
   const handleBackButtonClick = () => {
     setSidebarOpen(false);
     setBackButtonVisible(false);
+    setHamburgerIcon(true);
   };
 
   // Handle submissions
@@ -53,7 +57,7 @@ export default function ProfilePage() {
 
     try {
       console.log(JSON.stringify(userEdit));
-      console.log(user?.id)
+      console.log(user?.id);
       fetch(`https://localhost:7181/api/User/${user?.id}/credentials`, {
         method: "PUT",
         headers: {
@@ -82,11 +86,17 @@ export default function ProfilePage() {
     <>
       <div className="profile-page">
         {/* Sidebar */}
-        <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
-          {/* Back Button on small screen */}
+
+        {hamburgerIcon && (
           <div className="hamburger-icon" onClick={toggleSidebar}>
+            {" "}
             ☰
           </div>
+        )}
+
+        <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+          {/* Back Button on small screen */}
+
           {backButtonVisible && (
             <button className="back-button" onClick={handleBackButtonClick}>
               &#8592; Back

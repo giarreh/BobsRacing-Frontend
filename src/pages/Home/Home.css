@@ -1,0 +1,221 @@
+/* General Styles */
+.home-page-stuff {
+  font-family: Arial, sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Ensures padding and borders don't overflow */
+}
+
+.banner {
+  position: relative;
+  background-image: url("../../assets/Usain_Bolt_Sprint.jpg");
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  text-align: center;
+  padding: 100px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7), -2px -2px 4px rgba(0, 0, 0, 0.7),
+    2px -2px 4px rgba(0, 0, 0, 0.7), -2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.banner-text h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.banner-text p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.banner-text button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.banner-text button:hover {
+  background-color: #e55b00;
+}
+
+.introduction {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.introduction h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.introduction p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.athletes {
+  padding: 40px 20px;
+  background-color: #f8f8f8;
+}
+
+.athletes h2 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Athlete Cards Layout */
+.athletes-cards {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(250px, 1fr)
+  ); /* Default grid for smaller screens */
+  gap: 20px;
+  justify-items: center;
+  padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.athlete-card {
+  background-color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100%;
+  max-width: 250px; /* Limiting card size */
+  box-sizing: border-box;
+  margin: 0 auto; /* Center the cards */
+}
+
+.athlete-card img {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.athlete-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.athlete-card p {
+  font-size: 1rem;
+  color: #777;
+}
+
+/* Stats Section */
+.race-stats {
+  padding: 40px 20px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.race-stats h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.stats-card {
+  background-color: #f1f1f1;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.stats-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.stats-card p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .banner-text h2 {
+    font-size: 2rem;
+  }
+
+  .banner-text p {
+    font-size: 1rem;
+  }
+
+  .athletes h2 {
+    font-size: 1.5rem;
+  }
+
+  .athletes-cards {
+    grid-template-columns: 1fr; /* Single column layout on small screens */
+    padding: 0 10px;
+  }
+
+  .athlete-card {
+    width: 90%;
+    max-width: 280px;
+  }
+
+  .stats-card {
+    width: 90%;
+  }
+
+  .race-stats h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-text h2 {
+    font-size: 1.8rem;
+  }
+
+  .athlete-card {
+    width: 85%;
+    max-width: 220px;
+  }
+
+  .stats-card {
+    width: 90%;
+  }
+}
+
+/* For larger screens (Laptop and above) */
+@media (min-width: 769px) {
+  .athletes {
+    display: flex;
+    justify-content: space-around;
+    padding: 50px 30px;
+    background-color: #f7f7f7;
+  }
+
+  .athlete-card {
+    text-align: center;
+    width: 200px; /* Limiting width on larger screens */
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .athlete-card img {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  .athlete-card h3 {
+    margin-top: 10px;
+    font-size: 1.5rem;
+  }
+}
