@@ -37,10 +37,6 @@ export default function RaceDetails() {
         .then(async (data) => {
           console.log("Successfully fetched race: ", data);
           // sort by data.raceAthletes.position
-          data.raceAthletes.sort(
-            (a: RaceAthlete, b: RaceAthlete) =>
-              a.finalPosition - b.finalPosition
-          );
           setRace(data);
           // Fetch results only if the race is finished
           if (data.isFinished) {
@@ -145,7 +141,7 @@ export default function RaceDetails() {
       {results && showResult && (
         <div>
           <h2>Race Results</h2>
-          <p>WINNER: {results?.positions[0]?.name}</p>
+          <p>WINNER: {results?.positions?.[0]?.name || results?.positions?.[1]?.name}</p>
           <table>
             <thead>
               <tr>
