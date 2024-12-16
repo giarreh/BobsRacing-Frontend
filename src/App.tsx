@@ -1,7 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import AppContextProvider from './contexts/AppContext';
 import Home from './pages/Home';
 import Error from './pages/Error';
 import SignIn from './pages/signIn/SignIn';
@@ -14,11 +13,12 @@ import ProfilePage from './pages/profile/ProfilePage';
 import Races from './pages/races/Races';
 import CreateRace from './pages/races/create/CreateRace';
 import RaceDetails from './pages/races/details/RaceDetails';
+import { SignalRProvider } from './contexts/SignalR/SignalRContext';
 
 const App: React.FC = () => {
   return (
     <Router>
-      <AppContextProvider>
+      <SignalRProvider>
         <UserContextProvider>
           <div className="App">
             <div className="content-wrapper">
@@ -43,7 +43,7 @@ const App: React.FC = () => {
             </div>
           </div>
         </UserContextProvider>
-      </AppContextProvider>
+      </SignalRProvider>
     </Router>
   );
 };

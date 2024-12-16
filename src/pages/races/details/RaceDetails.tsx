@@ -2,15 +2,14 @@ import { useContext, useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router';
 import { UserContext } from '../../../contexts/UserContext';
 import { Race } from '../../../interfaces/IRace';
-import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { Runner } from '../utils/IRunner';
 import { Results } from '../utils/IResults';
 import axios from 'axios';
+import { useSignalR } from '../../../contexts/SignalR/SignalRContext';
 
 export default function RaceDetails() {
   const { id } = useParams();
   const { getAuthToken } = useContext(UserContext);
-  const [connection, setConnection] = useState<HubConnection | null>(null);
   const [runners, setRunners] = useState<Runner[]>([]);
   const [results, setResults] = useState<Results | null>(null); // Initialize results as null
   const [raceStarted, setRaceStarted] = useState(false);
@@ -22,6 +21,10 @@ export default function RaceDetails() {
     raceAthletes: [],
     isFinished: false,
   });
+  const [timeUntil, setTimeUntil] = useState<string>('Calculating...');
+  const signalRService = useSignalR();
+
+
 
   // Fetch race data by ID
   const fetchRace = async () => {
@@ -66,19 +69,17 @@ export default function RaceDetails() {
     fetchRace();
   }, [id]);
 
-  // Check if the race has finished (already has results)
+  // Connect to the race simulation SignalR hub
   useEffect(() => {
-    const newConnection = new HubConnectionBuilder()
-      .withUrl("https://localhost:7181/raceSimulationHub")
-      .withAutomaticReconnect()
-      .build();
+    const connection = signalRService.getConnection();
+    if (!connection) {
+      console.error('SignalR connection is not initialized.');
+      return;
+    }
+    console.log("SignalR connection", connection);
 
-    newConnection
-      .start()
-      .then(() => console.log("Connected to SignalR Hub"))
-      .catch((err) => console.error("SignalR Connection Error: ", err));
-
-    newConnection.on("ReceiveRaceUpdate", (updatedRunners: Runner[]) => {
+    // Listen for race updates broadcast
+    connection.on("ReceiveRaceUpdate", (updatedRunners: Runner[]) => {
       console.log("Updated runners:", updatedRunners);
       setRunners(updatedRunners);
       if (!raceStarted) {
@@ -87,25 +88,21 @@ export default function RaceDetails() {
     });
 
     // Listen for race results broadcast
-    newConnection.on("ReceiveRaceResults", (data) => {
+    connection.on("ReceiveRaceResults", (data) => {
       console.log("Race results received:", data);
       setResults(data);
     });
 
-    setConnection(newConnection);
 
     return () => {
-      newConnection
-        .stop()
-        .catch((err) => console.error("Error stopping connection", err));
+      connection.stop().catch((err) => console.error("Error stopping connection", err));
     };
-  }, [raceStarted]);
+  }, [signalRService]);
 
   const startRace = useCallback(async () => {
     try {
       setRaceStarted(true);
-      await axios
-        .post(
+      await axios.post(
           `https://localhost:7181/api/RaceSimulation/start?raceId=${id}`,
           {},
           {
@@ -125,10 +122,39 @@ export default function RaceDetails() {
     }
   }, [id, getAuthToken]);
 
+  useEffect(() => {
+    const calculateTimeUntil = (targetDate: string) => {
+      const target = new Date(targetDate);
+      const now = new Date();
+      const difference = target.getTime() - now.getTime();
+  
+      if (difference <= 0) {
+          setRaceStarted(true);
+          return "The race has already started or finished!";
+      }
+  
+      const days = String(Math.floor(difference / (1000 * 60 * 60 * 24))).padStart(2, '0');
+      const hours = String(Math.floor((difference / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+      const minutes = String(Math.floor((difference / (1000 * 60)) % 60)).padStart(2, '0');
+      const seconds = String(Math.floor((difference / 1000) % 60)).padStart(2, '0');
+  
+      return `${days}:${hours}:${minutes}:${seconds}`;
+  };
+  
+
+    const intervalId = setInterval(() => {
+      setTimeUntil(calculateTimeUntil(race.date.toString()));
+    }, 1000);
+
+    return () => clearInterval(intervalId); // Cleanup interval when component unmounts
+  }, [race.date]);
+
   return (
     <div>
-      <h1 onClick={() => console.log(results)}>Race with ID: {id}</h1>
-    {!loading && !race.isFinished && (
+      <h1 onClick={() => console.log(race)}>Race with ID: {id}</h1>
+      <h1>Starting in: {timeUntil}</h1>
+    {!loading && !race.isFinished &&
+    ( 
       <button onClick={startRace} disabled={raceStarted}>          {raceStarted ? "Race in Progress" : "Start Race!!"}        </button> 
       )}
       <div className="track">
