@@ -51,6 +51,7 @@ export default function RaceDetails() {
           }
         );
         const resultsData = await resultsResponse.json();
+        console.log("Results data: " + resultsData);
         setResults(resultsData);
         setShowResult(true);
         }});
@@ -116,6 +117,7 @@ export default function RaceDetails() {
         }
       ).then((response) => response.data).then((data) => {
         setResults(data);
+        setShowResult(true);
       })
     } catch (err) {
       console.error("Error starting race: ", err);
