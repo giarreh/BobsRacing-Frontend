@@ -124,20 +124,16 @@ export default function ProfilePage() {
   };
 
   return (
-    <>
-      <div className="profile-page">
-        {/* Sidebar */}
-
+    <div className="profile-page">
+      {/* Sidebar */}
+      <div className="sidebar-container">
         {hamburgerIcon && (
           <div className="hamburger-icon" onClick={toggleSidebar}>
-            {" "}
             ☰
           </div>
         )}
-
+  
         <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
-          {/* Back Button on small screen */}
-
           {backButtonVisible && (
             <button className="back-button" onClick={handleBackButtonClick}>
               &#8592; Back
@@ -156,7 +152,6 @@ export default function ProfilePage() {
             >
               Settings
             </li>
-
             <li
               className={selectedTab === "bet-history" ? "active" : ""}
               onClick={() => handleTabSelect("bet-history")}
@@ -165,7 +160,9 @@ export default function ProfilePage() {
             </li>
           </ul>
         </div>
-
+      </div>
+  
+      {/* Main Content */}
       <div className="main-content">
         {selectedTab === "general" && (
           <div className="general-content">
@@ -184,7 +181,7 @@ export default function ProfilePage() {
             </label>
           </div>
         )}
-
+  
         {selectedTab === "settings" && (
           <form className="settings-content" onSubmit={handleEdit}>
             <h2>Settings</h2>
@@ -209,7 +206,7 @@ export default function ProfilePage() {
             <button type="submit">Update Profile Information</button>
           </form>
         )}
-
+  
         {selectedTab === "bet-history" && (
           <div className="bet-history-content">
             <h2>Bet History</h2>
@@ -230,7 +227,7 @@ export default function ProfilePage() {
                 ) : (
                   <p>No active bets</p>
                 )}
-
+  
                 <h3>Finished Bets</h3>
                 {finishedBets.length > 0 ? (
                   <ul>
@@ -250,5 +247,5 @@ export default function ProfilePage() {
         )}
       </div>
     </div>
-  );
+  );  
 }
