@@ -6,22 +6,22 @@ import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { Runner } from '../utils/IRunner';
 import { Results } from '../utils/IResults';
 import axios from 'axios';
-import { RaceAthlete } from '../../../interfaces/IRaceAthlete';
 
 export default function RaceDetails() {
   const { id } = useParams();
   const { getAuthToken } = useContext(UserContext);
   const [connection, setConnection] = useState<HubConnection | null>(null);
+  const [runners, setRunners] = useState<Runner[]>([]);
+  const [results, setResults] = useState<Results | null>(null); // Initialize results as null
+  const [raceStarted, setRaceStarted] = useState(false);
+  const [showResult, setShowResult] = useState(false);
+  const [loading, setLoading] = useState(true); // New loading state
   const [race, setRace] = useState<Race>({
     raceId: 0,
     date: new Date(),
     raceAthletes: [],
     isFinished: false,
   });
-  const [runners, setRunners] = useState<Runner[]>([]);
-  const [results, setResults] = useState<Results | null>(null); // Initialize results as null
-  const [raceStarted, setRaceStarted] = useState(false);
-  const [showResult, setShowResult] = useState(false);
 
   // Fetch race data by ID
   const fetchRace = async () => {
@@ -34,17 +34,34 @@ export default function RaceDetails() {
         },
       })
         .then((response) => response.json())
-        .then((data) => {
+        .then(async (data) => {
           console.log("Successfully fetched race: ", data);
+          // sort by data.raceAthletes.position
+          data.raceAthletes.sort(
+            (a: RaceAthlete, b: RaceAthlete) =>
+              a.finalPosition - b.finalPosition
+          );
           setRace(data);
-        }).then( () => {
-          // If race.
-        })
-
-
-      
+          // Fetch results only if the race is finished
+          if (data.isFinished) {
+            const resultsResponse = await fetch(
+              `https://localhost:7181/api/RaceSimulation/results/${id}`,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${getAuthToken()}`,
+                },
+              }
+            );
+            const resultsData = await resultsResponse.json();
+            setResults(resultsData);
+            setShowResult(true);
+          }
+        });
     } catch (error) {
       console.error("Error fetching race", error);
+    } finally {
+      setLoading(false); // Mark loading as complete
     }
   };
 
@@ -77,7 +94,6 @@ export default function RaceDetails() {
     newConnection.on("ReceiveRaceResults", (data) => {
       console.log("Race results received:", data);
       setResults(data);
-      setShowResult(true);
     });
 
     setConnection(newConnection);
@@ -92,18 +108,22 @@ export default function RaceDetails() {
   const startRace = useCallback(async () => {
     try {
       setRaceStarted(true);
-      await axios.post(
-        `https://localhost:7181/api/RaceSimulation/start?raceId=${id}`,
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getAuthToken()}`,
-          },
-        }
-      ).then((response) => response.data).then((data) => {
-        setResults(data);
-      });
+      await axios
+        .post(
+          `https://localhost:7181/api/RaceSimulation/start?raceId=${id}`,
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${getAuthToken()}`,
+            },
+          }
+        )
+        .then((response) => response.data)
+        .then((data) => {
+          setResults(data);
+          setShowResult(true);
+        });
     } catch (err) {
       console.error("Error starting race: ", err);
     }
@@ -112,11 +132,9 @@ export default function RaceDetails() {
   return (
     <div>
       <h1 onClick={() => console.log(results)}>Race with ID: {id}</h1>
-      <button onClick={startRace} disabled={raceStarted}>
-        {raceStarted ? "Race in Progress" : "Start Race!!"}
-      </button>
-      <button onClick={() => console.log("RACE: ", race)}>
-      </button>
+    {!loading && !race.isFinished && (
+      <button onClick={startRace} disabled={raceStarted}>          {raceStarted ? "Race in Progress" : "Start Race!!"}        </button> 
+      )}
       <div className="track">
         {runners.map((runner, index) => (
           <div key={`${runner.name}-${index}`} className="runner">
@@ -124,10 +142,10 @@ export default function RaceDetails() {
           </div>
         ))}
       </div>
-      {(showResult && results) && (
+      {results && showResult && (
         <div>
           <h2>Race Results</h2>
-          <p>WINNER: {results?.positions["1"]?.name}</p>
+          <p>WINNER: {results?.positions[0]?.name}</p>
           <table>
             <thead>
               <tr>
