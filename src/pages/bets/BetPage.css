@@ -1,0 +1,67 @@
+.betting-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .page-title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .races-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .race-card {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .race-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+  }
+  
+  .bet-card {
+    margin-top: 10px;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  form {
+    margin-top: 15px;
+  }
+  
+  form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  form input,
+  form select {
+    padding: 8px;
+    margin-top: 5px;
+    width: 100%;
+  }
+  
+  form button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  form button:hover {
+    background: #0056b3;
+  }
+  

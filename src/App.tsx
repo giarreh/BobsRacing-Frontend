@@ -14,6 +14,8 @@ import Races from "./pages/races/Races";
 import CreateRace from "./pages/races/create/CreateRace";
 import RaceDetails from "./pages/races/details/RaceDetails";
 import { SignalRProvider } from "./contexts/SignalR/SignalRContext";
+import Bets from './pages/bets/BetPage';
+
 
 const App: React.FC = () => {
   return (
@@ -31,6 +33,7 @@ const App: React.FC = () => {
                   <Route path="/races/:id" element={<RaceDetails />}></Route>
                   <Route path="/createrace" element={<CreateRace />}></Route>
                   <Route path="/athletes" element={<Athletes />}></Route>
+                  <Route path="/betting" element={<Bets />}></Route>
                   <Route
                     path="/athlete/:id"
                     element={<AthleteDetails />}
