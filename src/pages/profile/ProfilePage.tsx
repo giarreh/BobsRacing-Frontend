@@ -47,6 +47,7 @@ export default function ProfilePage() {
       }
 
       const data = await response.json();
+      console.log(data)
 
       // Split active and finished bets
       const active = data.bets.filter((bet) => bet.isActive);
@@ -219,8 +220,8 @@ export default function ProfilePage() {
                   <ul>
                     {activeBets.map((bet) => (
                       <li key={bet.betId}>
-                        Bet on {bet.raceAthlete?.athleteName}: {bet.amount} credits
-                        (Potential Payout: {bet.potentialPayout})
+                      Bet-{bet.athleteName}. credits:{bet.amount} 
+                      (Potential Payout: {bet.potentialPayout})
                       </li>
                     ))}
                   </ul>
@@ -233,7 +234,7 @@ export default function ProfilePage() {
                   <ul>
                     {finishedBets.map((bet) => (
                       <li key={bet.betId}>
-                        Bet on {bet.raceAthlete?.athleteName}: {bet.amount} credits
+                        Bet-{bet.betId}. credits:{bet.amount} 
                         (Potential Payout: {bet.potentialPayout})
                       </li>
                     ))}

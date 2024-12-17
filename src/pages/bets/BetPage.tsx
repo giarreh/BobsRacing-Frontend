@@ -84,6 +84,7 @@ const BettingPage = () => {
       amount: parseFloat(bet.amount),
       potentialPayout: parseFloat(potentialPayout),
       isActive: true,
+      isWin: false,
       raceAthleteId: parseInt(bet.raceAthleteId),
       userId: user.id
     };
