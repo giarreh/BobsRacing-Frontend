@@ -4,6 +4,7 @@ import { UserContext } from "../../contexts/UserContext";
 import { User } from "../../interfaces/IUser";
 
 import "./ProfilePage.css";
+import { Race } from "../../interfaces/IRace";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ export default function ProfilePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false); // To track sidebar open/close state
   const [hamburgerIcon, setHamburgerIcon] = useState(true);
   const [backButtonVisible, setBackButtonVisible] = useState(false); // To track if the back button should be visible
+  const [race, setRace] = useState<Race | null>(null);
 
   // Fetch the current loggedin user
   const { user, getAuthToken } = useContext(UserContext);
@@ -21,16 +23,62 @@ export default function ProfilePage() {
     username: user?.username,
   });
 
-  const [bets, setBets] = useState([]);
+  const [bets, setBets] = useState<Bet[]>([]);
+  const [raceDetails, setRaceDetails] = useState<{ [betId: number]: Race }>({});
   const [activeBets, setActiveBets] = useState([]);
   const [finishedBets, setFinishedBets] = useState([]);
   const [loadingBets, setLoadingBets] = useState(false);
 
+  // Fetch Bet History when selectedTab is 'bet-history'
   useEffect(() => {
     if (selectedTab === "bet-history") {
       fetchBetHistory();
     }
   }, [selectedTab]);
+
+  // Fetch Race Details when Bets are updated
+  useEffect(() => {
+    if (bets.length > 0) {
+      fetchRaceDetailsForBets();
+    }
+  }, [bets]);
+
+  const fetchRaceDetailsForBets = async () => {
+    const updatedRaceDetails: { [betId: number]: Race } = {};
+
+    await Promise.all(
+      bets.map(async (bet) => {
+        try {
+          // Fetch raceId using raceAthleteId
+          const response = await fetch(
+            `https://localhost:7181/api/RaceAthlete/${bet.raceAthleteId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${getAuthToken()}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error(`HTTP error for Bet ID ${bet.betId}`);
+          }
+
+          const race: Race = await response.json();
+
+          // Map race details to betId
+          updatedRaceDetails[bet.betId] = race;
+        } catch (error) {
+          console.error(
+            `Error fetching race details for Bet ID ${bet.betId}:`,
+            error
+          );
+        }
+      })
+    );
+
+    setRaceDetails(updatedRaceDetails);
+  };
 
   const fetchBetHistory = async () => {
     setLoadingBets(true);
@@ -50,7 +98,7 @@ export default function ProfilePage() {
       }
 
       const data = await response.json();
-      console.log(data)
+      console.log(data);
 
       // Split active and finished bets
       const active = data.bets.filter((bet) => bet.isActive);
@@ -125,6 +173,23 @@ export default function ProfilePage() {
       console.error("Error updating profile:", error);
       alert("Error updating profile");
     }
+  };
+
+  const formatDate = (dateString: string | Date | undefined): string => {
+    if (!dateString) return "Invalid Date";
+
+    const date = new Date(dateString);
+
+    // Ensure the date is valid
+    if (isNaN(date.getTime())) return "Invalid Date";
+
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const year = date.getFullYear();
+
+    return `${hours}:${minutes} ${day}.${month}.${year}`;
   };
 
   return (
@@ -223,18 +288,30 @@ export default function ProfilePage() {
                     <h3 className="bet-section-title">Active Bets</h3>
                     {activeBets.length > 0 ? (
                       <ul className="bet-list">
-                        {activeBets.map((bet) => (
-                          <li key={bet.betId} className="bet-item-active">
-                            Bet on <strong>{bet.athleteName}</strong>:{" "}
-                            <span className="bet-amount">
-                              {bet.amount.toFixed(2)} credits
-                            </span>
-                            Potential Payout:{" "}
-                            <span className="bet-payout">
-                              {bet.potentialPayout.toFixed(2)}
-                            </span>
-                          </li>
-                        ))}
+                        {activeBets.map((bet) => {
+                          const race = raceDetails[bet.betId]; // Get race details for this bet
+
+                          return (
+                            <li key={bet.betId} className="bet-item-active">
+                              <span className="">
+                                <strong>Race ID: </strong>
+                                {race?.raceId || "Loading..."}{" "}
+                                <strong>Date:</strong>{" "}
+                                {race?.date
+                                  ? formatDate(race.date)
+                                  : "Loading..."}
+                              </span>
+                              Bet on <strong>{bet.athleteName}</strong>:{" "}
+                              <span className="bet-amount">
+                                {bet.amount.toFixed(2)} credits
+                              </span>
+                              Potential Payout:{" "}
+                              <span className="bet-payout">
+                                {bet.potentialPayout.toFixed(2)}
+                              </span>
+                            </li>
+                          );
+                        })}
                       </ul>
                     ) : (
                       <p className="no-bets">No active bets</p>
@@ -245,24 +322,38 @@ export default function ProfilePage() {
                     <h3 className="bet-section-title">Finished Bets</h3>
                     {finishedBets.length > 0 ? (
                       <ul className="bet-list">
-                        {/* Checks if isWin is true -> gets className "bet-win" */}
-                        {finishedBets.map((bet) => (
-                          <li
-                            key={bet.betId}
-                            className={`bet-item-finished ${
-                              bet.isWin ? "bet-win" : "bet-lose"
-                            }`}
-                          >
-                            Bet on <strong>{bet.athleteName}</strong>:{" "}
-                            <span className="bet-amount">
-                              {bet.amount.toFixed(2)} credits
-                            </span>
-                            Potential Payout:{" "}
-                            <span className="bet-payout">
-                              {bet.potentialPayout.toFixed(2)}
-                            </span>
-                          </li>
-                        ))}
+                        {finishedBets.map((bet) => {
+                          const race = raceDetails[bet.betId]; // Get race details for this bet
+
+                          return (
+                            <li
+                              key={bet.betId}
+                              className={`bet-item-finished ${
+                                bet.isWin ? "bet-win" : "bet-lose"
+                              }`}
+                            >
+                              <span className="">
+                                <strong>Race ID: </strong>
+                                {race?.raceId || "Loading..."}{" "}
+                                <strong>Date:</strong>{" "}
+                                {race?.date
+                                  ? formatDate(race?.date.toLocaleString())
+                                  : "Loading..."}
+                              </span>
+                              <span className={bet.isWin ? "win" : "loss"}>
+                                {bet.isWin ? "WIN" : "LOSS"}
+                              </span>
+                              Bet on <strong>{bet.athleteName}</strong>:{" "}
+                              <span className="bet-amount">
+                                {bet.amount.toFixed(2)} credits
+                              </span>
+                              Potential Payout:{" "}
+                              <span className="bet-payout">
+                                {bet.potentialPayout.toFixed(2)}
+                              </span>
+                            </li>
+                          );
+                        })}
                       </ul>
                     ) : (
                       <p className="no-bets">No finished bets</p>

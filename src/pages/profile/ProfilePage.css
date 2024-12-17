@@ -178,6 +178,14 @@
   color: #1d72b8;
 }
 
+.win {
+  color: green;
+}
+
+.loss {
+  color: red;
+}
+
 .no-bets {
   text-align: center;
   color: #777;
