@@ -70,14 +70,8 @@
   transition: margin-left 0.3s ease; /* Smooth transition when the sidebar is toggled */
 }
 
-.general-content {
-  margin-top: 5em;
-}
-
-.settings-content {
-  margin-top: 5em;
-}
-
+.general-content,
+.settings-content,
 .bet-history-content {
   margin-top: 5em;
 }
@@ -86,6 +80,128 @@
   display: block;
   margin-bottom: 10px;
 }
+
+/* Betting style */
+
+/* Container for Bet History */
+.bet-history-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  min-height: 100vh; /* Ensures it stretches to full screen */
+}
+
+/* Card Style */
+.bet-history-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px 30px;
+  width: 100%;
+  max-width: 900px; /* Adjust for a wide card look */
+  margin: 0 auto;
+}
+
+.bet-history-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+  font-weight: 600;
+}
+
+.bet-section {
+  margin-bottom: 30px;
+}
+
+.bet-section-title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #444;
+  border-bottom: 2px solid #e2e2e2;
+  padding-bottom: 8px;
+}
+
+.bet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bet-item-active {
+  background-color: #f4f7fb;
+  background: linear-gradient(white 80%,  rgb(162, 149, 236) 100%);
+  border: 1px solid #dce1e8;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  color: #333;
+}
+
+.bet-item-finished.bet-lose {
+  background-color: #f4f7fb;
+  background: linear-gradient(white 80%,  rgb(241, 122, 122) 100%);
+  border: 1px solid #dce1e8;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  color: #333;
+}
+
+.bet-item-finished.bet-win {
+  background-color: #f4f7fb;
+  background: linear-gradient(white 80%,  rgb(46, 248, 137) 100%);
+  border: 1px solid #dce1e8;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  color: #333;
+}
+
+.bet-amount,
+.bet-payout {
+  font-weight: 600;
+  color: #1d72b8;
+}
+
+.no-bets {
+  text-align: center;
+  color: #777;
+  font-style: italic;
+}
+
+.bet-history-loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+  .bet-history-card {
+    padding: 15px 20px;
+  }
+
+  .bet-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 
 /* For mobile devices (below 768px) */
 @media (max-width: 768px) {
