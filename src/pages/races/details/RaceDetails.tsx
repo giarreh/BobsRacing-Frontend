@@ -91,6 +91,7 @@ export default function RaceDetails() {
     connection.on("ReceiveRaceResults", (data) => {
       console.log("Race results received:", data);
       setResults(data);
+      setShowResult(true);
     });
 
 
@@ -130,7 +131,7 @@ export default function RaceDetails() {
   
       if (difference <= 0) {
           setRaceStarted(true);
-          return "The race has already started or finished!";
+          return "Starting very shortly!";
       }
   
       const days = String(Math.floor(difference / (1000 * 60 * 60 * 24))).padStart(2, '0');
@@ -151,7 +152,7 @@ export default function RaceDetails() {
   return (
     <div>
       <h1 onClick={() => console.log(race)}>Race with ID: {id}</h1>
-      <h1>Starting in: {timeUntil}</h1>
+      {!race.isFinished && <h1>Starting in: {timeUntil}</h1>}
     {!loading && !race.isFinished &&
     ( 
       <button onClick={startRace} disabled={raceStarted}>          {raceStarted ? "Race in Progress" : "Start Race!!"}        </button> 
