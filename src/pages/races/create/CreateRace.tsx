@@ -3,21 +3,17 @@ import { Race } from '../../../interfaces/IRace';
 import { Athlete } from '../../../interfaces/IAthlete';
 import { UserContext } from '../../../contexts/UserContext';
 import AtheleteItemRace from '../utils/AthleteItemRace';
-import { RaceAthlete } from '../../../interfaces/IRaceAthlete';
 import { useNavigate } from 'react-router';
+import { AppContext } from '../../../contexts/AppContext';
 
 export default function CreateRace() {
   const { getAuthToken } = useContext(UserContext);
+  const {races, setRaces, athletes, raceAthletes, setRaceAthletes} = useContext(AppContext);
   const navigate = useNavigate();
   const [raceCreated, setRaceCreated] = useState(false);
 
-  // Athletes that have been fetched
-  const [fetchedAthletes, setFetchedAthletes] = useState<Athlete[]>([]);
-
   // Athletes that have been selected to be in the race
   const [selectedAthletes, setSelectedAthletes] = useState<Athlete[]>([]);
-
-  const [raceAthletes, setRaceAthletes] = useState<RaceAthlete[]>([]);
 
     // Control visibility of athlete list
     const [isAthleteListVisible, setIsAthleteListVisible] = useState(true);
@@ -30,7 +26,6 @@ export default function CreateRace() {
   });
 
 
-  // Step 1: Create race for database
   const handleDateTime = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRace({ ...race, date: e.target.value });
   };
@@ -52,41 +47,12 @@ export default function CreateRace() {
       console.log('Successfully created data: ', data);
       setRaceCreated(true);
       setRace(data);
+      setRaces([...races, data]);
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  // Step 2: Fetch athletes when race is created
-  useEffect(() => {
-    if (raceCreated) {
-      const fetchAthletes = async () => {
-        console.log('Fetching athletes in create race');
-        try {
-          const response = await fetch('https://localhost:7181/api/Athlete', {
-            headers: {
-              Authorization: `Bearer ${getAuthToken()}`,
-              'Content-Type': 'application/json',
-            },
-          });
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-
-          const data = await response.json();
-          console.log(data);
-          setFetchedAthletes(data);
-        } catch (error) {
-          console.error('Error fetching athletes:', error);
-        }
-      };
-
-      fetchAthletes();
-    }
-  }, [raceCreated]);
-
-  // Step 3: Create raceAthlete for each selected athlete, assign them to the race
   const handleCreateRace = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -150,7 +116,7 @@ export default function CreateRace() {
             <div className="athlete-list-section">
               <h1>Select up to 5 athletes to add</h1>
               <div className="athlete-list">
-                {fetchedAthletes.map((athlete, index) => (
+                {athletes.map((athlete, index) => (
                   <AtheleteItemRace
                     key={index}
                     athlete={athlete}
