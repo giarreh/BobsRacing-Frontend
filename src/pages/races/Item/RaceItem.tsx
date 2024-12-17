@@ -32,7 +32,17 @@ export default function RaceItem({
   return (
     <div className="race-item" key={index} onClick={handleNavigate}>
       <p>Race ID: {race.raceId}</p>
-      <p>Date of race: {race.date?.toLocaleString()}</p>
+      <p>
+        Date of race: {new Date(race.date)
+          .toLocaleString('en-GB', { 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            year: 'numeric', 
+            month: '2-digit', 
+            day: '2-digit' 
+          })
+          .replace(',', ' -')}
+      </p>
       <h1>Participants</h1>
       <div className="race-participants">
         {race?.raceAthletes && race.raceAthletes.length > 0 ? (
