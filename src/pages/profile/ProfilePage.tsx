@@ -35,12 +35,15 @@ export default function ProfilePage() {
   const fetchBetHistory = async () => {
     setLoadingBets(true);
     try {
-      const response = await fetch(`https://localhost:7181/api/User/bets?id=${user?.id}`, {
-        headers: {
-          Authorization: `Bearer ${getAuthToken()}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `https://localhost:7181/api/User/bets?id=${user?.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${getAuthToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -132,7 +135,7 @@ export default function ProfilePage() {
             ☰
           </div>
         )}
-  
+
         <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
           {backButtonVisible && (
             <button className="back-button" onClick={handleBackButtonClick}>
@@ -161,7 +164,7 @@ export default function ProfilePage() {
           </ul>
         </div>
       </div>
-  
+
       {/* Main Content */}
       <div className="main-content">
         {selectedTab === "general" && (
@@ -181,7 +184,7 @@ export default function ProfilePage() {
             </label>
           </div>
         )}
-  
+
         {selectedTab === "settings" && (
           <form className="settings-content" onSubmit={handleEdit}>
             <h2>Settings</h2>
@@ -206,46 +209,70 @@ export default function ProfilePage() {
             <button type="submit">Update Profile Information</button>
           </form>
         )}
-  
+
         {selectedTab === "bet-history" && (
-          <div className="bet-history-content">
-            <h2>Bet History</h2>
-            {loadingBets ? (
-              <p>Loading bet history...</p>
-            ) : (
-              <>
-                <h3>Active Bets</h3>
-                {activeBets.length > 0 ? (
-                  <ul>
-                    {activeBets.map((bet) => (
-                      <li key={bet.betId}>
-                        Bet on {bet.raceAthlete?.athleteName}: {bet.amount} credits
-                        (Potential Payout: {bet.potentialPayout})
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>No active bets</p>
-                )}
-  
-                <h3>Finished Bets</h3>
-                {finishedBets.length > 0 ? (
-                  <ul>
-                    {finishedBets.map((bet) => (
-                      <li key={bet.betId}>
-                        Bet on {bet.raceAthlete?.athleteName}: {bet.amount} credits
-                        (Potential Payout: {bet.potentialPayout})
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>No finished bets</p>
-                )}
-              </>
-            )}
+          <div className="bet-history-container">
+            <div className="bet-history-card">
+              <h2 className="bet-history-title">Bet History</h2>
+              {loadingBets ? (
+                <p className="bet-history-loading">Loading bet history...</p>
+              ) : (
+                <>
+                  <div className="bet-section">
+                    <h3 className="bet-section-title">Active Bets</h3>
+                    {activeBets.length > 0 ? (
+                      <ul className="bet-list">
+                        {activeBets.map((bet) => (
+                          <li key={bet.betId} className="bet-item-active">
+                            Bet on <strong>{bet.athleteName}</strong>:{" "}
+                            <span className="bet-amount">
+                              {bet.amount.toFixed(2)} credits
+                            </span>
+                            Potential Payout:{" "}
+                            <span className="bet-payout">
+                              {bet.potentialPayout.toFixed(2)}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="no-bets">No active bets</p>
+                    )}
+                  </div>
+
+                  <div className="bet-section">
+                    <h3 className="bet-section-title">Finished Bets</h3>
+                    {finishedBets.length > 0 ? (
+                      <ul className="bet-list">
+                        {/* Checks if isWin is true -> gets className "bet-win" */}
+                        {finishedBets.map((bet) => (
+                          <li
+                            key={bet.betId}
+                            className={`bet-item-finished ${
+                              bet.isWin ? "bet-win" : "bet-lose"
+                            }`}
+                          >
+                            Bet on <strong>{bet.athleteName}</strong>:{" "}
+                            <span className="bet-amount">
+                              {bet.amount.toFixed(2)} credits
+                            </span>
+                            Potential Payout:{" "}
+                            <span className="bet-payout">
+                              {bet.potentialPayout.toFixed(2)}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="no-bets">No finished bets</p>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         )}
       </div>
     </div>
-  );  
+  );
 }

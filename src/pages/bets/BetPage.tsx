@@ -1,22 +1,22 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../../contexts/UserContext';
-import { Race } from '../../interfaces/IRace';
-import './BetPage.css';
+import React, { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../contexts/UserContext";
+import { Race } from "../../interfaces/IRace";
+import "./BetPage.css";
 
 const BettingPage = () => {
   const { user, setUser, getAuthToken } = useContext(UserContext);
   const [races, setRaces] = useState<Race[]>([]);
   const [selectedRaceId, setSelectedRaceId] = useState<number | null>(null);
   const [odds, setOdds] = useState([]);
-  const [bet, setBet] = useState({ amount: '', raceAthleteId: '' });
+  const [bet, setBet] = useState({ amount: "", raceAthleteId: "" });
 
   useEffect(() => {
     const fetchRaces = async () => {
       try {
-        const response = await fetch('https://localhost:7181/api/Race', {
+        const response = await fetch("https://localhost:7181/api/Race", {
           headers: {
             Authorization: `Bearer ${getAuthToken()}`,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         });
 
@@ -28,11 +28,13 @@ const BettingPage = () => {
 
         // only show unfisinshed races to bet on
         const unfinishedRaces = data.filter((race: Race) => !race.isFinished);
-        const sortedRaces = unfinishedRaces.sort((a, b) => new Date(b.date) - new Date(a.date));
+        const sortedRaces = unfinishedRaces.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
 
         setRaces(sortedRaces);
       } catch (error) {
-        console.error('Error fetching races:', error);
+        console.error("Error fetching races:", error);
       }
     };
 
@@ -46,12 +48,15 @@ const BettingPage = () => {
     }
 
     try {
-      const response = await fetch(`https://localhost:7181/api/Race/${raceId}/odds`, {
-        headers: {
-          Authorization: `Bearer ${getAuthToken()}`,
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch(
+        `https://localhost:7181/api/Race/${raceId}/odds`,
+        {
+          headers: {
+            Authorization: `Bearer ${getAuthToken()}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -61,20 +66,24 @@ const BettingPage = () => {
       setOdds(data);
       setSelectedRaceId(raceId);
     } catch (error) {
-      console.error('Error fetching odds:', error);
+      console.error("Error fetching odds:", error);
     }
   };
 
   // Handle form inputs for the bet
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = event.target;
     setBet((prevBet) => ({ ...prevBet, [name]: value }));
   };
 
   const placeBet = async () => {
-    const selectedAthlete = odds.find((o: any) => o.raceAthleteId === parseInt(bet.raceAthleteId));
+    const selectedAthlete = odds.find(
+      (o: any) => o.raceAthleteId === parseInt(bet.raceAthleteId)
+    );
     if (!selectedAthlete) {
-      alert('Invalid athlete selected');
+      alert("Invalid athlete selected");
       return;
     }
 
@@ -84,16 +93,17 @@ const BettingPage = () => {
       amount: parseFloat(bet.amount),
       potentialPayout: parseFloat(potentialPayout),
       isActive: true,
+      isWin: false,
       raceAthleteId: parseInt(bet.raceAthleteId),
-      userId: user.id
+      userId: user.id,
     };
 
     try {
-      const response = await fetch('https://localhost:7181/api/Bet', {
-        method: 'POST',
+      const response = await fetch("https://localhost:7181/api/Bet", {
+        method: "POST",
         headers: {
           Authorization: `Bearer ${getAuthToken()}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(betData),
       });
@@ -103,19 +113,16 @@ const BettingPage = () => {
       }
 
       const data = await response.json();
-      alert('Bet placed successfully!');
+      alert("Bet placed successfully!");
 
       // update useContext credits
       setUser((prevUser) => ({
         ...prevUser,
         credits: prevUser.credits - betData.amount,
       }));
-      
-
-
     } catch (error) {
-      console.error('Error placing bet:', error);
-      alert('Failed to place bet.');
+      console.error("Error placing bet:", error);
+      alert("Failed to place bet.");
     }
   };
 
