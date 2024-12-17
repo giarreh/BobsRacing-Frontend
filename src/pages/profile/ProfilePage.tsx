@@ -26,7 +26,7 @@ export default function ProfilePage() {
   });
 
   const [bets, setBets] = useState<Bet[]>([]);
-  const [raceDetails, setRaceDetails] = useState<{ [betId: number]: Race }>({});
+  const [raceDetails, setRaceDetails] = useState<Race>();
   const [activeBets, setActiveBets] = useState([]);
   const [finishedBets, setFinishedBets] = useState([]);
   const [loadingBets, setLoadingBets] = useState(false);
@@ -46,8 +46,6 @@ export default function ProfilePage() {
   }, [bets]);
 
   const fetchRaceDetailsForBets = async () => {
-    const updatedRaceDetails: { [betId: number]: Race } = {};
-
     await Promise.all(
       bets.map(async (bet) => {
         try {
@@ -65,11 +63,24 @@ export default function ProfilePage() {
           if (!response.ok) {
             throw new Error(`HTTP error for Bet ID ${bet.betId}`);
           }
-
           const race: Race = await response.json();
+          const raceId = race.raceId;
 
-          // Map race details to betId
-          updatedRaceDetails[bet.betId] = race;
+          // fetch race by raceId
+          const responseRace = await fetch(
+            `https://localhost:7181/api/Race/${raceId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${getAuthToken()}`,
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((response) => response.json())
+          .then((data) => {
+            setRaceDetails(data);
+          });
+
         } catch (error) {
           console.error(
             `Error fetching race details for Bet ID ${bet.betId}:`,
@@ -78,8 +89,6 @@ export default function ProfilePage() {
         }
       })
     );
-
-    setRaceDetails(updatedRaceDetails);
   };
 
   const fetchBetHistory = async () => {
@@ -177,21 +186,11 @@ export default function ProfilePage() {
     }
   };
 
-  const formatDate = (dateString: string | Date | undefined): string => {
-    if (!dateString) return "Invalid Date";
-
+  const formatDate = (dateString: string | undefined) => {
+    if (!dateString) return 'Unknown date';
     const date = new Date(dateString);
 
-    // Ensure the date is valid
-    if (isNaN(date.getTime())) return "Invalid Date";
-
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
-    const year = date.getFullYear();
-
-    return `${hours}:${minutes} ${day}.${month}.${year}`;
+    return `${date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at ${date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`;
   };
 
   return (
@@ -300,7 +299,7 @@ export default function ProfilePage() {
                                 {race?.raceId || "Loading..."}{" "}
                                 <strong>Date:</strong>{" "}
                                 {race?.date
-                                  ? formatDate(race.date)
+                                  ? formatDate(race?.date?.toLocaleString())
                                   : "Loading..."}
                               </span>
                               Bet on <strong>{bet.athleteName}</strong>:{" "}
@@ -338,9 +337,7 @@ export default function ProfilePage() {
                                 <strong>Race ID: </strong>
                                 {race?.raceId || "Loading..."}{" "}
                                 <strong>Date:</strong>{" "}
-                                {race?.date
-                                  ? formatDate(race?.date.toLocaleString())
-                                  : "Loading..."}
+                                {race?.date.toLocaleString() || "Loading..."}{" "}
                               </span>
                               <span className={bet.isWin ? "win" : "loss"}>
                                 {bet.isWin ? "WIN" : "LOSS"}

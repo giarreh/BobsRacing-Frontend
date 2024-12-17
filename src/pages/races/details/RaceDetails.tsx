@@ -11,7 +11,7 @@ import { AppContext } from '../../../contexts/AppContext';
 export default function RaceDetails() {
   const { id } = useParams();
   const { getAuthToken } = useContext(UserContext);
-  const {races, setRaces} = useContext(AppContext);
+  const { races, setRaces } = useContext(AppContext);
   const [runners, setRunners] = useState<Runner[]>([]);
   const [results, setResults] = useState<Results | null>(null); // Initialize results as null
   const [raceStarted, setRaceStarted] = useState(false);
@@ -26,21 +26,19 @@ export default function RaceDetails() {
   const [timeUntil, setTimeUntil] = useState<string>('Calculating...');
   const signalRService = useSignalR();
 
-
-
   // Fetch race data by ID
   const fetchRace = async () => {
-    console.log("Fetching race with ID: ", id);
+    console.log('Fetching race with ID: ', id);
     try {
       await fetch(`https://localhost:7181/api/Race/${id}`, {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${getAuthToken()}`,
         },
       })
         .then((response) => response.json())
         .then(async (data) => {
-          console.log("Successfully fetched race: ", data);
+          console.log('Successfully fetched race: ', data);
           // sort by data.raceAthletes.position
           setRace(data);
           // Fetch results only if the race is finished
@@ -49,7 +47,7 @@ export default function RaceDetails() {
               `https://localhost:7181/api/RaceSimulation/results/${id}`,
               {
                 headers: {
-                  "Content-Type": "application/json",
+                  'Content-Type': 'application/json',
                   Authorization: `Bearer ${getAuthToken()}`,
                 },
               }
@@ -61,7 +59,7 @@ export default function RaceDetails() {
           }
         });
     } catch (error) {
-      console.error("Error fetching race", error);
+      console.error('Error fetching race', error);
     } finally {
       setLoading(false); // Mark loading as complete
     }
@@ -79,11 +77,11 @@ export default function RaceDetails() {
       console.error('SignalR connection is not initialized.');
       return;
     }
-    console.log("SignalR connection", connection);
+    console.log('SignalR connection', connection);
 
     // Listen for race updates broadcast
-    connection.on("ReceiveRaceUpdate", (updatedRunners: Runner[]) => {
-      console.log("Updated runners:", updatedRunners);
+    connection.on('ReceiveRaceUpdate', (updatedRunners: Runner[]) => {
+      console.log('Updated runners:', updatedRunners);
       setRunners(updatedRunners);
       if (!raceStarted) {
         setRaceStarted(true);
@@ -91,28 +89,28 @@ export default function RaceDetails() {
     });
 
     // Listen for race results broadcast
-    connection.on("ReceiveRaceResults", (data) => {
-      console.log("Race results received:", data);
+    connection.on('ReceiveRaceResults', (data) => {
+      console.log('Race results received:', data);
       setResults(data);
       setShowResult(true);
-      setRaces(races.filter(r => r.raceId !== Number(id)));
+      setRaces(races.filter((r) => r.raceId !== Number(id)));
     });
 
-
     return () => {
-      connection.stop().catch((err) => console.error("Error stopping connection", err));
+      connection.stop().catch((err) => console.error('Error stopping connection', err));
     };
   }, [signalRService]);
 
   const startRace = useCallback(async () => {
     try {
       setRaceStarted(true);
-      await axios.post(
+      await axios
+        .post(
           `https://localhost:7181/api/RaceSimulation/start?raceId=${id}`,
           {},
           {
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
               Authorization: `Bearer ${getAuthToken()}`,
             },
           }
@@ -122,11 +120,9 @@ export default function RaceDetails() {
           setResults(data);
           setShowResult(true);
         });
-        //delete race from races           setAthletes([...athletes, data]);
-
-
+      //delete race from races           setAthletes([...athletes, data]);
     } catch (err) {
-      console.error("Error starting race: ", err);
+      console.error('Error starting race: ', err);
     }
   }, [id, getAuthToken]);
 
@@ -135,19 +131,18 @@ export default function RaceDetails() {
       const target = new Date(targetDate);
       const now = new Date();
       const difference = target.getTime() - now.getTime();
-  
+
       if (difference <= 0) {
-          setRaceStarted(true);
-          return "Starting very shortly!";
+        setRaceStarted(true);
+        return 'Starting very shortly!';
       }
-  
+
       const days = String(Math.floor(difference / (1000 * 60 * 60 * 24))).padStart(2, '0');
       const hours = String(Math.floor((difference / (1000 * 60 * 60)) % 24)).padStart(2, '0');
       const minutes = String(Math.floor((difference / (1000 * 60)) % 60)).padStart(2, '0');
       const seconds = String(Math.floor((difference / 1000) % 60)).padStart(2, '0');
       return `${days}:${hours}:${minutes}:${seconds}`;
-  };
-  
+    };
 
     const intervalId = setInterval(() => {
       setTimeUntil(calculateTimeUntil(race.date.toString()));
@@ -160,16 +155,42 @@ export default function RaceDetails() {
     <div>
       <h1 onClick={() => console.log(race)}>Race with ID: {id}</h1>
       {!race.isFinished && <h1>Starting in: {timeUntil}</h1>}
-    {!loading && !race.isFinished &&
-    ( 
-      <button onClick={startRace} disabled={raceStarted}>          {raceStarted ? "Race in Progress" : "Start Race!!"}        </button> 
+      {!loading && !race.isFinished && (
+        <button onClick={startRace} disabled={raceStarted}>
+          {raceStarted ? 'Race in Progress' : 'Start Race!!'}
+        </button>
       )}
       <div className="track">
-        {runners.map((runner, index) => (
-          <div key={`${runner.name}-${index}`} className="runner">
-            🏃 {runner.name} METERS: {runner.position.toFixed()} SPEED: {runner.speed.toFixed(3)}
-          </div>
-        ))}
+        {runners.length > 0 ? (
+          runners.map((runner, index) => (
+            <div
+              key={`${runner.name}-${index}`}
+              className="runner"
+              style={{
+                left: 0, // Start at the left edge of the track
+                transform: `translateX(${(runner.position / 100) * 100}%)`, // Convert position to percentage on screen
+                top: `${index * 60}px`, // Space runners vertically
+              }}
+            >
+              🏃 {runner.name} - {runner.position.toFixed()}m
+            </div>
+          ))
+        ) : (
+          // Placeholder runners
+          Array.from({ length: 5 }).map((_, index) => (
+            <div
+              key={`placeholder-${index}`}
+              className="runner placeholder"
+              style={{
+                left: 0, // Start at the left edge
+                transform: 'translateX(0%)', // Placeholders start at 0
+                top: `${index * 60}px`, // Space placeholders vertically
+              }}
+            >
+              🏃 Loading...
+            </div>
+          ))
+        )}
       </div>
       {results && showResult && (
         <div>
