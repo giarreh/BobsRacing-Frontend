@@ -5,7 +5,7 @@ import "./Home.css";
 
 export default function Home() {
   const navigate = useNavigate();
-  const { user, getUserFromToken } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   if (user === undefined) {
     navigate("/signin");

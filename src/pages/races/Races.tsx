@@ -1,75 +1,38 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { UserContext } from "../../contexts/UserContext";
 import RaceItem from "./Item/RaceItem";
-import { Athlete } from "../../interfaces/IAthlete";
+import { AppContext } from "../../contexts/AppContext";
+import { Race } from "../../interfaces/IRace";
 
 export default function Races() {
   const navigate = useNavigate();
-  const { getAuthToken } = useContext(UserContext);
-  const [races, setRaces] = useState([]);
-  const [athletes, setAthletes] = useState<Athlete[]>([]);
-
-  const fetchAthletes = async () => {
-    console.log("Fetching athletes");
-    try {
-      const response = await fetch("https://localhost:7181/api/Athlete", {
-        headers: {
-          Authorization: `Bearer ${getAuthToken()}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log(data);
-      setAthletes(data);
-    } catch (error) {
-      console.error("Error fetching athletes:", error);
-    }
-  };
-  const fetchRaces = async () => {
-    console.log("Fetching Races");
-    try {
-      const response = await fetch("https://localhost:7181/api/Race", {
-        headers: {
-          Authorization: `Bearer ${getAuthToken()}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log(data);
-      setRaces(data);
-    } catch (error) {
-      console.error("Error fetching races:", error);
-    }
-  };
+  const { races, athletes } = useContext(AppContext);
+  const [isLoading, setIsLoading] = useState(true);
+  const [unfinishedRaces, setUnfinishedRaces] = useState<Race[]>([]);
 
   useEffect(() => {
-    fetchRaces();
-    fetchAthletes();
-  }, []);
+    // Check if races and athletes are loaded
+    if (races && athletes) {
+      // Safely filter unfinished races
+      const filteredRaces = races.filter((race) => !race.isFinished);
+      setUnfinishedRaces(filteredRaces);
+      setIsLoading(false);
+    }
+  }, [races, athletes]);
 
-  const unfinishedRaces = races.filter((race) => !race.isFinished);
+  if (isLoading) {
+    return <p>Loading...</p>; // You can show a loading spinner or message
+  }
 
   return (
     <div>
       <h1 onClick={() => navigate("/createrace")}>Create a race!</h1>
-      <h1 onClick={() => console.log("Races: ", races)}>Log races</h1>
       {/* List only unfinished races */}
       <div>
         {unfinishedRaces.length > 0 ? (
-          unfinishedRaces.map((race, index) => (
+          unfinishedRaces.map((race: Race, index) => (
             <RaceItem
-              key={index}
+              key={race.raceId} // Use a unique ID for keys
               race={race}
               index={index}
               athletes={athletes}
