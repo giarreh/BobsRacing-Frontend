@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { UserContext } from "../../contexts/UserContext";
-import RaceItem from "./Item/RaceItem";
+import ResultItem from "./Item/ResultItem";
 import { Athlete } from "../../interfaces/IAthlete";
 
-export default function Races() {
+export default function Results() {
   const navigate = useNavigate();
   const { getAuthToken } = useContext(UserContext);
   const [races, setRaces] = useState([]);
@@ -58,7 +58,7 @@ export default function Races() {
     fetchAthletes();
   }, []);
 
-  const unfinishedRaces = races.filter((race) => !race.isFinished);
+  const finishedRaces = races.filter((race) => race.isFinished);
 
   return (
     <div>
@@ -66,9 +66,9 @@ export default function Races() {
       <h1 onClick={() => console.log("Races: ", races)}>Log races</h1>
       {/* List only unfinished races */}
       <div>
-        {unfinishedRaces.length > 0 ? (
-          unfinishedRaces.map((race, index) => (
-            <RaceItem
+        {finishedRaces.length > 0 ? (
+          finishedRaces.map((race, index) => (
+            <ResultItem
               key={index}
               race={race}
               index={index}

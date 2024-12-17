@@ -80,8 +80,8 @@ export default function Header() {
           {/* Left side: Home, Profile, Race, Betting, Athletes (if admin) */}
           <div className="header-left">
             <div onClick={() => navigate("/")}>Home</div>
-            <div onClick={() => navigate("/profile")}>Profile</div>
             <div onClick={() => navigate("/races")}>Races</div>
+            <div onClick={() => navigate("/results")}>Results</div>
             <div onClick={() => navigate("/betting")}>Betting</div>
             <div onClick={() => navigate("/athletes")}>Athletes</div>
           </div>
