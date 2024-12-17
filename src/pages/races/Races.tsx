@@ -23,6 +23,7 @@ export default function Races() {
   if (isLoading) {
     return <p>Loading...</p>; // You can show a loading spinner or message
   }
+  
 
   return (
     <div>
