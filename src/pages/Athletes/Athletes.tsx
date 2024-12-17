@@ -1,43 +1,14 @@
-import {useState, useEffect, useContext} from 'react'
+import {useContext} from 'react'
 import './Athletes.css'
-import { Athlete } from '../../interfaces/IAthlete';
 import CreateAthlete from './CreateAthlete';
 import AtheleteItem from './AthleteItem';
 import { UserContext } from '../../contexts/UserContext';
+import { AppContext } from '../../contexts/AppContext';
 
 
 export default function Athletes() {
-  const [athletes, setAthletes] = useState<Athlete[]>([
-  ]);
-  const { user, getAuthToken } = useContext(UserContext); 
-
-
-
-   const fetchAthletes = async () => {
-    console.log('Fetching athletes');
-    try {
-      const response = await fetch('https://localhost:7181/api/Athlete', {
-        headers: {
-          'Authorization': `Bearer ${getAuthToken()}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log(data);
-      setAthletes(data);
-    } catch (error) {
-      console.error('Error fetching athletes:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchAthletes();
-  }, []);
+  const {athletes} = useContext(AppContext);
+  const { user} = useContext(UserContext); 
 
   return (
     <div className="athlete-page-container">
@@ -45,7 +16,7 @@ export default function Athletes() {
       {user?.['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] === "Admin" && (
         <div className="create-athlete-section">
           <h1>Create Athlete</h1>
-          <CreateAthlete athletes={athletes} setAthletes={setAthletes} />
+          <CreateAthlete />
         </div>
       )}
 

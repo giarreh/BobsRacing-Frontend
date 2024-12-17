@@ -48,8 +48,13 @@ export default function Results() {
       }
 
       const data = await response.json();
+
+      // show newest race
+      const sortedRaces = data.sort(
+      (a, b) => new Date(b.date) - new Date(a.date)
+      );
       console.log(data);
-      setRaces(data);
+      setRaces(sortedRaces);
     } catch (error) {
       console.error("Error fetching races:", error);
     }
