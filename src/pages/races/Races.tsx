@@ -9,6 +9,7 @@ export default function Races() {
   const { getAuthToken } = useContext(UserContext);
   const [races, setRaces] = useState([]);
   const [athletes, setAthletes] = useState<Athlete[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const fetchAthletes = async () => {
     console.log("Fetching athletes");
@@ -58,13 +59,26 @@ export default function Races() {
     fetchAthletes();
   }, []);
 
-  const unfinishedRaces = races.filter((race) => !race.isFinished);
+  const filteredRaces = races.filter((race) =>
+    race.raceId.toString().includes(searchQuery)
+  );
+  const unfinishedRaces = filteredRaces.filter((race) => !race.isFinished);
 
   return (
     <div>
       <h1 onClick={() => navigate("/createrace")}>Create a race!</h1>
       <h1 onClick={() => console.log("Races: ", races)}>Log races</h1>
       {/* List only unfinished races */}
+
+      <div>
+        <input
+          type="text"
+          placeholder="Search by race ID"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+
       <div>
         {unfinishedRaces.length > 0 ? (
           unfinishedRaces.map((race, index) => (
