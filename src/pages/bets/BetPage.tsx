@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { Race } from "../../interfaces/IRace";
+import { useNavigate } from "react-router-dom";
 import "./BetPage.css";
 
 const BettingPage = () => {
@@ -9,6 +10,7 @@ const BettingPage = () => {
   const [selectedRaceId, setSelectedRaceId] = useState<number | null>(null);
   const [odds, setOdds] = useState([]);
   const [bet, setBet] = useState({ amount: "", raceAthleteId: "" });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRaces = async () => {
@@ -129,6 +131,11 @@ const BettingPage = () => {
   return (
     <div className="betting-page">
       <h1 className="page-title">Betting Page</h1>
+      <button 
+        className="bet-button" 
+        onClick={() => navigate("/profile", { state: { tab: "bet-history" } })}>
+            My Bets
+        </button>
       <div className="races-container">
         {races.map((race) => (
           <div className="race-card" key={race.raceId}>
