@@ -160,7 +160,7 @@ export default function RaceDetails() {
       <div className="track">
         {runners.map((runner, index) => (
           <div key={`${runner.name}-${index}`} className="runner">
-            🏃 {runner.name} POSITION: {runner.position} SPEED: {runner.speed}
+            🏃 {runner.name} METERS: {runner.position.toFixed()} SPEED: {runner.speed.toFixed(3)} m/s
           </div>
         ))}
       </div>
@@ -183,7 +183,7 @@ export default function RaceDetails() {
                   <td>{athlete.finalPosition}</td>
                   <td>{athlete.name}</td>
                   <td>{athlete.raceAthleteID}</td>
-                  <td>{athlete.finishTime}</td>
+                  <td>{athlete.finishTime.toPrecision(4)}</td>
                 </tr>
               ))}
             </tbody>
