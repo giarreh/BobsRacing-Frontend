@@ -9,16 +9,14 @@ export default function RaceItem({
 }: { race: Race, index: number, athletes: Athlete[] }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [timeUntil, setTimeUntil] = useState<string>('Calculating...');
 
   useEffect(() => {
-    // Assume data is fetched asynchronously
-    // This is where you would typically set your loading state to false once data is available
     if (race && athletes.length > 0) {
       setLoading(false); // Assume data fetch is complete
     }
   }, [race, athletes]);
 
-  // Helper function to get athlete name
   const getAthleteName = (athleteId: number) => {
     const athlete = athletes.find((athlete) => athlete.athleteId === athleteId);
     return athlete ? athlete.name : 'Unknown Athlete';
@@ -29,24 +27,49 @@ export default function RaceItem({
     navigate(`/races/${race.raceId}`);
   };
 
+  // Format date to readable format
+  const formatDate = (dateString: string | undefined) => {
+    if (!dateString) return 'Unknown date';
+    const date = new Date(dateString);
+
+    return `${date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at ${date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`;
+  };
+
+  // time left until race starts
+  useEffect(() => {
+    const calculateTimeUntil = (targetDate: string) => {
+      const target = new Date(targetDate);
+      const now = new Date();
+      const difference = target.getTime() - now.getTime();
+  
+      if (difference <= 0) {
+          return "The race has started!";
+      }
+  
+      const days = String(Math.floor(difference / (1000 * 60 * 60 * 24))).padStart(2, '0');
+      const hours = String(Math.floor((difference / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+      const minutes = String(Math.floor((difference / (1000 * 60)) % 60)).padStart(2, '0');
+      const seconds = String(Math.floor((difference / 1000) % 60)).padStart(2, '0');
+      return `${days}:${hours}:${minutes}:${seconds}`;
+  };
+  
+
+    const intervalId = setInterval(() => {
+      setTimeUntil(calculateTimeUntil(race.date.toString()));
+    }, 1000);
+
+    return () => clearInterval(intervalId); // Cleanup interval when component unmounts
+  }, [race.date]);
+
+
   return (
     <div className="race-item" key={index} onClick={handleNavigate}>
-      <p>Race ID: {race.raceId}</p>
-      <p>
-        Date of race: {new Date(race.date)
-          .toLocaleString('en-GB', { 
-            hour: '2-digit', 
-            minute: '2-digit', 
-            year: 'numeric', 
-            month: '2-digit', 
-            day: '2-digit' 
-          })
-          .replace(',', ' -')}
-      </p>
+      <h1>Date of race: {formatDate(race.date.toString())}</h1>
+      {!race.isFinished && <p>Starting in: {timeUntil}</p>}
       <h1>Participants</h1>
       <div className="race-participants">
-        {race?.raceAthletes && race.raceAthletes.length > 0 ? (
-          race.raceAthletes.map((raceAthlete) => (
+        {(!loading) ? (
+          race?.raceAthletes?.map((raceAthlete) => (
             <p key={raceAthlete.athleteId}>
               {getAthleteName(raceAthlete.athleteId)}
             </p>
@@ -55,6 +78,7 @@ export default function RaceItem({
           <p>No participants available</p>
         )}
       </div>
+      <p>Race ID: {race.raceId}</p>
     </div>
   );
 }
