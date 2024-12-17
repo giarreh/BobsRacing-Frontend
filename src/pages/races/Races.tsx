@@ -46,8 +46,12 @@ export default function Races() {
       }
 
       const data = await response.json();
+
+      const sortedRaces = data.sort(
+      (a, b) => new Date(a.date) - new Date(b.date)
+      );
       console.log(data);
-      setRaces(data);
+      setRaces(sortedRaces);
     } catch (error) {
       console.error("Error fetching races:", error);
     }
