@@ -15,7 +15,13 @@ export default function Races() {
     if (races && athletes) {
       // Safely filter unfinished races
       const filteredRaces = races.filter((race) => !race.isFinished);
-      setUnfinishedRaces(filteredRaces);
+
+      // show earliest race at top
+      const sortedRaces = filteredRaces.sort(
+        (a, b) => new Date(a.date) - new Date(b.date)
+        );
+
+      setUnfinishedRaces(sortedRaces);
       setIsLoading(false);
     }
   }, [races, athletes]);
