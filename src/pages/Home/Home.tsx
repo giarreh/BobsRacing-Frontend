@@ -1,11 +1,14 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router";
 import { UserContext } from "../../contexts/UserContext";
+import UsainBoltImage from "../../assets/Usain_Bolt.jpg";
+import FlorenceGriffithImage from "../../assets/Florence_Griffith.jpg";
+import CarlLewisImage from "../../assets/Carl_Lewis.jpg";
 import "./Home.css";
 
 export default function Home() {
   const navigate = useNavigate();
-  const { user, getUserFromToken } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   if (user === undefined) {
     navigate("/signin");
@@ -17,7 +20,7 @@ export default function Home() {
         <div className="banner-text">
           <h2>The Fastest Sprinters in the World</h2>
           <p>Get ready for the thrilling 100m Olympic race.</p>
-          <button>Watch Now</button>
+          <button onClick={() => navigate("/races")}>Watch Now</button>
         </div>
       </section>
 
@@ -37,20 +40,29 @@ export default function Home() {
       <section className="athletes">
         <h2>Featured Athletes</h2>
         <div className="athlete-card">
-          <img src="https://via.placeholder.com/200" alt="Usain Bolt" />
+          <img
+            src={UsainBoltImage}
+            alt="Usain Bolt"
+            style={{ width: "200px", height: "200px" }}
+          />
           <h3>Usain Bolt</h3>
           <p>World Record Holder - 9.58s</p>
         </div>
         <div className="athlete-card">
           <img
-            src="https://via.placeholder.com/200"
+            src={FlorenceGriffithImage}
             alt="Florence Griffith-Joyner"
+            style={{ width: "200px", height: "200px" }}
           />
           <h3>Florence Griffith-Joyner</h3>
           <p>World Record Holder - 10.49s</p>
         </div>
         <div className="athlete-card">
-          <img src="https://via.placeholder.com/200" alt="Carl Lewis" />
+          <img
+            src={CarlLewisImage}
+            alt="Carl Lewis"
+            style={{ width: "200px", height: "200px" }}
+          />
           <h3>Carl Lewis</h3>
           <p>9 Olympic Golds in Sprinting</p>
         </div>

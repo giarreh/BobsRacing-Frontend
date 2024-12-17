@@ -6,10 +6,12 @@ import { Runner } from '../utils/IRunner';
 import { Results } from '../utils/IResults';
 import axios from 'axios';
 import { useSignalR } from '../../../contexts/SignalR/SignalRContext';
+import { AppContext } from '../../../contexts/AppContext';
 
 export default function RaceDetails() {
   const { id } = useParams();
   const { getAuthToken } = useContext(UserContext);
+  const {races, setRaces} = useContext(AppContext);
   const [runners, setRunners] = useState<Runner[]>([]);
   const [results, setResults] = useState<Results | null>(null); // Initialize results as null
   const [raceStarted, setRaceStarted] = useState(false);
@@ -55,6 +57,7 @@ export default function RaceDetails() {
             const resultsData = await resultsResponse.json();
             setResults(resultsData);
             setShowResult(true);
+            // remove from raceList
           }
         });
     } catch (error) {
@@ -92,6 +95,7 @@ export default function RaceDetails() {
       console.log("Race results received:", data);
       setResults(data);
       setShowResult(true);
+      setRaces(races.filter(r => r.raceId !== Number(id)));
     });
 
 
@@ -118,6 +122,9 @@ export default function RaceDetails() {
           setResults(data);
           setShowResult(true);
         });
+        //delete race from races           setAthletes([...athletes, data]);
+
+
     } catch (err) {
       console.error("Error starting race: ", err);
     }

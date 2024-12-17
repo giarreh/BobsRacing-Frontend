@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { UserContext } from "../../contexts/UserContext";
 import { User } from "../../interfaces/IUser";
+import { useLocation } from "react-router-dom";
 
 import "./ProfilePage.css";
 import { Race } from "../../interfaces/IRace";
@@ -9,7 +10,8 @@ import { Race } from "../../interfaces/IRace";
 export default function ProfilePage() {
   const navigate = useNavigate();
   //const { id } = useParams();
-  const [selectedTab, setSelectedTab] = useState("general");
+  const location = useLocation();
+  const [selectedTab, setSelectedTab] = useState(location.state?.tab || "general");
   const [sidebarOpen, setSidebarOpen] = useState(false); // To track sidebar open/close state
   const [hamburgerIcon, setHamburgerIcon] = useState(true);
   const [backButtonVisible, setBackButtonVisible] = useState(false); // To track if the back button should be visible

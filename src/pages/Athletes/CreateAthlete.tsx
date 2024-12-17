@@ -3,18 +3,14 @@ import { useNavigate } from "react-router-dom";
 import "./Athletes.css";
 import { Athlete } from "../../interfaces/IAthlete";
 import { UserContext } from "../../contexts/UserContext";
+import { AppContext } from "../../contexts/AppContext";
 
-interface CreateAthleteProps {
-  athletes: Athlete[];
-  setAthletes: React.Dispatch<React.SetStateAction<Athlete[]>>;
-}
+export default function CreateAthlete() {
 
-export default function CreateAthlete({
-  athletes,
-  setAthletes,
-}: CreateAthleteProps) {
   const navigate = useNavigate();
   const {getAuthToken} = useContext(UserContext);
+  const {athletes, setAthletes} = useContext(AppContext);
+
   const defaultAthlete = {
     athleteId: 0,
     name: 'name',

@@ -16,6 +16,7 @@ import CreateRace from "./pages/races/create/CreateRace";
 import RaceDetails from "./pages/races/details/RaceDetails";
 import { SignalRProvider } from "./contexts/SignalR/SignalRContext";
 import Bets from './pages/bets/BetPage';
+import AppContextProvider from "./contexts/AppContext";
 
 
 const App: React.FC = () => {
@@ -23,30 +24,32 @@ const App: React.FC = () => {
     <Router>
       <SignalRProvider>
         <UserContextProvider>
-          <div className="App">
-            <div className="content-wrapper">
-              <Header />
-              <Routes>
-                <Route element={<PrivateRoutes />}>
-                  <Route path="*" element={<Error />}></Route>
-                  <Route path="/" element={<Home />}></Route>
-                  <Route path="/races" element={<Races />}></Route>
-                  <Route path="/results" element={<Results />}></Route>
-                  <Route path="/races/:id" element={<RaceDetails />}></Route>
-                  <Route path="/createrace" element={<CreateRace />}></Route>
-                  <Route path="/athletes" element={<Athletes />}></Route>
-                  <Route path="/betting" element={<Bets />}></Route>
-                  <Route
-                    path="/athlete/:id"
-                    element={<AthleteDetails />}
-                  ></Route>
-                  <Route path="/profile" element={<ProfilePage />}></Route>
-                </Route>
-                <Route path="/signin" element={<SignIn />}></Route>
-                <Route path="/signup" element={<SignUp />}></Route>
-              </Routes>
+          <AppContextProvider>
+            <div className="App">
+              <div className="content-wrapper">
+                <Header />
+                <Routes>
+                  <Route element={<PrivateRoutes />}>
+                    <Route path="*" element={<Error />}></Route>
+                    <Route path="/" element={<Home />}></Route>
+                    <Route path="/races" element={<Races />}></Route>
+                    <Route path="/results" element={<Results />}></Route>
+                    <Route path="/races/:id" element={<RaceDetails />}></Route>
+                    <Route path="/createrace" element={<CreateRace />}></Route>
+                    <Route path="/athletes" element={<Athletes />}></Route>
+                    <Route path="/betting" element={<Bets />}></Route>
+                    <Route
+                      path="/athlete/:id"
+                      element={<AthleteDetails />}
+                    ></Route>
+                    <Route path="/profile" element={<ProfilePage />}></Route>
+                  </Route>
+                  <Route path="/signin" element={<SignIn />}></Route>
+                  <Route path="/signup" element={<SignUp />}></Route>
+                </Routes>
+              </div>
             </div>
-          </div>
+          </AppContextProvider>
         </UserContextProvider>
       </SignalRProvider>
     </Router>
