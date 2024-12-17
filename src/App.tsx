@@ -24,8 +24,8 @@ const App: React.FC = () => {
       <SignalRProvider>
         <UserContextProvider>
           <div className="App">
+          <Header />
             <div className="content-wrapper">
-              <Header />
               <Routes>
                 <Route element={<PrivateRoutes />}>
                   <Route path="*" element={<Error />}></Route>
