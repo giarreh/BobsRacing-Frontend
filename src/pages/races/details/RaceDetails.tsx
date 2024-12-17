@@ -137,7 +137,6 @@ export default function RaceDetails() {
       const hours = String(Math.floor((difference / (1000 * 60 * 60)) % 24)).padStart(2, '0');
       const minutes = String(Math.floor((difference / (1000 * 60)) % 60)).padStart(2, '0');
       const seconds = String(Math.floor((difference / 1000) % 60)).padStart(2, '0');
-  
       return `${days}:${hours}:${minutes}:${seconds}`;
   };
   
