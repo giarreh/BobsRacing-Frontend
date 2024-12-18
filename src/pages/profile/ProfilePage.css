@@ -5,6 +5,11 @@
   position: relative;
 }
 
+.profile-container svg{
+  height: 200%;
+  width: 200%;
+}
+
 .sidebar {
   width: 250px; /* Width of the sidebar */
   background-color: #f4f4f4;
@@ -100,7 +105,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px 30px;
   width: 100%;
-  max-width: 900px; /* Adjust for a wide card look */
+  max-width: 950px; /* Adjust for a wide card look */
   margin: 0 auto;
 }
 
@@ -139,7 +144,7 @@
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   font-size: 1rem;
   color: #333;
 }
@@ -153,7 +158,7 @@
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   font-size: 1rem;
   color: #333;
 }
@@ -167,7 +172,7 @@
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   font-size: 1rem;
   color: #333;
 }
@@ -204,10 +209,38 @@
     padding: 15px 20px;
   }
 
-  .bet-item {
+  .bet-item-active {
     flex-direction: column;
     align-items: flex-start;
   }
+
+  .bet-item-finished {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .bet-item-active span,
+  .bet-item-finished span {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .bet-item-active span:last-child,
+  .bet-item-finished span:last-child {
+    margin-bottom: 0;
+  }
+
+  .bet-payout {
+  padding-bottom: 35%;
+  }
+
+  .result-line {
+    display: flex !important; /* Ensure horizontal alignment for result-line */
+    flex-direction: row !important; /* Explicitly override any inherited styles */
+    justify-content: flex-start;
+    gap: 5px; /* Add spacing between Result: and WIN/LOSS */
+  }
+
 }
 
 
