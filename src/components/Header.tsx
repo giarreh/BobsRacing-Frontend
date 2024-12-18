@@ -86,6 +86,9 @@ export default function Header() {
             <div onClick={() => navigate("/athletes")}>Athletes</div>
           </div>
           {/* Right side: Logout */}
+          <div className="credits-display">
+            Credits: {user?.credits ?? 0}
+          </div>
           <div className="profile-container">
             <div onClick={toggleDropdown}>
               <svg fill="none" viewBox="0 0 24 24" height="1em" width="1em">
