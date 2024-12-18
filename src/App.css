@@ -67,7 +67,13 @@
 .header-right {
   display: flex;
   align-items: center;
-  gap: 10px; /* Space between login/register or logout */
+  gap: 10px; /* Space between the credits and the profile icon */
+  margin-right: 30px; /* Adjust spacing to align with your design */
+}
+
+.credits-display {
+  color: white; /* Ensure it matches your header text */
+  margin-right: auto; /* Push the credits display to the far right */
 }
 
 .header-left div, .header-right p {

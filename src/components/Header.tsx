@@ -85,81 +85,81 @@ export default function Header() {
             <div onClick={() => navigate("/betting")}>Betting</div>
             <div onClick={() => navigate("/athletes")}>Athletes</div>
           </div>
-          {/* Right side: Logout */}
-          <div className="credits-display">
-            Credits: {user?.credits ?? 0}
-          </div>
-          <div className="profile-container">
-            <div onClick={toggleDropdown}>
-              <svg fill="none" viewBox="0 0 24 24" height="1em" width="1em">
-                <path
-                  fill="currentColor"
-                  fillRule="evenodd"
-                  d="M16 9a4 4 0 11-8 0 4 4 0 018 0zm-2 0a2 2 0 11-4 0 2 2 0 014 0z"
-                  clipRule="evenodd"
-                />
-                <path
-                  fill="currentColor"
-                  fillRule="evenodd"
-                  d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM3 12c0 2.09.713 4.014 1.908 5.542A8.986 8.986 0 0112.065 14a8.984 8.984 0 017.092 3.458A9 9 0 103 12zm9 9a8.963 8.963 0 01-5.672-2.012A6.992 6.992 0 0112.065 16a6.991 6.991 0 015.689 2.92A8.964 8.964 0 0112 21z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
+          <div className="header-right">
+            {/* Right side: Logout */}
+            <div className="credits-display">Credits: {user?.credits ?? 0}</div>
+            <div className="profile-container">
+              <div onClick={toggleDropdown}>
+                <svg fill="none" viewBox="0 0 24 24" height="1em" width="1em">
+                  <path
+                    fill="currentColor"
+                    fillRule="evenodd"
+                    d="M16 9a4 4 0 11-8 0 4 4 0 018 0zm-2 0a2 2 0 11-4 0 2 2 0 014 0z"
+                    clipRule="evenodd"
+                  />
+                  <path
+                    fill="currentColor"
+                    fillRule="evenodd"
+                    d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM3 12c0 2.09.713 4.014 1.908 5.542A8.986 8.986 0 0112.065 14a8.984 8.984 0 017.092 3.458A9 9 0 103 12zm9 9a8.963 8.963 0 01-5.672-2.012A6.992 6.992 0 0112.065 16a6.991 6.991 0 015.689 2.92A8.964 8.964 0 0112 21z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
 
-            {/* Dropdown Menu to icon */}
-            {dropdownVisible && (
-              <div className="dropdown-menu">
-                <div
-                  onClick={() => {
-                    navigate("/profile");
-                    setDropdownVisible(false);
-                  }}
-                >
-                  <p>Profile</p>
-                </div>
-                <div>
+              {/* Dropdown Menu to icon */}
+              {dropdownVisible && (
+                <div className="dropdown-menu">
                   <div
                     onClick={() => {
-                      openModal();
+                      navigate("/profile");
+                      setDropdownVisible(false);
                     }}
                   >
-                    <p>Add credits</p>
+                    <p>Profile</p>
                   </div>
+                  <div>
+                    <div
+                      onClick={() => {
+                        openModal();
+                      }}
+                    >
+                      <p>Add credits</p>
+                    </div>
 
-                  <Modal
-                    isOpen={isModalOpen}
-                    onRequestClose={closeModal}
-                    contentLabel="Add Credits Modal"
-                    className="ReactModal__Content" // Apply custom content class
-                    overlayClassName="ReactModal__Overlay" // Apply custom overlay class
-                  >
-                    <h2>Add Credits</h2>
-                    <form onSubmit={handleAddCredits}>
-                      <label>
-                        Amount:
-                        <input
-                          type="number"
-                          placeholder="Enter amount"
-                          value={creditAmount}
-                          onChange={(e) => setCreditAmount(e.target.value)}
-                        />
-                      </label>
-                      <button type="submit">Add Credits</button>
-                    </form>
-                    <button className="close-btn" onClick={closeModal}>
-                      Close
-                    </button>
-                  </Modal>
+                    <Modal
+                      isOpen={isModalOpen}
+                      onRequestClose={closeModal}
+                      contentLabel="Add Credits Modal"
+                      className="ReactModal__Content" // Apply custom content class
+                      overlayClassName="ReactModal__Overlay" // Apply custom overlay class
+                    >
+                      <h2>Add Credits</h2>
+                      <form onSubmit={handleAddCredits}>
+                        <label>
+                          Amount:
+                          <input
+                            type="number"
+                            placeholder="Enter amount"
+                            value={creditAmount}
+                            onChange={(e) => setCreditAmount(e.target.value)}
+                          />
+                        </label>
+                        <button type="submit">Add Credits</button>
+                      </form>
+                      <button className="close-btn" onClick={closeModal}>
+                        Close
+                      </button>
+                    </Modal>
+                  </div>
+                  <div>
+                    <p>Credits: {user?.credits} </p>
+                  </div>
+                  <div style={{ cursor: "pointer" }} onClick={handleLogout}>
+                    <p>Logout</p>
+                  </div>
                 </div>
-                <div>
-                  <p>Credits: {user?.credits} </p>
-                </div>
-                <div style={{ cursor: "pointer" }} onClick={handleLogout}>
-                  <p>Logout</p>
-                </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </>
       ) : (
