@@ -1,0 +1,55 @@
+.result-item {
+    margin: 20px auto; /* Center the cards horizontally */
+    padding: 10px;
+    background: rgb(255, 255, 255); /* White background for the card */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    text-align: center; /* Center-align the content */
+    width: 80%; /* Set a max width for the cards */
+    max-width: 600px; /* Limit the card size */
+  }
+  
+  .result-header {
+    display: flex;
+    justify-content: space-between; /* Spread Race ID and Date evenly */
+    padding: 10px;
+    font-weight: bold;
+    color: #2c3e50; /* Dark text color */
+    cursor: pointer;
+  }
+  
+  .result-item.open {
+    background: rgba(255, 255, 255, 1); /* Keep the card fully visible when open */
+  }
+  
+  .result-details {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(245, 245, 245, 1); /* Slightly gray background for details */
+    border-radius: 8px;
+    text-align: left; /* Align participants to the left */
+  }
+  
+  .result-details h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #34495e; /* Darker heading color */
+  }
+  
+  .participants-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .participants-list li {
+    font-size: 14px;
+    color: #2c3e50; /* Explicit dark text color */
+    margin-bottom: 5px;
+  }
+  
+  .participants-list li:last-child {
+    margin-bottom: 0;
+  }
+  
