@@ -1,38 +1,58 @@
-import { Athlete } from '../../../interfaces/IAthlete';
-import { Race } from '../../../interfaces/IRace'
-import { useNavigate } from 'react-router'
-
+import { Athlete } from "../../../interfaces/IAthlete";
+import { Race } from "../../../interfaces/IRace";
+import { useState } from "react";
+import "./ResultItem.css";
 
 export default function ResultItem({
-  race, index, athletes 
-}: {race: Race, index: number, athletes: Athlete[]}) {
-  const navigate = useNavigate();
-  
+  race,
+  index,
+  athletes,
+}: {
+  race: Race;
+  index: number;
+  athletes: Athlete[];
+}) {
+  const [isOpen, setIsOpen] = useState(false);
 
-    // Helper function to get athlete name
-    const getAthleteName = (athleteId: number) => {
-      const athlete = athletes.find((athlete) => athlete.athleteId === athleteId);
-      return athlete ? athlete.name : 'Unknown Athlete';
-    };
-
-  const handleNavigate = () => {
-    console.log("Navigating to race: ", race);
-    navigate(`/races/${race.raceId}`);
+  const getAthleteName = (athleteId: number) => {
+    const athlete = athletes.find((athlete) => athlete.athleteId === athleteId);
+    return athlete ? athlete.name : "Unknown Athlete";
   };
+  const sortedAthletes = race.raceAthletes.sort((a, b) => a.finalPosition - b.finalPosition);
+
+  const podium = sortedAthletes.slice(0, 3);
+  const others = sortedAthletes.slice(3);
 
   return (
-    <div className="race-item" key={index} onClick={handleNavigate}>
-      <p>Race ID: {race.raceId}</p>
-      <p>Date of race: {race.date?.toLocaleString()}</p>
-      <h1>Participants</h1>
-      <div className="race-participants">
-        {race.raceAthletes.map((raceAthlete) => (
-          <p key={raceAthlete.athleteId}>
-            {getAthleteName(raceAthlete.athleteId)}
-          </p>
-        ))}
+    <div className={`result-item ${isOpen ? "open" : ""}`}>
+      <div className="result-header" onClick={() => setIsOpen(!isOpen)}>
+        <p>Result ID: {race.raceId}</p>
+        <p>Date: {new Date(race.date).toLocaleString()}</p>
       </div>
+      {isOpen && (
+        <div className="result-details">
+          <h3>Participants and Results</h3>
+          <div className="podium-container">
+            {podium.map((raceAthlete, index) => (
+              <div key={raceAthlete.raceAthleteId} className={`podium-position position-${index + 1}`}>
+                <p className="athlete-name">{getAthleteName(raceAthlete.athleteId)}</p>
+                <p className="athlete-place">Place: {raceAthlete.finalPosition}</p>
+                <p className="athlete-time">Time: {raceAthlete.finishTime.toFixed(2)}s</p>
+              </div>
+            ))}
+          </div>
+          {others.length > 0 && (
+            <ul className="results-list">
+              {others.map((raceAthlete) => (
+                <li key={raceAthlete.raceAthleteId}>
+                  Place: {raceAthlete.finalPosition}: {getAthleteName(raceAthlete.athleteId)}, Time:{" "}
+                  {raceAthlete.finishTime.toFixed(2)}s
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
     </div>
   );
 }
-

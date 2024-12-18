@@ -4,6 +4,7 @@ import { UserContext } from "../../contexts/UserContext";
 import ResultItem from "./Item/ResultItem";
 import { Athlete } from "../../interfaces/IAthlete";
 import { Race } from "../../interfaces/IRace";
+import "./Results.css";
 
 export default function Results() {
   const navigate = useNavigate();
@@ -12,62 +13,55 @@ export default function Results() {
   const [athletes, setAthletes] = useState<Athlete[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchAthletes = async () => {
-    console.log("Fetching athletes");
-    try {
-      const response = await fetch("https://localhost:7181/api/Athlete", {
-        headers: {
-          Authorization: `Bearer ${getAuthToken()}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log(data);
-      setAthletes(data);
-    } catch (error) {
-      console.error("Error fetching athletes:", error);
-    }
-  };
-
-  const fetchRaces = async () => {
-    console.log("Fetching Races");
-    try {
-      const response = await fetch("https://localhost:7181/api/Race", {
-        headers: {
-          Authorization: `Bearer ${getAuthToken()}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      // show newest race
-      const sortedRaces = data.sort(
-      (a, b) => new Date(b.date) - new Date(a.date)
-      );
-      console.log(data);
-      setRaces(sortedRaces);
-    } catch (error) {
-      console.error("Error fetching races:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchRaces();
-    fetchAthletes();
-  }, []);
+    const fetchAthletes = async () => {
+      try {
+        const response = await fetch("https://localhost:7181/api/Athlete", {
+          headers: {
+            Authorization: `Bearer ${getAuthToken()}`,
+            "Content-Type": "application/json",
+          },
+        });
 
-  // const finishedRaces = races.filter((race) => race.isFinished);
-  // console.log("RAces: " + races);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setAthletes(data);
+      } catch (error) {
+        console.error("Error fetching athletes:", error);
+      }
+    };
+
+    const fetchRaces = async () => {
+      try {
+        const response = await fetch("https://localhost:7181/api/Race", {
+          headers: {
+            Authorization: `Bearer ${getAuthToken()}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Sort races by date
+        const sortedRaces = data.sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
+        setRaces(sortedRaces);
+      } catch (error) {
+        console.error("Error fetching races:", error);
+      }
+    };
+
+    fetchAthletes();
+    fetchRaces();
+  }, [getAuthToken]);
 
   const filteredRaces = races.filter((race) =>
     race.raceId.toString().includes(searchQuery)
@@ -75,34 +69,31 @@ export default function Results() {
   const finishedRaces = filteredRaces.filter((race) => race.isFinished);
 
   return (
-    <div>
-      <h1 onClick={() => navigate("/createrace")}>Create a race!</h1>
-      <h1 onClick={() => console.log("Races: ", races)}>Log races</h1>
-      {/* List only unfinished races */}
-
-      <div>
-        <input
-          type="text"
-          placeholder="Search by race ID"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+    <div className="results-page">
+  <h1 className="page-title">Results</h1>
+  <div className="search-container">
+    <input
+      type="text"
+      placeholder="Search by result ID"
+      value={searchQuery}
+      onChange={(e) => setSearchQuery(e.target.value)}
+    />
+  </div>
+  <div className="results-container">
+    {finishedRaces.length > 0 ? (
+      finishedRaces.map((race, index) => (
+        <ResultItem
+          key={index}
+          race={race}
+          index={index}
+          athletes={athletes}
         />
-      </div>
+      ))
+    ) : (
+      <p>No finished results available.</p>
+    )}
+  </div>
+</div>
 
-      <div>
-        {finishedRaces.length > 0 ? (
-          finishedRaces.map((race, index) => (
-            <ResultItem
-              key={index}
-              race={race}
-              index={index}
-              athletes={athletes}
-            />
-          ))
-        ) : (
-          <p>No upcoming races available.</p>
-        )}
-      </div>
-    </div>
   );
 }
