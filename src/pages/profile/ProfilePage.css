@@ -42,13 +42,13 @@
 }
 
 .sidebar li.active {
-  background-color: #007bff;
+  background-color: #426334;
   color: white;
 }
 
 /* Back Button Styles */
 .back-button {
-  background-color: #007bff;
+  background-color: #426334;
   color: white;
   padding: 10px;
   border: none;

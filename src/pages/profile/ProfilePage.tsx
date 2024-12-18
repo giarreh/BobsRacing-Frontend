@@ -286,7 +286,9 @@ const fetchRaceDetailsForBets = async () => {
                 setUser({ ...userEdit, username: e.target.value })
               }
             />
-            <button type="submit">Update Profile Information</button>
+            <button style={{ backgroundColor: "#426334" }} type="submit">
+              Update Profile Information
+            </button>
           </form>
         )}
 
@@ -358,7 +360,8 @@ const fetchRaceDetailsForBets = async () => {
                             >
                               {" "}
                               <span className="result-line">
-                                <span><strong>Result: </strong>
+                                <span>
+                                  <strong>Result: </strong>
                                 </span>
                                 <span className={bet.isWin ? "win" : "loss"}>
                                   {" "}
