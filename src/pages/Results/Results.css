@@ -1,12 +1,41 @@
-.race-item {
-    padding: 10px;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    text-align: center;
-  }
-  
-  .athlete-item:hover {
-    background-color: #f1f1f1;
-    cursor: pointer;
-  }
+.results-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the content horizontally */
+  justify-content: flex-start; /* Align content to the top */
+  min-height: 100vh; /* Ensure the page takes the full viewport height */
+  width: 100%; /* Make the results page container span full width */
+  padding: 20px; /* Add padding for spacing */
+  gap: 20px; /* Add spacing between elements */
+}
+
+.results-container {
+  width: 100%; /* Make the container stretch across the full width */
+  display: flex;
+  flex-direction: column; /* Stack the result items vertically */
+  align-items: center; /* Center-align the items */
+}
+
+.search-container {
+  width: 100%; /* Stretch to full width */
+  max-width: 400px; /* Limit the width for the input field */
+  display: flex;
+  justify-content: center; /* Center-align the search input */
+}
+
+.search-container input {
+  width: 100%; 
+  padding: 10px 15px; 
+  font-size: 16px; 
+  border: 1px solid #ccc; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  outline: none; 
+  transition: all 0.3s ease;
+}
+
+.search-container input:focus {
+  border-color: #3498db; 
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.5); 
+}
+

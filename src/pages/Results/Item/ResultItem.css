@@ -1,0 +1,107 @@
+.result-item {
+    margin: 8px auto; /* Center the cards horizontally */
+    padding: 10px;
+    border: 1px solid #181414;
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    text-align: center; /* Center-align the content */
+    width: calc(100% - 40px); /* Make the card width responsive, with a margin of 20px on each side */
+    max-width: 1200px; /* Limit the maximum width for large screens */
+    background: rgb(237, 243, 247);
+  }
+  
+  .result-header {
+    display: flex;
+    justify-content: space-between; /* Spread Race ID and Date evenly */
+    padding: 10px;
+    font-weight: bold;
+    color: #2c3e50; /* Dark text color */
+    cursor: pointer;
+  }
+  
+  .result-item.open {
+    background: rgba(255, 255, 255, 1); /* Keep the card fully visible when open */
+  }
+  
+  .result-details {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(245, 245, 245, 1); /* Slightly gray background for details */
+    border-radius: 8px;
+    text-align: center; /* Align participants to the left */
+  }
+  
+  .result-details h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #34495e; /* Darker heading color */
+  }
+  
+  .podium-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin: 20px 0; /* Space around the podium */
+    gap: 10px; /* Space between podium positions */
+  }
+  
+  .podium-position {
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f3f3f3;
+    color: #333;
+    width: 100px; /* Width of each podium block */
+  }
+  
+  .position-1 {
+    background-color: #ffd700; /* Gold for 1st place */
+    height: 140px; /* Height for 1st place */
+    order: 2
+  }
+  
+  .position-2 {
+    background-color: #c0c0c0; /* Silver for 2nd place */
+    height: 120px; /* Height for 2nd place */
+    order: 1
+  }
+  
+  .position-3 {
+    background-color: #cd7f32; /* Bronze for 3rd place */
+    height: 100px; /* Height for 3rd place */
+    order: 3
+  }
+  
+  .athlete-name {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .athlete-place,
+  .athlete-time {
+    font-size: 12px;
+    margin: 0;
+  }
+  
+  .results-list {
+    list-style: none; /* Remove default list styling */
+    padding: 0; /* Remove padding */
+    margin: 20px 0 0; /* Add spacing above list */
+    font-size: 14px;
+    color: #2c3e50;
+  }
+  
+  .results-list li {
+    margin-bottom: 5px; /* Add spacing between items */
+  }
+  
+  
+  .results-list li:last-child {
+    margin-bottom: 0; /* Remove margin for the last item */
+  }
+  .view-result-button {
+    text-align: right; 
+  }
+
+  
