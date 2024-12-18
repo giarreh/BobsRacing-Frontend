@@ -4,8 +4,8 @@
   padding: 20px;
   font-family: "Arial", sans-serif;
   background: url("assets/ol2.jpg") no-repeat center center fixed;
-  background-size: cover; /* Ensures the image covers the entire background */
-  min-height: 100vh; /* Full viewport height */
+  background-size: cover; 
+  min-height: 100vh; 
   color: #fff;
 }
 
@@ -14,7 +14,7 @@
   margin-bottom: 30px;
   font-size: 40px;
   font-weight: bold;
-  color: #121416; /* Darker text color */
+  color: #121416; 
 }
 
 /* Button Styling */
