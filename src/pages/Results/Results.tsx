@@ -3,12 +3,14 @@ import { useNavigate } from "react-router";
 import { UserContext } from "../../contexts/UserContext";
 import ResultItem from "./Item/ResultItem";
 import { Athlete } from "../../interfaces/IAthlete";
+import { Race } from "../../interfaces/IRace";
 
 export default function Results() {
   const navigate = useNavigate();
   const { getAuthToken } = useContext(UserContext);
-  const [races, setRaces] = useState([]);
+  const [races, setRaces] = useState<Race[]>([]);
   const [athletes, setAthletes] = useState<Athlete[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const fetchAthletes = async () => {
     console.log("Fetching athletes");
@@ -31,6 +33,7 @@ export default function Results() {
       console.error("Error fetching athletes:", error);
     }
   };
+
   const fetchRaces = async () => {
     console.log("Fetching Races");
     try {
@@ -63,13 +66,29 @@ export default function Results() {
     fetchAthletes();
   }, []);
 
-  const finishedRaces = races.filter((race) => race.isFinished);
+  // const finishedRaces = races.filter((race) => race.isFinished);
+  // console.log("RAces: " + races);
+
+  const filteredRaces = races.filter((race) =>
+    race.raceId.toString().includes(searchQuery)
+  );
+  const finishedRaces = filteredRaces.filter((race) => race.isFinished);
 
   return (
     <div>
       <h1 onClick={() => navigate("/createrace")}>Create a race!</h1>
       <h1 onClick={() => console.log("Races: ", races)}>Log races</h1>
       {/* List only unfinished races */}
+
+      <div>
+        <input
+          type="text"
+          placeholder="Search by race ID"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+
       <div>
         {finishedRaces.length > 0 ? (
           finishedRaces.map((race, index) => (
