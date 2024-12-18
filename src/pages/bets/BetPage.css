@@ -91,7 +91,7 @@
 }
 
 /* Athlete List */
-.athlete-item {
+.athletebet-item {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
@@ -102,11 +102,11 @@
   transition: all 0.3s ease;
 }
 
-.athlete-item:hover {
+.athletebet-item:hover {
   background: #f1f8ff;
 }
 
-.athlete-name {
+.athletebet-name {
   font-size: 16px;
   font-weight: bold;
   color: #34495e;

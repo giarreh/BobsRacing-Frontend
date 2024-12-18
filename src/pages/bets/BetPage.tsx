@@ -149,8 +149,8 @@ const BettingPage = () => {
                 </div>
                 <ul>
                   {odds.map((o: any, index: number) => (
-                    <li key={o.raceAthleteId} className="athlete-item">
-                      <span className="athlete-name">{o.athleteName}</span>
+                    <li key={o.raceAthleteId} className="athletebet-item">
+                      <span className="athletebet-name">{o.athleteName}</span>
                       <span className="ring-container">
                         <div
                           className={`ring ${
