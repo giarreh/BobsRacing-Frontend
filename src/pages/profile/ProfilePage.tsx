@@ -26,7 +26,9 @@ export default function ProfilePage() {
   });
 
   const [bets, setBets] = useState<Bet[]>([]);
-  const [raceDetails, setRaceDetails] = useState<Race>();
+  const [raceDetails, setRaceDetails] = useState<{
+    [key: string]: Race | undefined;
+  }>({});
   const [activeBets, setActiveBets] = useState([]);
   const [finishedBets, setFinishedBets] = useState([]);
   const [loadingBets, setLoadingBets] = useState(false);
@@ -45,51 +47,55 @@ export default function ProfilePage() {
     }
   }, [bets]);
 
-  const fetchRaceDetailsForBets = async () => {
-    await Promise.all(
-      bets.map(async (bet) => {
-        try {
-          // Fetch raceId using raceAthleteId
-          const response = await fetch(
-            `https://localhost:7181/api/RaceAthlete/${bet.raceAthleteId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${getAuthToken()}`,
-                "Content-Type": "application/json",
-              },
-            }
-          );
-
-          if (!response.ok) {
-            throw new Error(`HTTP error for Bet ID ${bet.betId}`);
+const fetchRaceDetailsForBets = async () => {
+  const updatedRaceDetails: { [key: string]: Race } = {};
+  await Promise.all(
+    bets.map(async (bet) => {
+      try {
+        const response = await fetch(
+          `https://localhost:7181/api/RaceAthlete/${bet.raceAthleteId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${getAuthToken()}`,
+              "Content-Type": "application/json",
+            },
           }
-          const race: Race = await response.json();
-          const raceId = race.raceId;
+        );
 
-          // fetch race by raceId
-          const responseRace = await fetch(
-            `https://localhost:7181/api/Race/${raceId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${getAuthToken()}`,
-                "Content-Type": "application/json",
-              },
-            }
-          )
-          .then((response) => response.json())
-          .then((data) => {
-            setRaceDetails(data);
-          });
-
-        } catch (error) {
-          console.error(
-            `Error fetching race details for Bet ID ${bet.betId}:`,
-            error
-          );
+        if (!response.ok) {
+          throw new Error(`HTTP error for Bet ID ${bet.betId}`);
         }
-      })
-    );
-  };
+        const raceAthlete: Race = await response.json();
+        const raceId = raceAthlete.raceId;
+
+        const raceResponse = await fetch(
+          `https://localhost:7181/api/Race/${raceId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${getAuthToken()}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!raceResponse.ok) {
+          throw new Error(`HTTP error fetching race for raceId ${raceId}`);
+        }
+
+        const raceData: Race = await raceResponse.json();
+        updatedRaceDetails[bet.betId] = raceData;
+      } catch (error) {
+        console.error(
+          `Error fetching race details for Bet ID ${bet.betId}:`,
+          error
+        );
+      }
+    })
+  );
+
+  setRaceDetails((prev) => ({ ...prev, ...updatedRaceDetails }));
+};
+
 
   const fetchBetHistory = async () => {
     setLoadingBets(true);
@@ -186,12 +192,19 @@ export default function ProfilePage() {
     }
   };
 
-  const formatDate = (dateString: string | undefined) => {
-    if (!dateString) return 'Unknown date';
+  const formatDate = (dateString: string | undefined): string => {
+    if (!dateString) return "Unknown date";
+
     const date = new Date(dateString);
 
-    return `${date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at ${date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`;
+    // Format date as DD.MM.YYYY
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+    const year = date.getFullYear();
+
+    return `${day}.${month}.${year}`;
   };
+
 
   return (
     <div className="profile-page">
@@ -294,21 +307,31 @@ export default function ProfilePage() {
 
                           return (
                             <li key={bet.betId} className="bet-item-active">
-                              <span className="">
+                              <span>
                                 <strong>Race ID: </strong>
                                 {race?.raceId || "Loading..."}{" "}
+                              </span>
+                              <span>
                                 <strong>Date:</strong>{" "}
                                 {race?.date
                                   ? formatDate(race?.date?.toLocaleString())
                                   : "Loading..."}
                               </span>
-                              Bet on <strong>{bet.athleteName}</strong>:{" "}
-                              <span className="bet-amount">
-                                {bet.amount.toFixed(2)} credits
+                              <span>
+                                <span>
+                                  <strong>Bet on: {bet.athleteName}</strong>:{" "}
+                                </span>
+                                <span className="bet-amount">
+                                  {bet.amount.toFixed(2)} credits
+                                </span>
                               </span>
-                              Potential Payout:{" "}
-                              <span className="bet-payout">
-                                {bet.potentialPayout.toFixed(2)}
+                              <span>
+                                <span>
+                                  <strong>Potential Payout: </strong>
+                                </span>
+                                <span className="bet-payout">
+                                  {bet.potentialPayout.toFixed(2)} credits
+                                </span>
                               </span>
                             </li>
                           );
@@ -333,22 +356,42 @@ export default function ProfilePage() {
                                 bet.isWin ? "bet-win" : "bet-lose"
                               }`}
                             >
+                              {" "}
+                              <span className="result-line">
+                                <span><strong>Result: </strong>
+                                </span>
+                                <span className={bet.isWin ? "win" : "loss"}>
+                                  {" "}
+                                  {bet.isWin ? "WIN" : "LOSS"}
+                                </span>
+                              </span>
                               <span className="">
-                                <strong>Race ID: </strong>
-                                {race?.raceId || "Loading..."}{" "}
-                                <strong>Date:</strong>{" "}
-                                {race?.date.toLocaleString() || "Loading..."}{" "}
+                                <span>
+                                  <strong>Race ID: </strong>
+                                  {race?.raceId || "Loading..."}{" "}
+                                </span>
+                                <span>
+                                  <strong>Date:</strong>{" "}
+                                  {race?.date
+                                    ? formatDate(race?.date?.toLocaleString())
+                                    : "Loading..."}
+                                </span>
                               </span>
-                              <span className={bet.isWin ? "win" : "loss"}>
-                                {bet.isWin ? "WIN" : "LOSS"}
+                              <span>
+                                <span>
+                                  <strong>Bet on: {bet.athleteName}</strong>:{" "}
+                                </span>
+                                <span className="bet-amount">
+                                  {bet.amount.toFixed(2)} credits
+                                </span>
                               </span>
-                              Bet on <strong>{bet.athleteName}</strong>:{" "}
-                              <span className="bet-amount">
-                                {bet.amount.toFixed(2)} credits
-                              </span>
-                              Potential Payout:{" "}
-                              <span className="bet-payout">
-                                {bet.potentialPayout.toFixed(2)}
+                              <span>
+                                <span>
+                                  <strong>Potential Payout: </strong>
+                                </span>
+                                <span className="bet-payout">
+                                  {bet.potentialPayout.toFixed(2)} credits
+                                </span>
                               </span>
                             </li>
                           );

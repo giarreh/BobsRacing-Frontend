@@ -28,10 +28,10 @@ const BettingPage = () => {
 
         const data = await response.json();
 
-        // only show unfisinshed races to bet on
+        // Only show unfinished races to bet on
         const unfinishedRaces = data.filter((race: Race) => !race.isFinished);
         const sortedRaces = unfinishedRaces.sort(
-          (a, b) => new Date(b.date) - new Date(a.date)
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
         );
 
         setRaces(sortedRaces);
@@ -46,6 +46,7 @@ const BettingPage = () => {
   const fetchOdds = async (raceId: number) => {
     if (selectedRaceId === raceId) {
       setSelectedRaceId(null);
+      setBet((prevBet) => ({ ...prevBet, raceAthleteId: "" }));
       return;
     }
 
@@ -70,14 +71,6 @@ const BettingPage = () => {
     } catch (error) {
       console.error("Error fetching odds:", error);
     }
-  };
-
-  // Handle form inputs for the bet
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = event.target;
-    setBet((prevBet) => ({ ...prevBet, [name]: value }));
   };
 
   const placeBet = async () => {
@@ -114,28 +107,34 @@ const BettingPage = () => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const data = await response.json();
       alert("Bet placed successfully!");
 
-      // update useContext credits
+      // Update useContext credits
       setUser((prevUser) => ({
         ...prevUser,
         credits: prevUser.credits - betData.amount,
       }));
+      
+      setBet((prevBet) => ({ ...prevBet, amount: "" }));
     } catch (error) {
       console.error("Error placing bet:", error);
       alert("Failed to place bet.");
     }
+
+
   };
+
+  const olympicColors = ["blue", "yellow", "black", "green", "red"];
 
   return (
     <div className="betting-page">
       <h1 className="page-title">Betting Page</h1>
-      <button 
-        className="bet-button" 
-        onClick={() => navigate("/profile", { state: { tab: "bet-history" } })}>
-            My Bets
-        </button>
+      <button
+        className="bet-button"
+        onClick={() => navigate("/profile", { state: { tab: "bet-history" } })}
+      >
+        My Bets
+      </button>
       <div className="races-container">
         {races.map((race) => (
           <div className="race-card" key={race.raceId}>
@@ -145,33 +144,45 @@ const BettingPage = () => {
             </div>
             {selectedRaceId === race.raceId && (
               <div className="bet-card">
-                <h2>Odds for Race {race.raceId}</h2>
+                <div className="odds-header">
+                  <h2>Odds for Race {race.raceId}</h2>
+                </div>
                 <ul>
-                  {odds.map((o: any) => (
-                    <li key={o.raceAthleteId}>
-                      {o.athleteName} - Odds: {o.odds}
+                  {odds.map((o: any, index: number) => (
+                    <li key={o.raceAthleteId} className="athlete-item">
+                      <span className="athlete-name">{o.athleteName}</span>
+                      <span className="ring-container">
+                        <div
+                          className={`ring ${
+                            bet.raceAthleteId === o.raceAthleteId.toString()
+                              ? `selected ${olympicColors[index % olympicColors.length]}`
+                              : olympicColors[index % olympicColors.length]
+                          }`}
+                          onClick={() =>
+                            setBet((prevBet) => ({
+                              ...prevBet,
+                              raceAthleteId: o.raceAthleteId.toString(),
+                            }))
+                          }
+                        ></div>
+                      </span>
+                      <span className="odds-value">Odds: {o.odds}</span>
                     </li>
                   ))}
                 </ul>
                 <form>
-                  <label>
-                    Athlete:
-                    <select name="raceAthleteId" onChange={handleInputChange}>
-                      <option value="">Select Athlete</option>
-                      {odds.map((o: any) => (
-                        <option key={o.raceAthleteId} value={o.raceAthleteId}>
-                          {o.athleteName}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
                   <label>
                     Amount:
                     <input
                       type="number"
                       name="amount"
                       value={bet.amount}
-                      onChange={handleInputChange}
+                      onChange={(e) =>
+                        setBet((prev) => ({
+                          ...prev,
+                          amount: e.target.value,
+                        }))
+                      }
                     />
                   </label>
                   <button type="button" onClick={placeBet}>
