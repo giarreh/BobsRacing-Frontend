@@ -122,6 +122,7 @@ const BettingPage = () => {
         ...prevUser,
         credits: prevUser.credits - betData.amount,
       }));
+      
     } catch (error) {
       console.error("Error placing bet:", error);
       alert("Failed to place bet.");
