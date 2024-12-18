@@ -3,11 +3,12 @@ import { useNavigate } from "react-router";
 import { UserContext } from "../../contexts/UserContext";
 import ResultItem from "./Item/ResultItem";
 import { Athlete } from "../../interfaces/IAthlete";
+import { Race } from "../../interfaces/IRace";
 
 export default function Results() {
   const navigate = useNavigate();
   const { getAuthToken } = useContext(UserContext);
-  const [races, setRaces] = useState([]);
+  const [races, setRaces] = useState<Race[]>([]);
   const [athletes, setAthletes] = useState<Athlete[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
