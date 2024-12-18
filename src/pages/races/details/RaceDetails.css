@@ -1,0 +1,19 @@
+/* CSS */
+.track {
+  width: 100%; /* Full width of the container */
+  height: 60px; /* Fixed height for each runner */
+  background-color: #e0e0e0; /* Optional background for visual separation */
+  position: relative;
+}
+
+.runner {
+  position: absolute; /* Use absolute positioning to set exact placement */
+  width: 20px; /* Width of each runner (adjust as needed for visibility) */
+  height: 60px; /* Height of each runner */
+  background-color: #00aaff; /* Example color for runners */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateX(0%);
+  transition: transform 0.5s ease; /* Smooth transition for movement */
+}
