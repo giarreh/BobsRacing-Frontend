@@ -170,7 +170,7 @@ export default function RaceDetails() {
                 top: `${index * 60}px`, // Space runners vertically
               }}
             >
-            {runner.name} - {runner.position.toFixed()}m 🏃 
+            🏃{runner.name} - {runner.position.toFixed()}m 
             </div>
           ))
         ) : (
