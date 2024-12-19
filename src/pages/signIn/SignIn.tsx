@@ -82,7 +82,7 @@ export default function SignIn() {
         </form>
         <p>
           Don't have an account?{" "}
-          <a href="/signup" style={{ cursor: "pointer" }}>
+          <a onClick={() => navigate("/signup")} style={{ cursor: "pointer" }}>
             Sign up
           </a>
         </p>
