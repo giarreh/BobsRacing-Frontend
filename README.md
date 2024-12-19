@@ -1,50 +1,12 @@
-# React + TypeScript + Vite
+# Olympics 100m Sprint Simulator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The 100-meter race is one of the most iconic events in the Summer Olympics. It is known for determining the fastest sprinter in the world. Athletes run a full 100 meters on a straight track, competing for the gold medal. Every year, the world holds its breath as the sprinters take their marks!
 
-Currently, two official plugins are available:
+The project aims to simulate 100m race sprints with olympic athletes. The athletes can compete against eachother in a customized race that uses SignalR for real-time streaming of data that makes the users see the race happening in real-time, or LIVE. To increase the thrill of the race, the users may also place bets on athletes within a race, with odds calculated based on win probabilty and amount of bets placed on athlete.
+The application features CRUD operations on Race, Athletes, bets and the user. The frontend is deployed to azure, and can be accessed and used if the user has a local backend. The project utilizes MySQL in Azure for a robust database solution that gives the responsibility of maintenance towards Azure. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Technology
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+The application is built with vite, using react and typescript as the code language. 
