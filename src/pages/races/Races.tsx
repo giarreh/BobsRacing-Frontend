@@ -38,7 +38,6 @@ export default function Races() {
     <div>
       <h1 onClick={() => navigate("/createrace")}>Create a race!</h1>
       {/* List only unfinished races */}
-
       <div>
         <input
           type="text"

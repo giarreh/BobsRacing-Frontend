@@ -27,14 +27,6 @@ export default function RaceItem({
     navigate(`/races/${race.raceId}`);
   };
 
-  // Format date to readable format
-  const formatDate = (dateString: string | undefined) => {
-    if (!dateString) return 'Unknown date';
-    const date = new Date(dateString);
-
-    return `${date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at ${date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`;
-  };
-
   // time left until race starts
   useEffect(() => {
     const calculateTimeUntil = (targetDate: string) => {
@@ -63,9 +55,13 @@ export default function RaceItem({
 
 
   return (
-    <div className="race-item" key={index} onClick={handleNavigate}>
-      <h1>Date of race: {formatDate(race.date.toString())}</h1>
-      {!race.isFinished && <p>Starting in: {timeUntil}</p>}
+    <div className="race-card" key={index} onClick={handleNavigate}>
+      <div className='race-header'>
+        <span>Race ID: {race.raceId} </span>
+        <span>Date: {new Date(race.date).toLocaleString()}</span>
+        {!race.isFinished && <p>Starting in: {timeUntil}</p>}
+      </div>
+      
       <h1>Participants</h1>
       <div className="race-participants">
         {(!loading) ? (
@@ -78,7 +74,6 @@ export default function RaceItem({
           <p>No participants available</p>
         )}
       </div>
-      <p>Race ID: {race.raceId}</p>
     </div>
   );
 }

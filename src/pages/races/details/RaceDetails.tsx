@@ -153,13 +153,11 @@ export default function RaceDetails() {
 
   return (
     <div>
-      <h1 onClick={() => console.log(race)}>Race with ID: {id}</h1>
-      {!race.isFinished && <h1>Starting in: {timeUntil}</h1>}
-      {!loading && !race.isFinished && (
-        <button onClick={startRace} disabled={raceStarted}>
-          {raceStarted ? 'Race in Progress' : 'Start Race!!'}
-        </button>
-      )}
+      <div className='race-header'>
+        <span>Race ID: {race.raceId}</span>
+        <span>Starting in: {!race.isFinished && timeUntil}</span>
+        <span>Date: {new Date(race.date).toLocaleString()}</span>
+      </div>
       <div className="track">
         {runners.length > 0 ? (
           runners.map((runner, index) => (
@@ -172,7 +170,7 @@ export default function RaceDetails() {
                 top: `${index * 60}px`, // Space runners vertically
               }}
             >
-              🏃 {runner.name} - {runner.position.toFixed()}m
+            {runner.name} - {runner.position.toFixed()}m 🏃 
             </div>
           ))
         ) : (
@@ -187,7 +185,7 @@ export default function RaceDetails() {
                 top: `${index * 60}px`, // Space placeholders vertically
               }}
             >
-              🏃 Loading...
+              🏃
             </div>
           ))
         )}

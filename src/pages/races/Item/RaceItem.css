@@ -10,3 +10,31 @@
   background-color: #f1f1f1;
   cursor: pointer;
 }
+
+.races-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.race-card {
+  background: rgb(237, 243, 247);
+  border: 1px solid #181414;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.race-card:hover {
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.race-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  color: #34495e; /* Dark text color */
+}
