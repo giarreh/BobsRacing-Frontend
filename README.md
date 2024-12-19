@@ -9,8 +9,8 @@ The application features CRUD operations on Race, Athletes, bets and the user. T
 
 ## Technology
 
-The application is built with vite, using react and typescript as the code language. 
-JWT Token is used to secure the application. The user has no access to the application unless signed in. This prevents the user to perform malicious actions towards the backend from the application. 
-SignalR is used in the backend to send data to the frontend in real-time to all clients that are signed into the application. 
-Azure is used to host the database on the cloud, but also the frontend as a website that everyone can access.
-Backend still has work that needs to be done in order to be host-ready on azure, but still works if ran locally. 
+- The application is built with vite, using react and typescript as the code language. 
+- JWT Token is used to secure the application. The user has no access to the application unless signed in. This prevents the user to perform malicious actions towards the backend from the application. 
+- SignalR is used in the backend to send data to the frontend in real-time to all clients that are signed into the application. 
+- Azure is used to host the database on the cloud, but also the frontend as a website that everyone can access.
+- Backend still has work that needs to be done in order to be host-ready on azure, but still works if ran locally. 
